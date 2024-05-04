@@ -19,12 +19,11 @@ public:
 
 	void run();
 
+	void clear();
+
 	Scene() {}
 	virtual ~Scene() {
-		if (window) {
-			delete window;
-			window = nullptr;
-		}
+		clear();
 	}
 };
 

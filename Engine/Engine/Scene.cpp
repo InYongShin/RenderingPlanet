@@ -86,3 +86,11 @@ void Scene::run()
 	glfwTerminate();
 	glfwDestroyWindow(window);
 }
+
+void Scene::clear()
+{
+	if (window) {
+		delete window;
+		window = nullptr;
+	}
+}
