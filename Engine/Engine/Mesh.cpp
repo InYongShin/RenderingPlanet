@@ -19,10 +19,10 @@ void Mesh::createMeshGL()
 		if (this->texCoords.size() > 0)
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, this->tBuf);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec2) * this->nVerts, this->texCoords.data() );
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec2) * this->nVerts, this->texCoords.data());
 		}
-		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, this->eBuf);
-		glBufferSubData( GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(glm::u32vec3) * this->nTris, tris.data()  );
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->eBuf);
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(glm::u32vec3) * this->nTris, tris.data());
 	}
 	else {
 		if (this->vao) glDeleteVertexArrays(1, &this->vao);
