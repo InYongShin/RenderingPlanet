@@ -1,13 +1,13 @@
 
-#include "Scene.hpp"
+#include "Window.hpp"
 
 
 int main()
 {
-	Scene* scene = new Scene();
-	scene->createScene();
+	Window* window = new Window("Window", 1200, 800);
+	window->createWindow();
 
-	scene->run();
-	
+	window->display();
+
 	return 0;
 }
