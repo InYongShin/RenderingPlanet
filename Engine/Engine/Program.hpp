@@ -19,13 +19,17 @@ private:
 	void printInfoShaderLog(GLuint obj);
 
 public:
+	void use() const;
+
+	inline bool isUsable() const { return programID > 0; }
 
 	void loadShaders(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr,
 					 const char* tessControlPath = nullptr, const char* tessEvaluatePath = nullptr);
 
+	void clear();
 
 	Program() {}
-	virtual ~Program() {}
+	virtual ~Program() { clear(); }
 };
 
 

@@ -26,7 +26,12 @@ void Program::printInfoShaderLog(GLuint obj)
 	delete[] infoLog;
 }
 
-void Program::loadShaders(const char* vertexPath, const char* fragmentPath, const char* geometryPath, const char* tessControlPath, const char* tessEvaluatePath)
+void Program::use() const
+{
+	glUseProgram(programID);
+}
+
+void Program::loadShaders(const char* vertexPath, const char* fragmentPath, const char* geometryPath /*= nullptr*/, const char* tessControlPath, const char* tessEvaluatePath)
 {
 	std::cout << "Loading: ";
 
@@ -92,4 +97,15 @@ void Program::loadShaders(const char* vertexPath, const char* fragmentPath, cons
 	glLinkProgram(programID);
 	glUseProgram(programID);
 	printInfoProgramLog(programID);
+}
+
+void Program::clear()
+{
+	if (programID) glDeleteProgram(programID);
+	if (vertexID) glDeleteShader(vertexID);
+	if (fragmentID) glDeleteShader(fragmentID);
+	if (geometryID) glDeleteShader(geometryID);
+	if (tessControlID) glDeleteShader(tessControlID);
+	if (tessEvaluateID) glDeleteShader(tessEvaluateID);
+	programID = vertexID = fragmentID = geometryID = tessControlID = tessEvaluateID = 0;
 }
