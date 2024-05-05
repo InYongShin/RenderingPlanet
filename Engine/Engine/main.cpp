@@ -1,13 +1,12 @@
 
-#include "Window.hpp"
-
+#include "Application.hpp"
 
 int main()
 {
-	Window* window = new Window("Window", 1200, 800);
-	window->createWindow();
-
-	window->display();
+	Application app;
+	app.initialize();
+	
+	app.run();
 
 	return 0;
 }
