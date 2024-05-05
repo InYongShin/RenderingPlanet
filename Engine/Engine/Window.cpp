@@ -3,6 +3,9 @@
 
 bool Window::initGL()
 {
+	// TODO: How to initialize OpenGL?
+	// It is not that good to initialize OpenGL in Window class.
+
 	if (glfwInit() == GL_FALSE)
 	{
 		assert(false);
@@ -117,6 +120,8 @@ void Window::display() const
 
 		glViewport(0, 0, _width, _height);
 
+		// TODO: How to draw models?
+		// scnee에서 model을 가져와서 draw하는 건, Window가 Scene을 가지고 있어야 하는데 적절한 관계가 아님.
 		for (auto& model : this->scene->getModels())
 		{
 			model->draw();
