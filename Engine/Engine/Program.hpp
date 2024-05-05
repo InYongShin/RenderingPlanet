@@ -29,6 +29,11 @@ public:
 	void clear();
 
 	Program() {}
+	Program(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr,
+		const char* tessControlPath = nullptr, const char* tessEvaluatePath = nullptr)
+	{
+		loadShaders(vertexPath, fragmentPath, geometryPath, tessControlPath, tessEvaluatePath);
+	}
 	virtual ~Program() { clear(); }
 };
 
