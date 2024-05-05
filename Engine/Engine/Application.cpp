@@ -43,7 +43,7 @@ void Application::run()
 
 	Program program("render.vert", "render.frag");
 
-	SphereModel* sphere = new SphereModel();
+	std::shared_ptr<SphereModel> sphere(new SphereModel);
 	if (sphere == nullptr)
 	{
 		assert(false);

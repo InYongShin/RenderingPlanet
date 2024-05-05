@@ -53,7 +53,7 @@ bool Window::initGL()
 	return true;
 }
 
-void Window::addModel(Model* model)
+void Window::addModel(std::shared_ptr<Model> model)
 {
 	if (this->scene == nullptr)
 	{

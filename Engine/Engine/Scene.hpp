@@ -11,15 +11,15 @@ class Scene
 private:
 	bool isCreated = false;
 	
-	std::vector<Model*> models;
+	std::vector<std::shared_ptr<Model>> models;
 
 public:
 
-	inline std::vector<Model*>& getModels() { return models; }
+	inline std::vector<std::shared_ptr<Model>>& getModels() { return models; }
 
 	bool createScene();
 
-	void addModel(Model* model);
+	void addModel(std::shared_ptr<Model> model);
 
 	void run();
 

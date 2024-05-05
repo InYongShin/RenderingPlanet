@@ -20,7 +20,7 @@ bool Scene::createScene()
 	return true;
 }
 
-void Scene::addModel(Model* model)
+void Scene::addModel(std::shared_ptr<Model> model)
 {
 	if (model == nullptr)
 	{
