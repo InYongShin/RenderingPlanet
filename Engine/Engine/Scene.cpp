@@ -20,6 +20,18 @@ bool Scene::createScene()
 	return true;
 }
 
+void Scene::addModel(Model* model)
+{
+	if (model == nullptr)
+	{
+		assert(false);
+		std::cerr << "Model is nullptr" << std::endl;
+		return;
+	}
+
+	models.push_back(model);
+}
+
 void Scene::run()
 {
 	if (isCreated == false)

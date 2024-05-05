@@ -50,6 +50,18 @@ bool Window::initGL()
 	return true;
 }
 
+void Window::addModel(Model* model)
+{
+	if (this->scene == nullptr)
+	{
+		assert(false);
+		std::cerr << "Scene is not ready to add model" << std::endl;
+		return;
+	}
+
+	this->scene->addModel(model);
+}
+
 bool Window::createWindow()
 {
 	if (isCreated)
@@ -103,7 +115,12 @@ void Window::display() const
 		glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// display something ...
+		glViewport(0, 0, _width, _height);
+
+		for (auto& model : this->scene->getModels())
+		{
+			model->draw();
+		}
 
 		glfwSwapBuffers(this->GLwindow);
 		glfwPollEvents();

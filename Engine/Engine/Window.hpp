@@ -35,6 +35,8 @@ public:
 	inline int getWidth() const { return _width; }
 	inline int getHeight() const { return _height; }
 
+	void addModel(Model* model);
+
 	bool createWindow();
 	void display() const;
 
