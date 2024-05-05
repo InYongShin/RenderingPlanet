@@ -13,6 +13,11 @@ void Model::loadProgram(const char* vertexPath, const char* fragmentPath, const 
 
 void Model::draw()
 {
+	if(this->program.isUsable() == false)
+	{
+		// TODO: Load default program
+		// ex) program.loadShaders("shaders/default.vert", "shaders/default.frag");
+	}
 	this->program.use();
 
 	glBindVertexArray(this->mesh.vao);
