@@ -1,8 +1,8 @@
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 
-#include "Viewer.hpp"
 #include "GLTools.hpp"
+#include "Scene.hpp"
 
 #include <vector>
 #include <string>
@@ -11,13 +11,20 @@
 class Window
 {
 private:
-	std::string _title = "Window";
-	int _width = -1;
-	int _height = -1;
+	std::string _title = "";
+	int _width = 0;
+	int _height = 0;
 
 	GLFWwindow* GLwindow = nullptr;
 
-	std::vector<Viewer> viewers;
+	bool isCreated = false;
+	bool isInitialized = false;
+
+	Scene* scene = nullptr;
+
+private:
+	bool initGL();
+
 
 public:
 
@@ -28,14 +35,16 @@ public:
 	inline int getWidth() const { return _width; }
 	inline int getHeight() const { return _height; }
 
+	bool createWindow();
+	void display() const;
+
 	void clear();
 
 	Window() {}
 	Window(const std::string& title, int width, int height)
 		: _title(title), _width(width), _height(height) {}
-	virtual ~Window() {
-		clear();
-	}
+
+	virtual ~Window() { clear(); }
 };
 
 #endif /* WINDOW_HPP */

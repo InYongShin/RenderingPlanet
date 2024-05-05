@@ -1,18 +1,14 @@
 #ifndef SCENE_HPP
 #define SCENE_HPP
 
-#include "Window.hpp"
 #include "GLTools.hpp"
 
 
 class Scene
 {
 private:
-	Window* window = nullptr;
-
-	bool initialized = false;
-
-	bool initGL();
+	bool isCreated = false;
+	
 public:
 
 	bool createScene();
@@ -22,9 +18,7 @@ public:
 	void clear();
 
 	Scene() {}
-	virtual ~Scene() {
-		clear();
-	}
+	virtual ~Scene() { clear(); }
 };
 
 
