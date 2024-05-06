@@ -35,7 +35,7 @@ public:
 	inline int getWidth() const { return _width; }
 	inline int getHeight() const { return _height; }
 
-	void addModel(std::shared_ptr<Model> model);
+	void addModel(std::shared_ptr<Model>& model);
 
 	bool createWindow();
 	void display() const;
