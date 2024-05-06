@@ -19,7 +19,7 @@ public:
 
 	bool createScene();
 
-	void addModel(std::shared_ptr<Model> model);
+	void addModel(std::shared_ptr<Model>& model);
 
 	void run();
 
