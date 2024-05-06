@@ -2,6 +2,7 @@
 #define WINDOW_HPP
 
 #include "GLTools.hpp"
+#include "SceneManager.hpp"
 #include "Scene.hpp"
 
 #include <vector>
@@ -20,11 +21,8 @@ private:
 	bool isCreated = false;
 	bool isInitialized = false;
 
-	Scene* scene = nullptr;
-
 private:
 	bool initGL();
-
 
 public:
 
@@ -35,7 +33,8 @@ public:
 	inline int getWidth() const { return _width; }
 	inline int getHeight() const { return _height; }
 
-	void addModel(std::shared_ptr<Model>& model);
+	bool isNeedCreation() const { return !isCreated; }
+	bool isNeedInitialization() const { return !isInitialized; }
 
 	bool createWindow();
 	void display() const;

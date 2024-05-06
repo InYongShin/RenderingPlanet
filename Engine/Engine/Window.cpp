@@ -53,18 +53,6 @@ bool Window::initGL()
 	return true;
 }
 
-void Window::addModel(std::shared_ptr<Model>& model)
-{
-	if (this->scene == nullptr)
-	{
-		assert(false);
-		std::cerr << "Scene is not ready to add model" << std::endl;
-		return;
-	}
-
-	this->scene->addModel(model);
-}
-
 bool Window::createWindow()
 {
 	if (isCreated)
@@ -82,22 +70,6 @@ bool Window::createWindow()
 			std::cerr << "Failed to initialize OpenGL" << std::endl;
 			return false;
 		}
-	}
-
-	// TODO: How to handle scene creation?
-	this->scene = new Scene();
-	if (this->scene == nullptr)
-	{
-		assert(false);
-		std::cerr << "Failed to create scene" << std::endl;
-		return false;
-	}
-
-	if(scene->createScene() == false)
-	{
-		assert(false);
-		std::cerr << "Failed to create scene" << std::endl;
-		return false;
 	}
 	
 	isCreated = true;
@@ -120,9 +92,7 @@ void Window::display() const
 
 		glViewport(0, 0, _width, _height);
 
-		// TODO: How to draw models?
-		// scnee에서 model을 가져와서 draw하는 건, Window가 Scene을 가지고 있어야 하는데 적절한 관계가 아님.
-		for (auto& model : this->scene->getModels())
+		for (auto& model : SceneManager::getInstance()->getModels())
 		{
 			model->draw();
 		}
@@ -146,9 +116,5 @@ void Window::clear()
 	if (this->GLwindow) {
 		glfwDestroyWindow(this->GLwindow);
 		this->GLwindow = nullptr;
-	}
-	if (this->scene) {
-		delete this->scene;
-		this->scene = nullptr;
 	}
 }
