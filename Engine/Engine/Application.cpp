@@ -21,23 +21,23 @@ std::shared_ptr<Window> Application::createWindow(const std::string& title, int 
 
 void Application::initialize()
 {
-	std::shared_ptr<Window> pWindow(createWindow("Window", 1200, 800));
-	if (pWindow == nullptr)
+	this->window = createWindow("Window", 1200, 800);
+	if (this->window == nullptr)
 	{
 		assert(false);
 		std::cerr << "Failed to create window" << std::endl;
 		return;
 	}
 
-	this->window = pWindow;
+	SceneManager::getInstance()->createScene();
 }
 
 void Application::run()
 {
-	if (this->window == nullptr)
+	if (this->window == nullptr || SceneManager::getInstance()->isValidScene() == false)
 	{
 		assert(false);
-		std::cerr << "Window is nullptr" << std::endl;
+		std::cerr << "Not ready to run applicatoin" << std::endl;
 		return;
 	}
 
@@ -53,7 +53,7 @@ void Application::run()
 	sphere->createSphere(0.5f, 63, 65);
 	sphere->setProgram(program);
 
-	this->window->addModel(sphere);
-
+	SceneManager::getInstance()->addModel(sphere);
+	
 	this->window->display();
 }
