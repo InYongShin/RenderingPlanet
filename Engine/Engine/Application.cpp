@@ -6,7 +6,7 @@
 
 std::shared_ptr<Window> Application::createWindow(const std::string& title, int width, int height)
 {
-	std::shared_ptr<Window> pWindow(new Window(title, width, height));
+	std::shared_ptr<Window> pWindow = std::make_shared<Window>(title, width, height);
 	if (pWindow == nullptr)
 	{
 		assert(false);
@@ -43,7 +43,7 @@ void Application::run()
 
 	Program program("render.vert", "render.frag");
 
-	std::shared_ptr<SphereModel> sphere(new SphereModel);
+	std::shared_ptr<SphereModel> sphere = std::make_shared<SphereModel>();
 	if (sphere == nullptr)
 	{
 		assert(false);
