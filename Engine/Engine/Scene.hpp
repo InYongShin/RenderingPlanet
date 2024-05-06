@@ -15,11 +15,11 @@ private:
 
 public:
 
-	inline std::vector<std::shared_ptr<Model>>& getModels() { return models; }
+	inline std::vector<std::shared_ptr<Model>> getModels() { return models; }
 
 	bool createScene();
 
-	void addModel(std::shared_ptr<Model>& model);
+	void addModel(const std::shared_ptr<Model>& model);
 
 	void run();
 
