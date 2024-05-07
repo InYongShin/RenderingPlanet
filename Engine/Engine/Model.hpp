@@ -12,6 +12,9 @@ protected:
 	Program program;
 	Mesh mesh;
 
+protected:
+	bool isCreated = false;
+
 public:
 
 	void loadProgram(const char* vertexPath, const char* fragmentPath, 
