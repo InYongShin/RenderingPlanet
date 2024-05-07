@@ -17,7 +17,7 @@ private:
 
 public:
 
-	inline std::vector<std::shared_ptr<Planet>> getPlanets() const { return planets; }
+	inline std::vector<std::shared_ptr<Planet>> getPlanets() const { return this->planets; }
 
 	bool createScene();
 

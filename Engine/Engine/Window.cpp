@@ -49,20 +49,20 @@ bool Window::initGL()
 
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
-	isInitialized = true;
+	this->isInitialized = true;
 	return true;
 }
 
 bool Window::createWindow()
 {
-	if (isCreated)
+	if (this->isCreated)
 	{
 		assert(false);
 		std::cerr << "Window is already created" << std::endl;
 		return false;
 	}
 
-	if (isInitialized == false)
+	if (this->isInitialized == false)
 	{
 		if (initGL() == false)
 		{
@@ -72,7 +72,7 @@ bool Window::createWindow()
 		}
 	}
 	
-	isCreated = true;
+	this->isCreated = true;
 	return true;
 }
 
@@ -90,7 +90,7 @@ void Window::display() const
 		glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glViewport(0, 0, _width, _height);
+		glViewport(0, 0, this->_width, this->_height);
 
 		SceneManager::getInstance()->drawScene();
 

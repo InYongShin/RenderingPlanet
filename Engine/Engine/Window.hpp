@@ -26,15 +26,15 @@ private:
 
 public:
 
-	inline GLFWwindow* getWindow() const { return GLwindow; }
+	inline GLFWwindow* getWindow() const { return this->GLwindow; }
 	inline void setWindow(GLFWwindow* window) { this->GLwindow = window; }
 
-	inline std::string getTitle() const { return _title; }
-	inline int getWidth() const { return _width; }
-	inline int getHeight() const { return _height; }
+	inline std::string getTitle() const { return this->_title; }
+	inline int getWidth() const { return this->_width; }
+	inline int getHeight() const { return this->_height; }
 
-	bool isNeedCreation() const { return !isCreated; }
-	bool isNeedInitialization() const { return !isInitialized; }
+	bool isNeedCreation() const { return !this->isCreated; }
+	bool isNeedInitialization() const { return !this->isInitialized; }
 
 	bool createWindow();
 	void display() const;

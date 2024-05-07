@@ -6,7 +6,7 @@
 
 bool Scene::createScene()
 {
-	if (isCreated)
+	if (this->isCreated)
 	{
 		assert(false);
 		std::cerr << "Scene is already created" << std::endl;
@@ -15,7 +15,7 @@ bool Scene::createScene()
 
 	// Do something here ...
 
-	isCreated = true;
+	this->isCreated = true;
 
 	return true;
 }
@@ -28,7 +28,7 @@ void Scene::addPlanet(const std::shared_ptr<Planet>& planet)
 		return;
 	}
 
-	planets.push_back(planet);
+	this->planets.push_back(planet);
 }
 
 void Scene::drawContents() const
@@ -41,7 +41,7 @@ void Scene::drawContents() const
 
 void Scene::run()
 {
-	if (isCreated == false)
+	if (this->isCreated == false)
 	{
 		if (createScene() == false)
 		{
@@ -49,7 +49,7 @@ void Scene::run()
 			std::cerr << "Failed to create scene" << std::endl;
 			return;
 		}
-		isCreated = true;
+		this->isCreated = true;
 	}
 
 	// Do something here ...
@@ -58,6 +58,6 @@ void Scene::run()
 
 void Scene::clear()
 {
-	planets.clear();
-	isCreated = false;
+	this->planets.clear();
+	this->isCreated = false;
 }
