@@ -46,7 +46,7 @@ void Application::run()
 	std::shared_ptr<Planet> planet = std::make_shared<Planet>("Planet", .7f, program);
 	if (planet == nullptr)
 	{
-		std::cerr << "Failed to create spehre" << std::endl;
+		std::cerr << "Failed to create planet" << std::endl;
 		return;
 	}
 
