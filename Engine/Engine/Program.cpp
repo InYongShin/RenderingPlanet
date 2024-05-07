@@ -31,7 +31,7 @@ void Program::use() const
 	glUseProgram(programID);
 }
 
-void Program::loadShaders(const char* vertexPath, const char* fragmentPath, const char* geometryPath /*= nullptr*/, const char* tessControlPath, const char* tessEvaluatePath)
+void Program::loadShaders(const char* vertexPath, const char* fragmentPath, const char* geometryPath /*= nullptr*/, const char* tessControlPath /*= nullptr*/, const char* tessEvaluatePath /*= nullptr*/)
 {
 	std::cout << "Loading: ";
 
