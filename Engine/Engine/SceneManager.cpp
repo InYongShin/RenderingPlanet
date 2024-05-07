@@ -6,12 +6,23 @@ void SceneManager::createScene()
 	this->scene = std::make_shared<Scene>();
 	if (this->scene == nullptr)
 	{
-		assert(false);
 		std::cerr << "Failed to create scene" << std::endl;
+		return;
 	}
 }
 
-void SceneManager::addModel(const std::shared_ptr<Model>& model)
+void SceneManager::drawScene() const
+{
+	if (this->scene == nullptr)
+	{
+		std::cout << "Scene is nullptr. Please create scene before draw" << std::endl;
+		return;
+	}
+
+	this->scene->drawContents();
+}
+
+void SceneManager::addPlanet(const std::shared_ptr<Planet>& model)
 {
 	if(this->scene == nullptr)
 	{
@@ -19,5 +30,5 @@ void SceneManager::addModel(const std::shared_ptr<Model>& model)
 		return;
 	}
 
-	this->scene->addModel(model);
+	this->scene->addPlanet(model);
 }

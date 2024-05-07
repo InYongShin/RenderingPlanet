@@ -1,6 +1,6 @@
 
 #include "Application.hpp"
-#include "SphereModel.hpp"
+#include "Planet.hpp"
 
 #include <iostream>
 
@@ -43,17 +43,15 @@ void Application::run()
 
 	Program program("render.vert", "render.frag");
 
-	std::shared_ptr<SphereModel> sphere = std::make_shared<SphereModel>();
-	if (sphere == nullptr)
+	std::shared_ptr<Planet> planet = std::make_shared<Planet>("Planet", .7f);
+	if (planet == nullptr)
 	{
-		assert(false);
 		std::cerr << "Failed to create spehre" << std::endl;
 		return;
 	}
-	sphere->createSphere(0.5f, 63, 65);
-	sphere->setProgram(program);
+	planet->setSphereProgram(program);
 
-	SceneManager::getInstance()->addModel(sphere);
+	SceneManager::getInstance()->addPlanet(planet);
 	
 	this->window->display();
 }

@@ -3,23 +3,27 @@
 
 #include "GLTools.hpp"
 #include "Model.hpp"
+#include "Planet.hpp"
 
 #include <vector>
+#include <iostream>
 
 class Scene
 {
 private:
 	bool isCreated = false;
-	
-	std::vector<std::shared_ptr<Model>> models;
+
+	std::vector<std::shared_ptr<Planet>> planets;
 
 public:
 
-	inline std::vector<std::shared_ptr<Model>> getModels() { return models; }
+	inline std::vector<std::shared_ptr<Planet>> getPlanets() const { return planets; }
 
 	bool createScene();
 
-	void addModel(const std::shared_ptr<Model>& model);
+	void addPlanet(const std::shared_ptr<Planet>& planet);
+
+	void drawContents() const;
 
 	void run();
 

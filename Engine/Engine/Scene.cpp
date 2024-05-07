@@ -20,16 +20,23 @@ bool Scene::createScene()
 	return true;
 }
 
-void Scene::addModel(const std::shared_ptr<Model>& model)
+void Scene::addPlanet(const std::shared_ptr<Planet>& planet)
 {
-	if (model == nullptr)
+	if (planet == nullptr)
 	{
-		assert(false);
-		std::cerr << "Model is nullptr" << std::endl;
+		std::cerr << "Planet is nullptr" << std::endl;
 		return;
 	}
 
-	models.push_back(model);
+	planets.push_back(planet);
+}
+
+void Scene::drawContents() const
+{
+	for(auto& planet : this->planets)
+	{
+		planet->draw();
+	}
 }
 
 void Scene::run()
@@ -51,5 +58,6 @@ void Scene::run()
 
 void Scene::clear()
 {
-	
+	planets.clear();
+	isCreated = false;
 }

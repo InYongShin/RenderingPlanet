@@ -92,10 +92,7 @@ void Window::display() const
 
 		glViewport(0, 0, _width, _height);
 
-		for (auto& model : SceneManager::getInstance()->getModels())
-		{
-			model->draw();
-		}
+		SceneManager::getInstance()->drawScene();
 
 		glfwSwapBuffers(this->GLwindow);
 		glfwPollEvents();

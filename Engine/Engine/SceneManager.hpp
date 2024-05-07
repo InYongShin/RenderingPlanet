@@ -15,10 +15,12 @@ private:
 
 public:
 
-	inline std::vector<std::shared_ptr<Model>> getModels() { return this->scene->getModels(); }
-
 	void createScene();
-	void addModel(const std::shared_ptr<Model>& model);
+	void addPlanet(const std::shared_ptr<Planet>& model);
+
+	void drawScene() const;
+
+	inline std::shared_ptr<Scene> getScene() const { return this->scene; }
 
 	bool isValidScene() const { return this->scene != nullptr; }
 
