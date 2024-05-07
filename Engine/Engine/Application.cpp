@@ -43,13 +43,12 @@ void Application::run()
 
 	Program program("render.vert", "render.frag");
 
-	std::shared_ptr<Planet> planet = std::make_shared<Planet>("Planet", .7f);
+	std::shared_ptr<Planet> planet = std::make_shared<Planet>("Planet", .7f, program);
 	if (planet == nullptr)
 	{
 		std::cerr << "Failed to create spehre" << std::endl;
 		return;
 	}
-	planet->setSphereProgram(program);
 
 	SceneManager::getInstance()->addPlanet(planet);
 	

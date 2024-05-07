@@ -24,9 +24,10 @@ public:
 	void draw() const;
 	
 	Planet() {}
-	Planet(const std::string& name, const float radius) : _name(name), _radius(radius)
+	Planet(const std::string& name, const float radius, const Program& sphereProgram) : _name(name), _radius(radius)
 	{
-		createPlanet(radius); 
+		createPlanet(radius);
+		setSphereProgram(sphereProgram);
 	}
 
 	virtual ~Planet() {}
