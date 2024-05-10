@@ -1,13 +1,14 @@
 
 #include "Planet.hpp"
 
-void Planet::createPlanet(const float radius)
+void Planet::createPlanet(const float radius, const glm::vec3& position)
 {
 	if (this->sphere == nullptr)
 	{
 		this->sphere = std::make_shared<SphereModel>();
 	}
 	this->sphere->createSphere(radius);
+	this->sphere->setPosition(position);
 
 	isCreated = true;
 }

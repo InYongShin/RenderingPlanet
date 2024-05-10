@@ -11,6 +11,12 @@ void Model::loadProgram(const char* vertexPath, const char* fragmentPath, const 
 	}
 }
 
+void Model::setPosition(const glm::vec3& position)
+{
+	this->position = position;
+	this->_modelMat = glm::translate(glm::mat4(1.f), this->position);
+}
+
 void Model::draw()
 {
 	if(this->program.isUsable() == false)
@@ -19,6 +25,8 @@ void Model::draw()
 		// ex) program.loadShaders("shaders/default.vert", "shaders/default.frag");
 	}
 	this->program.use();
+
+	this->program.setUniform("modelMat", this->_modelMat);
 
 	glBindVertexArray(this->mesh.vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->mesh.eBuf);

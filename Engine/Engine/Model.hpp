@@ -3,12 +3,15 @@
 
 #include "Mesh.hpp"
 #include "Program.hpp"
+#include "GLTools.hpp"
 
 class Model
 {
 private:
+	glm::mat4 _modelMat = glm::mat4(1.f);
 
 protected:
+	glm::vec3 position = glm::vec3(0.f);
 	Program program;
 	Mesh mesh;
 
@@ -21,6 +24,9 @@ public:
 					 const char* geometryPath = nullptr, const char* tessControlPath = nullptr, const char* tessEvaluatePath = nullptr);
 
 	inline void setProgram(const Program& program) { this->program = program; }
+
+	void setPosition(const glm::vec3& position);
+	inline glm::vec3 getPosition() const { return this->position; }
 
 	virtual void draw();
 
