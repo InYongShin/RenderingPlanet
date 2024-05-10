@@ -84,7 +84,7 @@ void Program::loadShaders(const char* vertexPath, const char* fragmentPath, cons
 	}
 
 	// Fragment Shader
-	std::cout << getFilenameFromAbsPath(fragmentPath) << ", ";
+	std::cout << getFilenameFromAbsPath(fragmentPath);
 	fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
 	std::string fragmentCode = loadText(fragmentPath);
 	const char* fCode = fragmentCode.c_str();
@@ -92,6 +92,8 @@ void Program::loadShaders(const char* vertexPath, const char* fragmentPath, cons
 	glCompileShader(fragmentID);
 	printInfoShaderLog(fragmentID);
 	glAttachShader(programID, fragmentID);
+
+	std::cout << std::endl;
 
 	// Link Program
 	glLinkProgram(programID);
