@@ -1,5 +1,6 @@
 
 #include "Application.hpp"
+#include "EmissivePlanet.hpp"
 #include "Planet.hpp"
 #include "Light.hpp"
 
@@ -42,14 +43,17 @@ void Application::run()
 		return;
 	}
 
-	Program program("render.vert", "render.frag");
+	Program sunProgram("render.vert", "sun.frag");
+	std::shared_ptr<EmissivePlanet> sun = std::make_shared<EmissivePlanet>("Sun", glm::vec3(.8f, .8f, 0.f), .5f, 1.f, sunProgram);
 
-	std::shared_ptr<Planet> planet = std::make_shared<Planet>("Planet", .7f, program);
+	Program planetProgram("render.vert", "render.frag");
+	std::shared_ptr<Planet> planet = std::make_shared<Planet>("Planet", glm::vec3(0.f, 0.f, 1.f), .3f, planetProgram);
+	planetProgram.setUniform("lightPosition", sun->getPosition());
+	planetProgram.setUniform("lightPower", sun->getEmissivePower());
 	
-	Light light({5.f,5.f,-5.f});
-	program.setUniform("lightPosition", light.getPosition());
 
 	SceneManager::getInstance()->addPlanet(planet);
+	SceneManager::getInstance()->addPlanet(sun);
 	
 	this->window->display();
 }
