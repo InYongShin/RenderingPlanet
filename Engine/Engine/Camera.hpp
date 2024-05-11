@@ -12,8 +12,22 @@ private:
 
 	glm::vec3 upVector = glm::vec3(0.f,1.f,0.f);
 
+	float fov = 45.f;
+	float zNear = 0.1f;
+	float zFar = 1000.f;
+	glm::vec2 viewport = glm::vec2(0.f);
+
 public:
 
+	inline void setPosition(const glm::vec3& position) { this->position = position; }
+	inline void setViewport(const int x, const int y) { this->viewport = glm::vec2(x, y); }
+
+	glm::mat4 projMat() const {
+		return glm::perspective(fov, viewport.x / viewport.y, zNear, zFar);
+	}
+	glm::mat4 viewMat() const {
+		return glm::lookAt(position, center, upVector);
+	}
 
 	Camera() {}
 	virtual ~Camera() {}
