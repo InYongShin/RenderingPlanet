@@ -43,17 +43,24 @@ void Application::run()
 		return;
 	}
 
+	window->getCamera().setPosition(glm::vec3(0.f, 0.f, 5.f));
+	glm::mat4 viewMat = window->getCamera().viewMat();
+	glm::mat4 projMat = window->getCamera().projMat();
+
 	Program sunProgram("render.vert", "sun.frag");
 	std::shared_ptr<EmissivePlanet> sun = std::make_shared<EmissivePlanet>("Sun", glm::vec3(.8f, .8f, 0.f), .5f, 1.f, sunProgram);
+	sunProgram.setUniform("viewMat", viewMat);
+	sunProgram.setUniform("projMat", projMat);
+	SceneManager::getInstance()->addPlanet(sun);
 
 	Program planetProgram("render.vert", "render.frag");
 	std::shared_ptr<Planet> planet = std::make_shared<Planet>("Planet", glm::vec3(0.f, 0.f, 1.f), .3f, planetProgram);
+	planetProgram.setUniform("viewMat", viewMat);
+	planetProgram.setUniform("projMat", projMat);
 	planetProgram.setUniform("lightPosition", sun->getPosition());
 	planetProgram.setUniform("lightPower", sun->getEmissivePower());
-	
-
 	SceneManager::getInstance()->addPlanet(planet);
-	SceneManager::getInstance()->addPlanet(sun);
+	
 	
 	this->window->display();
 }
