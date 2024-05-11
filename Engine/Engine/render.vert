@@ -9,12 +9,14 @@ out vec3 normal;
 out vec2 texCoord;
 
 uniform mat4 modelMat = mat4(1.0);
+uniform mat4 viewMat;
+uniform mat4 projMat;
 
 void main()
 {
 	worldPos = vec3(modelMat * vec4(inPosition, 1.0));
-	normal = inNormal;
+	normal = vec3(modelMat * vec4(inNormal, 0.0));
 	texCoord = inTexCoord;
 
-	gl_Position = vec4(worldPos, 1.0);
+	gl_Position = projMat * viewMat * vec4(worldPos, 1.0);
 }
