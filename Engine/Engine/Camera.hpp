@@ -20,7 +20,7 @@ private:
 public:
 
 	inline void setPosition(const glm::vec3& position) { this->position = position; }
-	inline void setViewport(const int x, const int y) { this->viewport = glm::vec2(x, y); }
+	inline void setViewport(const glm::vec2& viewport) { this->viewport = viewport; }
 
 	glm::mat4 projMat() const {
 		return glm::perspective(fov, viewport.x / viewport.y, zNear, zFar);
