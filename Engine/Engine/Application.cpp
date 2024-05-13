@@ -43,9 +43,9 @@ void Application::run()
 		return;
 	}
 
-	window->getCamera().setPosition(glm::vec3(0.f, 0.f, 5.f));
-	glm::mat4 viewMat = window->getCamera().viewMat();
-	glm::mat4 projMat = window->getCamera().projMat();
+	SceneManager::getInstance()->getCamera().setPosition(glm::vec3(0.f, 0.f, 5.f));
+	glm::mat4 viewMat = SceneManager::getInstance()->getCamera().viewMat();
+	glm::mat4 projMat = SceneManager::getInstance()->getCamera().projMat();
 
 	Program sunProgram("render.vert", "sun.frag");
 	std::shared_ptr<EmissivePlanet> sun = std::make_shared<EmissivePlanet>("Sun", glm::vec3(.8f, .8f, 0.f), .5f, 1.f, sunProgram);

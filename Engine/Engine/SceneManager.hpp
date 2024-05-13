@@ -3,6 +3,7 @@
 
 #include "Scene.hpp"
 #include "Singleton.hpp"
+#include "Camera.hpp"
 
 #include <iostream>
 
@@ -13,10 +14,14 @@ private:
 
 	std::shared_ptr<Scene> scene = nullptr;
 
+	Camera camera;
+
 public:
 
 	void createScene();
 	void addPlanet(const std::shared_ptr<Planet>& model);
+
+	inline Camera& getCamera() { return this->camera; }
 
 	void drawScene() const;
 

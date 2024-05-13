@@ -49,7 +49,7 @@ bool Window::initGL()
 
 	std::cout << glGetString(GL_VERSION) << std::endl;
 
-	camera.setViewport(width, height);
+	SceneManager::getInstance()->getCamera().setViewport({width, height});
 
 	this->isInitialized = true;
 	return true;

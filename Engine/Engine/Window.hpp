@@ -4,7 +4,6 @@
 #include "GLTools.hpp"
 #include "SceneManager.hpp"
 #include "Scene.hpp"
-#include "Camera.hpp"
 
 #include <vector>
 #include <string>
@@ -18,8 +17,6 @@ private:
 	int _height = 0;
 
 	GLFWwindow* GLwindow = nullptr;
-
-	Camera camera;
 
 	bool isCreated = false;
 	bool isInitialized = false;
@@ -35,8 +32,6 @@ public:
 	inline std::string getTitle() const { return this->_title; }
 	inline int getWidth() const { return this->_width; }
 	inline int getHeight() const { return this->_height; }
-
-	inline Camera& getCamera() { return this->camera; }
 
 	bool isNeedCreation() const { return !this->isCreated; }
 	bool isNeedInitialization() const { return !this->isInitialized; }
