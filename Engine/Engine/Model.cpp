@@ -1,5 +1,6 @@
 
 #include "Model.hpp"
+#include "SceneManager.hpp"
 
 void Model::loadProgram(const char* vertexPath, const char* fragmentPath, const char* geometryPath /*= nullptr*/, const char* tessControlPath /*= nullptr*/, const char* tessEvaluatePath /*= nullptr*/)
 {
@@ -27,6 +28,8 @@ void Model::draw()
 	this->program.use();
 
 	this->program.setUniform("modelMat", this->_modelMat);
+	this->program.setUniform("viewMat", SceneManager::getInstance()->getCamera().viewMat());
+	this->program.setUniform("projMat", SceneManager::getInstance()->getCamera().projMat());
 
 	glBindVertexArray(this->mesh.vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->mesh.eBuf);
