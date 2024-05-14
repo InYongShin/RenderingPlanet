@@ -51,6 +51,8 @@ bool Window::initGL()
 
 	SceneManager::getInstance()->getCamera().setViewport({width, height});
 
+	setCallbackFunc();
+
 	this->isInitialized = true;
 	return true;
 }
