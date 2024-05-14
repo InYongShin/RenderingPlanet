@@ -23,6 +23,8 @@ public:
 	inline void setPosition(const glm::vec3& position) { this->position = position; }
 	inline glm::vec3 getPosition() const { return this->position; }
 	inline void setCenter(const glm::vec3& center) { this->center = center; }
+	inline glm::vec3 getCenter() const { return this->center; }
+	inline glm::vec3 getUpVector() const { return this->upVector; }
 	inline float getFov() const { return this->fov; }
 	inline void setFov(float fov) { this->fov = fov; }
 	inline float getYaw() const { return this->yaw; }
