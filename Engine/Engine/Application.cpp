@@ -5,6 +5,7 @@
 #include "Light.hpp"
 #include "SpaceScene.hpp"
 #include "QuadModel.hpp"
+#include "Texture.hpp"
 
 #include <iostream>
 
