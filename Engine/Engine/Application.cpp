@@ -4,6 +4,7 @@
 #include "Planet.hpp"
 #include "Light.hpp"
 #include "SpaceScene.hpp"
+#include "QuadModel.hpp"
 
 #include <iostream>
 
@@ -42,8 +43,12 @@ void Application::run()
 		return;
 	}
 
+
+	// Start set the world contents
+
 	SceneManager::getInstance()->getCamera().setPosition(glm::vec3(0.f, 0.f, 5.f));
 
+	
 	std::shared_ptr<SpaceScene> spaceScene = std::make_shared<SpaceScene>();
 
 	Program sunProgram("render.vert", "sun.frag");
@@ -54,9 +59,20 @@ void Application::run()
 	std::shared_ptr<Planet> planet = std::make_shared<Planet>("Planet", glm::vec3(0.f, 0.f, -1.f), .3f, planetProgram);
 	planetProgram.setUniform("lightPosition", sun->getPosition());
 	planetProgram.setUniform("lightPower", sun->getEmissivePower());
+
+	Program quadProgram("render.vert", "sun.frag");
+	std::shared_ptr<QuadModel> quad = std::make_shared<QuadModel>();
+	quad->createQuad({-1.f, 1.f, 0.f}, {1.f, -1.f, 0.f});
+	quad->setProgram(quadProgram);
+	planet->addModel(quad);
+
 	spaceScene->addPlanet(planet);
+	
 
 	SceneManager::getInstance()->addScene(spaceScene);
 	
+	// End set the world contents
+
+
 	this->window->display();
 }

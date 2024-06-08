@@ -34,5 +34,19 @@ void Planet::draw() const
 		this->sphere->draw();
 	}
 
-	// draw other objects ...
+	for (auto& model : this->models)
+	{
+		model->draw();
+	}
+}
+
+void Planet::addModel(const std::shared_ptr<Model>& model)
+{
+	if (model == nullptr)
+	{
+		std::cerr << "Model is nullptr" << std::endl;
+		return;
+	}
+
+	this->models.push_back(model);
 }
