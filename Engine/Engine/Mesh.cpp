@@ -111,6 +111,28 @@ void Mesh::createSphere(float radius, int slices, int stacks)
 	}
 }
 
+void Mesh::createQuad(const glm::vec3& ltPtn, const glm::vec3& rtPtn, const glm::vec3& lbPtn, const glm::vec3& rbPtn)
+{
+	this->vertices.push_back(ltPtn);
+	this->vertices.push_back(rtPtn);
+	this->vertices.push_back(lbPtn);
+	this->vertices.push_back(rbPtn);
+
+	glm::vec3 normal = glm::normalize(glm::cross(rbPtn - ltPtn, rtPtn - ltPtn));
+	this->normals.push_back(normal);
+	this->normals.push_back(normal);
+	this->normals.push_back(normal);
+	this->normals.push_back(normal);
+
+	this->texCoords.push_back(glm::vec2(0.f, 1.f));
+	this->texCoords.push_back(glm::vec2(1.f, 1.f));
+	this->texCoords.push_back(glm::vec2(0.f, 0.f));
+	this->texCoords.push_back(glm::vec2(1.f, 0.f));
+
+	this->tris.push_back(glm::u32vec3(0, 2, 1));
+	this->tris.push_back(glm::u32vec3(1, 2, 3));
+}
+
 void Mesh::clearMeshData()
 {
 	this->vertices.clear();
