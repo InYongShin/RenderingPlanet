@@ -51,19 +51,26 @@ void Application::run()
 	
 	std::shared_ptr<SpaceScene> spaceScene = std::make_shared<SpaceScene>();
 
-	Program sunProgram("render.vert", "sun.frag");
+
+	Program sunProgram("render.vert", "texture.frag");
+	Texture lightTexture("../Textures/Light.png");
+	lightTexture.bind(1, sunProgram, "tex");
 	std::shared_ptr<EmissivePlanet> sun = std::make_shared<EmissivePlanet>("Sun", glm::vec3(.8f, .8f, 0.f), .5f, 1.f, sunProgram);
 	spaceScene->addPlanet(sun);	
+
 
 	Program planetProgram("render.vert", "render.frag");
 	std::shared_ptr<Planet> planet = std::make_shared<Planet>("Planet", glm::vec3(0.f, 0.f, -1.f), .3f, planetProgram);
 	planetProgram.setUniform("lightPosition", sun->getPosition());
 	planetProgram.setUniform("lightPower", sun->getEmissivePower());
 
-	Program quadProgram("render.vert", "sun.frag");
+
+	Program billboardProgram("render.vert", "texture.frag");
+	Texture billboardTexture("../Textures/Billboard.png");
+	billboardTexture.bind(0, billboardProgram, "tex");
 	std::shared_ptr<QuadModel> quad = std::make_shared<QuadModel>();
 	quad->createQuad({-1.f, 1.f, 0.f}, {1.f, -1.f, 0.f});
-	quad->setProgram(quadProgram);
+	quad->setProgram(billboardProgram);
 	planet->addModel(quad);
 
 	spaceScene->addPlanet(planet);
