@@ -135,7 +135,7 @@ void Application::run()
 
 	Program neptuneProgram("render.vert", "render.frag");
 	Texture neptuneTexture("../Textures/Neptune.jpg");
-	uranusTexture.bind(10, neptuneProgram, "tex");
+	neptuneTexture.bind(10, neptuneProgram, "tex");
 	std::shared_ptr<Planet> neptune = std::make_shared<Planet>("Neptune", glm::vec3(29.07f, 0.f, 0.f), 0.39f, neptuneProgram);
 	neptuneProgram.setUniform("lightPosition", sun->getPosition());
 	neptuneProgram.setUniform("lightPower", sun->getEmissivePower());
