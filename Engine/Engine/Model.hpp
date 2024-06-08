@@ -15,7 +15,6 @@ protected:
 	Program program;
 	Mesh mesh;
 
-protected:
 	bool isCreated = false;
 
 public:
