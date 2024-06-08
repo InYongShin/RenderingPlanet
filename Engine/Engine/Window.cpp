@@ -100,8 +100,11 @@ void Window::display() const
 		glClearColor(0.f, 0.f, 0.f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glViewport(0, 0, this->_width, this->_height);
+		int w=0, h=0;
+		glfwGetWindowSize(this->GLwindow, &w, &h);
+		glViewport(0, 0, w, h);
 
+		SceneManager::getInstance()->getCamera().setViewport({ w, h });
 		SceneManager::getInstance()->drawScene();
 
 		glfwSwapBuffers(this->GLwindow);
