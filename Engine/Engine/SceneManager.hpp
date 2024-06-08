@@ -6,28 +6,27 @@
 #include "Camera.hpp"
 
 #include <iostream>
+#include <vector>
 
 class SceneManager : public Singleton<SceneManager>
 {
 private:
 	friend class Singleton;
 
-	std::shared_ptr<Scene> scene = nullptr;
+	std::vector<std::shared_ptr<Scene>> scenes;
 
 	Camera camera;
 
 public:
 
-	void createScene();
-	void addPlanet(const std::shared_ptr<Planet>& model);
-
 	inline Camera& getCamera() { return this->camera; }
 
 	void drawScene() const;
 
-	inline std::shared_ptr<Scene> getScene() const { return this->scene; }
+	inline std::shared_ptr<Scene> getScenePtr(const std::string& title) const;
+	inline Scene getScene(const std::string& title) const;
 
-	bool isValidScene() const { return this->scene != nullptr; }
+	void addScene(const std::shared_ptr<Scene>& scene);
 
 	SceneManager() {}
 	virtual ~SceneManager() {}

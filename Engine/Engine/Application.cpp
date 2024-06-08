@@ -3,6 +3,7 @@
 #include "EmissivePlanet.hpp"
 #include "Planet.hpp"
 #include "Light.hpp"
+#include "SpaceScene.hpp"
 
 #include <iostream>
 
@@ -30,13 +31,11 @@ void Application::initialize()
 		std::cerr << "Failed to create window" << std::endl;
 		return;
 	}
-
-	SceneManager::getInstance()->createScene();
 }
 
 void Application::run()
 {
-	if (this->window == nullptr || SceneManager::getInstance()->isValidScene() == false)
+	if (this->window == nullptr)
 	{
 		assert(false);
 		std::cerr << "Not ready to run applicatoin" << std::endl;
@@ -45,16 +44,19 @@ void Application::run()
 
 	SceneManager::getInstance()->getCamera().setPosition(glm::vec3(0.f, 0.f, 5.f));
 
+	std::shared_ptr<SpaceScene> spaceScene = std::make_shared<SpaceScene>();
+
 	Program sunProgram("render.vert", "sun.frag");
 	std::shared_ptr<EmissivePlanet> sun = std::make_shared<EmissivePlanet>("Sun", glm::vec3(.8f, .8f, 0.f), .5f, 1.f, sunProgram);
-	SceneManager::getInstance()->addPlanet(sun);
+	spaceScene->addPlanet(sun);	
 
 	Program planetProgram("render.vert", "render.frag");
 	std::shared_ptr<Planet> planet = std::make_shared<Planet>("Planet", glm::vec3(0.f, 0.f, -1.f), .3f, planetProgram);
 	planetProgram.setUniform("lightPosition", sun->getPosition());
 	planetProgram.setUniform("lightPower", sun->getEmissivePower());
-	SceneManager::getInstance()->addPlanet(planet);
-	
+	spaceScene->addPlanet(planet);
+
+	SceneManager::getInstance()->addScene(spaceScene);
 	
 	this->window->display();
 }

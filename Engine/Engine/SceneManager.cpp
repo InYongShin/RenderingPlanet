@@ -1,34 +1,43 @@
 
 #include "SceneManager.hpp"
 
-void SceneManager::createScene()
+inline std::shared_ptr<Scene> SceneManager::getScenePtr(const std::string& title) const
 {
-	this->scene = std::make_shared<Scene>();
-	if (this->scene == nullptr)
+	for (auto& scene : this->scenes)
 	{
-		std::cerr << "Failed to create scene" << std::endl;
+		if (scene->getTitle().compare(title) == 0) // same
+		{
+			return scene;
+		}
+	}
+}
+
+inline Scene SceneManager::getScene(const std::string& title) const
+{
+	for(auto& scene : this->scenes)
+	{
+		if (scene->getTitle().compare(title) == 0) // same
+		{
+			return *scene;
+		}
+	}
+}
+
+void SceneManager::addScene(const std::shared_ptr<Scene>& scene)
+{
+	if (scene == nullptr)
+	{
+		std::cerr << "Scene is nullptr" << std::endl;
 		return;
 	}
+
+	this->scenes.push_back(scene);
 }
 
 void SceneManager::drawScene() const
 {
-	if (this->scene == nullptr)
+	for (auto& scene : this->scenes)
 	{
-		std::cout << "Scene is nullptr. Please create scene before draw" << std::endl;
-		return;
+		scene->drawContents();
 	}
-
-	this->scene->drawContents();
-}
-
-void SceneManager::addPlanet(const std::shared_ptr<Planet>& model)
-{
-	if(this->scene == nullptr)
-	{
-		std::cout << "Scene is nullptr. Please create scene before add a model" << std::endl;
-		return;
-	}
-
-	this->scene->addPlanet(model);
 }

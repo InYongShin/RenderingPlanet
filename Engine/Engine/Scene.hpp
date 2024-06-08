@@ -11,7 +11,7 @@
 class Scene
 {
 private:
-	bool isCreated = false;
+	std::string _title = "";
 
 	std::vector<std::shared_ptr<Planet>> planets;
 
@@ -19,17 +19,16 @@ public:
 
 	inline std::vector<std::shared_ptr<Planet>> getPlanets() const { return this->planets; }
 
-	bool createScene();
+	inline std::string getTitle() const { return this->_title; }
 
 	void addPlanet(const std::shared_ptr<Planet>& planet);
 
 	void drawContents() const;
 
-	void run();
-
 	void clear();
 
 	Scene() {}
+	Scene(const std::string& title) : _title(title) {}
 	virtual ~Scene() { clear(); }
 };
 
