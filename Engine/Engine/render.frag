@@ -9,10 +9,13 @@ in vec2 texCoord;
 uniform vec3 lightPosition;
 uniform float lightPower;
 
+uniform sampler2D tex;
+
 void main(void)
 {
-	vec3 diffuse = vec3(0.0, 1.0, 0.0);
-	vec3 ambient = 0.1 * diffuse;
+	// vec3 diffuse = vec3(0.0, 1.0, 0.0);
+	vec3 diffuse = 0.6 * texture(tex, texCoord).rgb;
+	vec3 ambient = 0.4 * diffuse;
 	
 	vec3 l = normalize(lightPosition - worldPos);
 	vec3 n = normalize(normal);
