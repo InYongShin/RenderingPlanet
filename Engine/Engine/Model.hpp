@@ -33,6 +33,7 @@ public:
 	void clear();
 
 	Model() {}
+	Model(const glm::vec3& position) { setPosition(position); }
 	virtual ~Model() { clear(); }
 };
 
