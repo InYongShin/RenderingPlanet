@@ -14,8 +14,8 @@ public:
 	inline float getEmissivePower() const { return this->_emissivePower; }
 
 	EmissivePlanet() {}
-	EmissivePlanet(const std::string& name, const glm::vec3& position, const float radius, const float emissivePower, const Program& sphereProgram)
-		: Planet(name, position, radius, sphereProgram), _emissivePower(emissivePower) {}
+	EmissivePlanet(const std::string& name, const glm::vec3& position, const float radius, const float emissivePower, const Program& sphereProgram, const int texID = -1, const std::string& shaderTexName = "")
+		: Planet(name, position, radius, sphereProgram, texID, shaderTexName), _emissivePower(emissivePower) {}
 
 	virtual ~EmissivePlanet() {}
 };

@@ -3,6 +3,7 @@
 
 #include "SphereModel.hpp"
 #include "Program.hpp"
+#include "Texture.hpp"
 
 #include <string>
 
@@ -19,7 +20,8 @@ private:
 	bool isCreated = false;
 public:
 
-	void createPlanet(const float radius = 1.f, const glm::vec3& position = glm::vec3(0.f));
+	// TODO: Texture를 어떻게 넘겨줄지. shader name 고민 필요
+	void createPlanet(const float radius = 1.f, const glm::vec3& position = glm::vec3(0.f), const int texID = -1, const std::string& shaderTexName = "");
 
 	void setSphereProgram(const Program& program);
 
@@ -33,10 +35,10 @@ public:
 	void addModel(const std::shared_ptr<Model>& model);
 
 	Planet() {}
-	Planet(const std::string& name, const glm::vec3& position, const float radius, const Program& sphereProgram) 
+	Planet(const std::string& name, const glm::vec3& position, const float radius, const Program& sphereProgram, const int texID = -1, const std::string& shaderTexName = "") 
 		: _name(name), _radius(radius)
 	{
-		createPlanet(radius, position);
+		createPlanet(radius, position, texID, shaderTexName);
 		setSphereProgram(sphereProgram);
 	}
 

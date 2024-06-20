@@ -1,7 +1,7 @@
 
 #include "Planet.hpp"
 
-void Planet::createPlanet(const float radius, const glm::vec3& position)
+void Planet::createPlanet(const float radius /*= 1.f*/, const glm::vec3& position /*= glm::vec3(0.f)*/, const int texID /*= -1*/, const std::string& shaderTexName /*= ""*/)
 {
 	if (this->sphere == nullptr)
 	{
@@ -9,6 +9,7 @@ void Planet::createPlanet(const float radius, const glm::vec3& position)
 	}
 	this->sphere->createSphere(radius);
 	this->sphere->setPosition(position);
+	this->sphere->addTexture(texID, shaderTexName);
 
 	isCreated = true;
 }
