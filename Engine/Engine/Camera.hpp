@@ -13,7 +13,7 @@ private:
 	glm::vec3 upVector = glm::vec3(0.f,1.f,0.f);
 
 	float fov = 45.f * glm::pi<float>() / 180.f;
-	float yaw = 0, roll = 0, pitch = 0;
+	float yaw = -89.f, roll = 0, pitch = 0;
 	float zNear = 0.1f;
 	float zFar = 1000.f;
 	glm::vec2 viewport = glm::vec2(0.f);
