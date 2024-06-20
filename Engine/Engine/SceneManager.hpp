@@ -14,6 +14,7 @@ private:
 	friend class Singleton;
 
 	std::vector<std::shared_ptr<Scene>> scenes;
+	std::shared_ptr<Scene> activeScene = nullptr;
 
 	Camera camera;
 
@@ -21,12 +22,17 @@ public:
 
 	inline Camera& getCamera() { return this->camera; }
 
-	void drawScene() const;
+	void drawScene();
 
 	inline std::shared_ptr<Scene> getScenePtr(const std::string& title) const;
 	inline Scene getScene(const std::string& title) const;
+	inline const std::shared_ptr<Scene>& getActiveScene() const { return this->activeScene; }
+
+	const std::shared_ptr<Scene>& findScene(const std::shared_ptr<Scene>& scene) const;
 
 	void addScene(const std::shared_ptr<Scene>& scene);
+
+	void activateScene(const std::shared_ptr<Scene>& scene);
 
 	SceneManager() {}
 	virtual ~SceneManager() {}
