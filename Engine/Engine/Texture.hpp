@@ -10,6 +10,8 @@
 class Texture
 {
 private:
+	std::string _fileName = "";
+
 	int _width = 0;
 	int _height = 0;
 	int _numChannels = 0;
@@ -44,18 +46,20 @@ private:
 	}
 	
 public:
-	inline int getWidth() const { return _width; }
-	inline int getHeight() const { return _height; }
-	inline int getNumChannels() const { return _numChannels; }
+	inline const std::string& getFileName() { return this->_fileName; }
 
-	inline int getTexID() const { return _texID; }
+	inline int getWidth() const { return this->_width; }
+	inline int getHeight() const { return this->_height; }
+	inline int getNumChannels() const { return this->_numChannels; }
+
+	inline int getTexID() const { return this->_texID; }
 
 	void load(const std::string& filenName, const bool isSrgb = false, const bool isNeedMaintainData = false);
 
 	void bind(int slot);
 	void bind(int slot, const Program& program, const std::string& name);
 
-	bool isUsable() const { return _texID > 0; }
+	bool isUsable() const { return this->_texID > 0; }
 
 	void clear();
 

@@ -76,64 +76,65 @@ void Texture::load(const std::string& fileName, const bool isSrgb /*= false*/, c
 	std::cout << "Loading texture: " << fileName << "\n";
 	
 	int width=0, height=0, numChannels=0;
-	_isSrgb = isSrgb;
-	_isNeedMaintainData = isNeedMaintainData;
+	this->_isSrgb = isSrgb;
+	this->_isNeedMaintainData = isNeedMaintainData;
 
 	stbi_set_flip_vertically_on_load(true);
 
-	_data = stbi_load(fileName.c_str(), &width, &height, &numChannels, 0);
-	if (_data == nullptr)
+	this->_data = stbi_load(fileName.c_str(), &width, &height, &numChannels, 0);
+	if (this->_data == nullptr)
 	{
 		std::cerr << "Failed to load texture: " << fileName << std::endl;
 		return;
 	}
 
-	_width = width;
-	_height = height;
-	_numChannels = numChannels;
+	this->_fileName = fileName;
+	this->_width = width;
+	this->_height = height;
+	this->_numChannels = numChannels;
 
 	createGL();
 }
 
 void Texture::createGL()
 {
-	if (_texID > 0)
+	if (this->_texID > 0)
 	{
 		clear();
 	}
 
 	// TODO: type
-	auto [internalFormat, format, type] = getTextureType(_type, _numChannels, _isSrgb);
+	auto [internalFormat, format, type] = getTextureType(this->_type, this->_numChannels, this->_isSrgb);
 	GLint oldTexID = Texture::getBinding();
 	
-	glGenTextures(1, &_texID);
-	glBindTexture(GL_TEXTURE_2D, _texID);
-	setTexParam(_minFilter, _wrap_s, _wrap_t);
-	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, _width, _height, 0, format, type, _data);
+	glGenTextures(1, &this->_texID);
+	glBindTexture(GL_TEXTURE_2D, this->_texID);
+	setTexParam(this->_minFilter, this->_wrap_s, this->_wrap_t);
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, this->_width, this->_height, 0, format, type, this->_data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	Texture::restoreBinding(oldTexID);
 
-	if (_data != nullptr && _isNeedMaintainData == false)
+	if (this->_data != nullptr && this->_isNeedMaintainData == false)
 	{
-		delete _data;
-		_data = nullptr;
+		delete this->_data;
+		this->_data = nullptr;
 	}
 }
 
 void Texture::bind(int slot)
 {
-	if (_texID < 1)
+	if (this->_texID < 1)
 	{
 		std::cerr << "Texture is not loaded" << std::endl;
 		return;
 	}
 	glActiveTexture(GL_TEXTURE0 + slot);
-	glBindTexture(GL_TEXTURE_2D, _texID);
+	glBindTexture(GL_TEXTURE_2D, this->_texID);
 }
 
 void Texture::bind(int slot, const Program& program, const std::string& name)
 {
-	if (_texID < 1)
+	if (this->_texID < 1)
 	{
 		std::cerr << "Texture is not loaded" << std::endl;
 		return;
@@ -151,19 +152,19 @@ void Texture::bind(int slot, const Program& program, const std::string& name)
 
 void Texture::clear()
 {
-	if (_texID > 0)
+	if (this->_texID > 0)
 	{
-		glDeleteTextures(1, &_texID);
-		_texID = 0;
+		glDeleteTextures(1, &this->_texID);
+		this->_texID = 0;
 	}
 
-	_width = 0;
-	_height = 0;
-	_numChannels = 0;
+	this->_width = 0;
+	this->_height = 0;
+	this->_numChannels = 0;
 
-	if (_data != nullptr)
+	if (this->_data != nullptr)
 	{
-		delete _data;
-		_data = nullptr;
+		delete this->_data;
+		this->_data = nullptr;
 	}
 }
