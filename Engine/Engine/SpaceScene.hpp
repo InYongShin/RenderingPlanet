@@ -3,17 +3,20 @@
 
 #include "Scene.hpp"
 
+#include <string>
+
 class SpaceScene : public Scene
 {
 private:
 
-
-
 public:
 
-	SpaceScene() {}
-	virtual ~SpaceScene() {}
+	void initialize() override;
+	void update() override;
 
+	SpaceScene();
+	SpaceScene(const std::string& title);
+	virtual ~SpaceScene() {}
 };
 
 

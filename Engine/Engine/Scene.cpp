@@ -3,6 +3,16 @@
 
 #include <iostream>
 
+void Scene::initialize()
+{
+	// ...
+}
+
+void Scene::update()
+{
+	// ...
+}
+
 void Scene::addPlanet(const std::shared_ptr<Planet>& planet)
 {
 	if (planet == nullptr)

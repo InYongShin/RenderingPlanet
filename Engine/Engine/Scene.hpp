@@ -11,17 +11,21 @@
 class Scene
 {
 private:
-	std::string _title = "";
 
+protected:
+	std::string _title = "";
 	std::vector<std::shared_ptr<Planet>> planets;
+
+	virtual void initialize();
+	virtual void update();
+
+	void addPlanet(const std::shared_ptr<Planet>& planet);
 
 public:
 
 	inline std::vector<std::shared_ptr<Planet>> getPlanets() const { return this->planets; }
 
 	inline std::string getTitle() const { return this->_title; }
-
-	void addPlanet(const std::shared_ptr<Planet>& planet);
 
 	void drawContents() const;
 
