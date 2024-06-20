@@ -24,6 +24,8 @@ private:
 	bool isCreated = false;
 	bool isInitialized = false;
 
+	float _moveSpeed = 0.1f;
+
 private:
 	bool initGL();
 
@@ -58,7 +60,7 @@ public:
 			direction.x = cos(glm::radians(camera.getYaw())) * cos(glm::radians(camera.getPitch()));
 			direction.y = sin(glm::radians(camera.getPitch()));
 			direction.z = sin(glm::radians(camera.getYaw())) * cos(glm::radians(camera.getPitch()));
-			camera.setCenter(camera.getPosition() + direction);
+			camera.setCenter(camera.getPosition() + glm::normalize(direction));
 		}
 		this->mousePt = pt;
 	}
@@ -89,20 +91,20 @@ public:
 		{
 			glm::vec3 frontDir = glm::normalize(camera.getCenter() - camera.getPosition());
 			
-			glm::vec3 position = camera.getPosition() + frontDir * glm::vec3(.1f);
+			glm::vec3 position = camera.getPosition() + frontDir * glm::vec3(_moveSpeed);
 			camera.setPosition(position);
 
-			glm::vec3 center = camera.getCenter() + frontDir * glm::vec3(.1f);
+			glm::vec3 center = camera.getCenter() + frontDir * glm::vec3(_moveSpeed);
 			camera.setCenter(center);
 		}
 		else if (key == 83) // s
 		{
 			glm::vec3 frontDir = glm::normalize(camera.getCenter() - camera.getPosition());
 
-			glm::vec3 position = camera.getPosition() - frontDir * glm::vec3(.1f);
+			glm::vec3 position = camera.getPosition() - frontDir * glm::vec3(_moveSpeed);
 			camera.setPosition(position);
 
-			glm::vec3 center = camera.getCenter() - frontDir * glm::vec3(.1f);
+			glm::vec3 center = camera.getCenter() - frontDir * glm::vec3(_moveSpeed);
 			camera.setCenter(center);
 		}
 		else if (key == 65) // a
@@ -111,10 +113,10 @@ public:
 			glm::vec3 up = camera.getUpVector();
 			glm::vec3 leftDir = glm::cross(up, frontDir);
 
-			glm::vec3 position = camera.getPosition() + leftDir * glm::vec3(.1f);
+			glm::vec3 position = camera.getPosition() + leftDir * glm::vec3(_moveSpeed);
 			camera.setPosition(position);
 			
-			glm::vec3 center = camera.getCenter() + leftDir * glm::vec3(.1f);
+			glm::vec3 center = camera.getCenter() + leftDir * glm::vec3(_moveSpeed);
 			camera.setCenter(center);
 		}
 		else if (key == 68) // d
@@ -123,26 +125,26 @@ public:
 			glm::vec3 up = camera.getUpVector();
 			glm::vec3 rightDir = glm::cross(frontDir, up);
 			
-			glm::vec3 position = camera.getPosition() + rightDir * glm::vec3(.1f);
+			glm::vec3 position = camera.getPosition() + rightDir * glm::vec3(_moveSpeed);
 			camera.setPosition(position);
 			
-			glm::vec3 center = camera.getCenter() + rightDir * glm::vec3(.1f);
+			glm::vec3 center = camera.getCenter() + rightDir * glm::vec3(_moveSpeed);
 			camera.setCenter(center);
 		}
 		else if (key == 69) // e
 		{
-			glm::vec3 position = camera.getPosition() + (camera.getUpVector() * glm::vec3(.1f));
+			glm::vec3 position = camera.getPosition() + (camera.getUpVector() * glm::vec3(_moveSpeed));
 			camera.setPosition(position);
 
-			glm::vec3 center = camera.getCenter() + (camera.getUpVector() * glm::vec3(.1f));
+			glm::vec3 center = camera.getCenter() + (camera.getUpVector() * glm::vec3(_moveSpeed));
 			camera.setCenter(center);
 		}
 		else if (key == 81) // q
 		{
-			glm::vec3 position = camera.getPosition() + (camera.getUpVector() * glm::vec3(-.1f));
+			glm::vec3 position = camera.getPosition() + (camera.getUpVector() * glm::vec3(-_moveSpeed));
 			camera.setPosition(position);
 
-			glm::vec3 center = camera.getCenter() + (camera.getUpVector() * glm::vec3(-.1f));
+			glm::vec3 center = camera.getCenter() + (camera.getUpVector() * glm::vec3(-_moveSpeed));
 			camera.setCenter(center);
 		}
 	}
