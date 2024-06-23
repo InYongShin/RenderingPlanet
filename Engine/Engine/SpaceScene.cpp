@@ -109,3 +109,22 @@ void SpaceScene::update() /*override*/
 {
 	
 }
+
+void SpaceScene::addPlanet(const std::shared_ptr<Planet>& planet)
+{
+	if (planet == nullptr)
+	{
+		std::cerr << "Planet is nullptr" << std::endl;
+		return;
+	}
+
+	this->planets.push_back(planet);
+}
+
+void SpaceScene::drawContents() const /*override*/
+{
+	for (auto& planet : this->planets)
+	{
+		planet->draw();
+	}
+}
