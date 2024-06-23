@@ -59,7 +59,7 @@ void SpaceScene::initialize() /*override*/
 	glm::vec3 rb = glm::vec3(earth->getPosition() + glm::vec3( earth->getRadius(), earth->getRadius() * 1.2f, 0.f));
 	earthTextQuad->createQuad(lt, rb);
 	earthTextQuad->setProgram(earthTextProgram);
-	earthTextQuad->addTexture(4, "tex");
+	earthTextQuad->addTexture(earthTextTexID, "tex");
 	earth->addModel(earthTextQuad);
 
 	std::shared_ptr<Program> moonProgram = std::make_shared<Program>("render.vert", "render.frag");
