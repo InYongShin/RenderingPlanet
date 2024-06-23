@@ -1,7 +1,7 @@
 
 #include "SceneManager.hpp"
 
-inline std::shared_ptr<Scene> SceneManager::getScenePtr(const std::string& title) const
+inline const std::shared_ptr<Scene> SceneManager::getScene(const std::string& title) const
 {
 	for (auto& scene : this->scenes)
 	{
@@ -11,18 +11,6 @@ inline std::shared_ptr<Scene> SceneManager::getScenePtr(const std::string& title
 		}
 	}
 	return nullptr;
-}
-
-inline Scene SceneManager::getScene(const std::string& title) const
-{
-	for(auto& scene : this->scenes)
-	{
-		if (scene->getTitle().compare(title) == 0) // same
-		{
-			return *scene;
-		}
-	}
-	return Scene();
 }
 
 const std::shared_ptr<Scene>& SceneManager::findScene(const std::shared_ptr<Scene>& targetScene) const

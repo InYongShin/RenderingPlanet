@@ -14,20 +14,20 @@ private:
 
 protected:
 	std::string _title = "";
-	std::vector<std::shared_ptr<Planet>> planets;
+
+	glm::vec4 backgroundColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 
 	virtual void initialize();
 	virtual void update();
 
-	void addPlanet(const std::shared_ptr<Planet>& planet);
-
 public:
-
-	inline std::vector<std::shared_ptr<Planet>> getPlanets() const { return this->planets; }
 
 	inline std::string getTitle() const { return this->_title; }
 
-	void drawContents() const;
+	inline void setBackgroundColor(const glm::vec4& color) { this->backgroundColor = color; }
+	inline glm::vec4 getBackgroundColor() const { return this->backgroundColor; }
+
+	virtual void drawContents() const = 0;
 
 	void clear();
 

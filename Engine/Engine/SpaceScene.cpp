@@ -17,8 +17,15 @@ SpaceScene::SpaceScene(const std::string& title)
 	initialize();
 }
 
+SpaceScene::~SpaceScene()
+{
+	this->planets.clear();
+}
+
 void SpaceScene::initialize() /*override*/
 {
+	setBackgroundColor(glm::vec4(0.f, 0.f, 0.f, 1.f));
+
 	std::shared_ptr<Program> sunProgram = std::make_shared<Program>("render.vert", "texture.frag");
 	int sunTexID = TextureManager::getInstance()->loadTexture("../Textures/Sun.jpg");
 	std::shared_ptr<EmissivePlanet> sun = std::make_shared<EmissivePlanet>("Sun", glm::vec3(-12.f, 0.f, 0.f), 10.9f, 1.f, sunProgram, sunTexID, "tex");

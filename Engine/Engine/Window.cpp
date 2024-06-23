@@ -95,9 +95,11 @@ void Window::display() const
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	glm::vec4 bgColor = SceneManager::getInstance()->getActiveScene()->getBackgroundColor();
+
 	while (!glfwWindowShouldClose(this->GLwindow))
 	{
-		glClearColor(0.f, 0.f, 0.f, 1.0f);
+		glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		int w=0, h=0;
