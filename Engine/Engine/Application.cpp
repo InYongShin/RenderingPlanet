@@ -1,11 +1,13 @@
 
 #include "Application.hpp"
-#include "EmissivePlanet.hpp"
-#include "Planet.hpp"
-#include "Light.hpp"
-#include "SpaceScene.hpp"
 #include "QuadModel.hpp"
 #include "Texture.hpp"
+#include "Light.hpp"
+
+#include "EmissivePlanet.hpp"
+#include "Planet.hpp"
+#include "SpaceScene.hpp"
+#include "EarthScene.hpp"
 
 #include <iostream>
 
@@ -45,16 +47,23 @@ void Application::run()
 	}
 
 
-	// Start set the world contents
+	// Start set the contents
 
 	SceneManager::getInstance()->getCamera().setPosition(glm::vec3(0.f, 0.f, 5.f));
 
-	std::shared_ptr<SpaceScene> spaceScene = std::make_shared<SpaceScene>("Space");
+#if 1
+	std::shared_ptr<EarthScene> earthScene = std::make_shared<EarthScene>("Earth");
+	SceneManager::getInstance()->addScene(earthScene);
+	SceneManager::getInstance()->activateScene(earthScene);
+#endif
 
+#if 0
+	std::shared_ptr<SpaceScene> spaceScene = std::make_shared<SpaceScene>("Space");
 	SceneManager::getInstance()->addScene(spaceScene);
 	SceneManager::getInstance()->activateScene(spaceScene);
+#endif
 
-	// End set the world contents
+	// End set the contents
 
 
 	this->window->display();
