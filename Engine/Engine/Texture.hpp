@@ -64,6 +64,14 @@ public:
 	void clear();
 
 	Texture() {}
+	Texture(Texture&& other) noexcept
+		: _fileName(std::move(other._fileName)), _width(other._width), _height(other._height), _numChannels(other._numChannels), _data(other._data),
+		_texID(other._texID), _internalFormat(other._internalFormat), _format(other._format), _type(other._type),
+		_minFilter(other._minFilter), _wrap_s(other._wrap_s), _wrap_t(other._wrap_t), _isSrgb(other._isSrgb), _isNeedMaintainData(other._isNeedMaintainData)
+	{
+		other._data = nullptr;
+		other._texID = 0;
+	}
 	Texture(const std::string& fileName) 
 	{
 		load(fileName);
