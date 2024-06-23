@@ -23,7 +23,7 @@ public:
 	// TODO: Texture를 어떻게 넘겨줄지. shader name 고민 필요
 	void createPlanet(const float radius = 1.f, const glm::vec3& position = glm::vec3(0.f), const int texID = -1, const std::string& shaderTexName = "");
 
-	void setSphereProgram(const Program& program);
+	void setSphereProgram(const std::shared_ptr<Program>& program);
 
 	inline void setPosition(const glm::vec3& position) { this->sphere->setPosition(position); }
 	inline glm::vec3 getPosition() const { return this->sphere->getPosition(); }
@@ -35,7 +35,7 @@ public:
 	void addModel(const std::shared_ptr<Model>& model);
 
 	Planet() {}
-	Planet(const std::string& name, const glm::vec3& position, const float radius, const Program& sphereProgram, const int texID = -1, const std::string& shaderTexName = "") 
+	Planet(const std::string& name, const glm::vec3& position, const float radius, const std::shared_ptr<Program>& sphereProgram, const int texID = -1, const std::string& shaderTexName = "") 
 		: _name(name), _radius(radius)
 	{
 		createPlanet(radius, position, texID, shaderTexName);

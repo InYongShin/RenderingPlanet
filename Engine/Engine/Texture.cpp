@@ -132,7 +132,7 @@ void Texture::bind(int slot)
 	glBindTexture(GL_TEXTURE_2D, this->_texID);
 }
 
-void Texture::bind(int slot, const Program& program, const std::string& name)
+void Texture::bind(int slot, const std::shared_ptr<Program>& program, const std::string& name)
 {
 	if (this->_texID < 1)
 	{
@@ -140,14 +140,14 @@ void Texture::bind(int slot, const Program& program, const std::string& name)
 		return;
 	}
 
-	if (program.isUsable() == false)
+	if (program->isUsable() == false)
 	{
 		std::cerr << "Program is not usable" << std::endl;
 		return;
 	}
 
 	bind(slot);
-	program.setUniform(name, slot);
+	program->setUniform(name, slot);
 }
 
 void Texture::clear()

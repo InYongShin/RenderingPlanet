@@ -14,9 +14,9 @@ void Planet::createPlanet(const float radius /*= 1.f*/, const glm::vec3& positio
 	isCreated = true;
 }
 
-void Planet::setSphereProgram(const Program& program)
+void Planet::setSphereProgram(const std::shared_ptr<Program>& program)
 {
-	if(program.isUsable() == false)
+	if(program->isUsable() == false)
 	{
 		std::cerr << "Program is not usable" << std::endl;
 		return;

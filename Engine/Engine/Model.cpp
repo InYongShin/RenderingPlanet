@@ -5,8 +5,8 @@
 
 void Model::loadProgram(const char* vertexPath, const char* fragmentPath, const char* geometryPath /*= nullptr*/, const char* tessControlPath /*= nullptr*/, const char* tessEvaluatePath /*= nullptr*/)
 {
-	program.loadShaders(vertexPath, vertexPath, geometryPath, tessControlPath, tessEvaluatePath);
-	if (program.isUsable() == false)
+	program->loadShaders(vertexPath, vertexPath, geometryPath, tessControlPath, tessEvaluatePath);
+	if (program->isUsable() == false)
 	{
 		assert(false);
 		std::cerr << "Error loading program" << std::endl;
@@ -31,22 +31,22 @@ void Model::addTexture(int id, const std::string& shaderName)
 
 void Model::draw()
 {
-	if(this->program.isUsable() == false)
+	if(this->program->isUsable() == false)
 	{
 		// TODO: Load default program
 		// ex) program.loadShaders("shaders/default.vert", "shaders/default.frag");
 	}
-	this->program.use();
+	this->program->use();
 
-	this->program.setUniform("modelMat", this->_modelMat);
-	this->program.setUniform("viewMat", SceneManager::getInstance()->getCamera().viewMat());
-	this->program.setUniform("projMat", SceneManager::getInstance()->getCamera().projMat());
+	this->program->setUniform("modelMat", this->_modelMat);
+	this->program->setUniform("viewMat", SceneManager::getInstance()->getCamera().viewMat());
+	this->program->setUniform("projMat", SceneManager::getInstance()->getCamera().projMat());
 
-	for(int i = 0; i<this->texIDs.size(); ++i)
+	for(int i = 0; i < this->texIDs.size(); ++i)
 	{
 		int texID = this->texIDs[i];
 		Texture& tex = TextureManager::getInstance()->getTexture(texID);
-		tex.bind(i, this->program, shaderNames[i].c_str());
+		tex.bind(tex.getTexID(), this->program, shaderNames[i].c_str());
 	}
 
 	glBindVertexArray(this->mesh.vao);
@@ -60,6 +60,6 @@ void Model::draw()
 
 void Model::clear()
 {
-	program.clear();
+	program->clear();
 	mesh.clear();
 }

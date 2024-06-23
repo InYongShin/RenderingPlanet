@@ -1,6 +1,6 @@
 #include "TextureManager.hpp"
 
-void TextureManager::loadTexture(const std::string& fileName)
+int TextureManager::loadTexture(const std::string& fileName)
 {
-	this->textureLib.loadTexture(fileName);
+	return this->textureLib.loadTexture(fileName);
 }

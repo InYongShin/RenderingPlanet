@@ -15,7 +15,7 @@ private:
 
 protected:
 	glm::vec3 position = glm::vec3(0.f);
-	Program program;
+	std::shared_ptr<Program> program;
 	Mesh mesh;
 
 	bool isCreated = false;
@@ -25,7 +25,7 @@ public:
 	void loadProgram(const char* vertexPath, const char* fragmentPath, 
 					 const char* geometryPath = nullptr, const char* tessControlPath = nullptr, const char* tessEvaluatePath = nullptr);
 
-	inline void setProgram(const Program& program) { this->program = program; }
+	inline void setProgram(const std::shared_ptr<Program>& program) { this->program = program; }
 
 	void setPosition(const glm::vec3& position);
 	inline glm::vec3 getPosition() const { return this->position; }

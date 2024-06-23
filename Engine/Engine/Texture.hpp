@@ -57,7 +57,7 @@ public:
 	void load(const std::string& filenName, const bool isSrgb = false, const bool isNeedMaintainData = false);
 
 	void bind(int slot);
-	void bind(int slot, const Program& program, const std::string& name);
+	void bind(int slot, const std::shared_ptr<Program>& program, const std::string& name);
 
 	bool isUsable() const { return this->_texID > 0; }
 
