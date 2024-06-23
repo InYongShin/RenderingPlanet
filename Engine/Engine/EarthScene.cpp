@@ -21,3 +21,22 @@ void EarthScene::update()
 {
 
 }
+
+void EarthScene::addModel(const std::shared_ptr<Model>& model)
+{
+	if (model == nullptr)
+	{
+		std::cerr << "Model is nullptr" << std::endl;
+		return;
+	}
+
+	this->models.push_back(model);
+}
+
+void EarthScene::drawContents() const /*override*/
+{
+	for (auto& model : this->models)
+	{
+		model->draw();
+	}
+}
