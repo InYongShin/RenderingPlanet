@@ -49,17 +49,16 @@ void Application::run()
 
 	// Start set the contents
 
-	SceneManager::getInstance()->getCamera().setPosition(glm::vec3(0.f, 0.f, 5.f));
+	SceneManager::getInstance()->getCamera().setPosition(glm::vec3(0.f, 0.f, 50.f));
 
-#if 1
+#if 0
 	std::shared_ptr<EarthScene> earthScene = std::make_shared<EarthScene>("Earth");
 	SceneManager::getInstance()->addScene(earthScene);
 	SceneManager::getInstance()->activateScene(earthScene);
 #endif
 
-#if 0
+#if 1
 	std::shared_ptr<SpaceScene> spaceScene = std::make_shared<SpaceScene>("Space");
-	SceneManager::getInstance()->addScene(spaceScene);
 	SceneManager::getInstance()->activateScene(spaceScene);
 #endif
 

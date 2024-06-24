@@ -14,8 +14,8 @@ private:
 
 	float fov = 45.f * glm::pi<float>() / 180.f;
 	float yaw = -89.f, roll = 0, pitch = 0;
-	float zNear = 0.1f;
-	float zFar = 1000.f;
+	float zNear = 0.01f;
+	float zFar = 10000.f;
 	glm::vec2 viewport = glm::vec2(0.f);
 
 public:

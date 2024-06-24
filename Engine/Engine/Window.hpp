@@ -24,7 +24,7 @@ private:
 	bool isCreated = false;
 	bool isInitialized = false;
 
-	float _moveSpeed = 0.1f;
+	float _moveSpeed = 0.5f;
 
 private:
 	bool initGL();
