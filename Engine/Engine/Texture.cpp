@@ -50,7 +50,7 @@ void Texture::createGL()
 	}
 
 	// TODO: type
-	auto [internalFormat, format, type] = TextureManager::getInstance().getTextureType(this->_type, this->_numChannels, this->_isSrgb);
+	auto [internalFormat, format, type] = TextureManager::getInstance()->getTextureType(this->_type, this->_numChannels, this->_isSrgb);
 	GLint oldTexID = Texture::getBinding();
 	
 	glGenTextures(1, &this->_texID);
