@@ -19,6 +19,8 @@ public:
 	Texture& getTexture(int id) { return textureLib[id]; }
 	const Texture& getTexture(int id) const { return textureLib[id]; }
 
+	std::tuple<GLenum,GLenum,GLenum> getTextureType(GLenum type, int numChannels, bool sRGB = false);
+
 	TextureManager() {}
 	virtual ~TextureManager() {}
 };

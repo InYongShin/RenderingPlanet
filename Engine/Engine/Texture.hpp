@@ -3,6 +3,7 @@
 
 #include "GLTools.hpp"
 #include "Program.hpp"
+#include "TextureManager.hpp"
 
 #include <iostream>
 #include <string>
