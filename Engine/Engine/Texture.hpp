@@ -3,7 +3,6 @@
 
 #include "GLTools.hpp"
 #include "Program.hpp"
-#include "TextureManager.hpp"
 
 #include <iostream>
 #include <string>
@@ -31,7 +30,6 @@ private:
 
 	bool _isNeedMaintainData = false;
 
-	std::tuple<GLenum,GLenum,GLenum> getTextureType(GLenum type, int numChannels, bool sRGB = false);
 	void setTexParam(GLuint minFilter = GL_LINEAR, GLuint wrap_s = GL_REPEAT, GLuint wrap_t = GL_REPEAT);
 	void createGL();
 
@@ -56,6 +54,8 @@ public:
 	inline int getTexID() const { return this->_texID; }
 
 	void load(const std::string& filenName, const bool isSrgb = false, const bool isNeedMaintainData = false);
+
+	void create(int width, int height, GLenum type = GL_UNSIGNED_BYTE, int numChannels = 4, bool isSrgb = false, bool isNeedMaintainData = false);
 
 	void bind(int slot);
 	void bind(int slot, const std::shared_ptr<Program>& program, const std::string& name);

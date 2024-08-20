@@ -1,9 +1,9 @@
 
 #include "Texture.hpp"
+#include "TextureManager.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
-
 
 
 void Texture::setTexParam(GLuint minFilter /*= GL_LINEAR*/, GLuint wrap_s /*= GL_REPEAT*/, GLuint wrap_t /*= GL_REPEAT*/)
@@ -65,6 +65,18 @@ void Texture::createGL()
 		delete this->_data;
 		this->_data = nullptr;
 	}
+}
+
+void Texture::create(int width, int height, GLenum type /*= GL_UNSIGNED_BYTE*/, int numChannels /*= 4*/, bool isSrgb /*= false*/, bool isNeedMaintainData /*= false*/)
+{
+	this->_width = width;
+	this->_height = height;
+	this->_numChannels = numChannels;
+	this->_type = type;
+	this->_isSrgb = isSrgb;
+	this->_isNeedMaintainData = isNeedMaintainData;
+
+	createGL();
 }
 
 void Texture::bind(int slot)

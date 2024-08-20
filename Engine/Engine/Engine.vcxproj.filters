@@ -13,45 +13,194 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{2abf1b30-4769-4e78-87d0-bad7777d41f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{9ae97ae0-32f8-4f9c-a9a9-939bfe606233}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{9b96f515-0afc-477c-ac04-ae03122b7ac0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{5d7c6895-e6dd-478d-b7bf-0f2775556e48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tool">
+      <UniqueIdentifier>{e3d65546-0dbb-4b0d-a577-7a8c833fe7b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Model</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Program.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Viewer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="GLWindow.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Window.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureLib.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="EarthScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Planet.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="EmissivePlanet.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Noiser.cpp">
+      <Filter>Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainTool.cpp">
+      <Filter>Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Framebuffer.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Model.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.hpp">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereModel.hpp">
+      <Filter>Model</Filter>
     </ClInclude>
     <ClInclude Include="Window.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Viewer.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="GLWindow.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Application.hpp">
+      <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="GLTools.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Program.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.hpp">
+      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Scene.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Scene</Filter>
     </ClInclude>
+    <ClInclude Include="SceneManager.hpp">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceScene.hpp">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadModel.hpp">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLib.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.hpp">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="EarthScene.hpp">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="EmissivePlanet.hpp">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Planet.hpp">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="StringTool.hpp">
+      <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="GLTools.hpp">
+      <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Noiser.hpp">
+      <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainTool.hpp">
+      <Filter>Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Framebuffer.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="render.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="render.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="sun.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="texture.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="ground.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="perlin.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="texture.vert">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>
