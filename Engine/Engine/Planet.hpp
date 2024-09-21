@@ -33,6 +33,7 @@ public:
 	void draw() const;
 	
 	void addModel(const std::shared_ptr<Model>& model);
+	void addTexture(int id, const std::string& shaderName);
 
 	Planet() {}
 	Planet(const std::string& name, const glm::vec3& position, const float radius, const std::shared_ptr<Program>& sphereProgram, const int texID = -1, const std::string& shaderTexName = "") 

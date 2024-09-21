@@ -52,10 +52,15 @@ public:
 	inline int getNumChannels() const { return this->_numChannels; }
 
 	inline int getTexID() const { return this->_texID; }
+	inline GLenum getInternalFormat() const { return this->_internalFormat; }
+	inline GLenum getFormat() const { return this->_format; }
+	inline GLenum getType() const { return this->_type; }
 
 	void load(const std::string& filenName, const bool isSrgb = false, const bool isNeedMaintainData = false);
 
 	void create(int width, int height, GLenum type = GL_UNSIGNED_BYTE, int numChannels = 4, bool isSrgb = false, bool isNeedMaintainData = false);
+
+	void setTextureData(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data);
 
 	void bind(int slot);
 	void bind(int slot, const std::shared_ptr<Program>& program, const std::string& name);

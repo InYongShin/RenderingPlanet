@@ -5,6 +5,11 @@ int TextureManager::loadTexture(const std::string& fileName)
 	return this->textureLib.loadTexture(fileName);
 }
 
+int TextureManager::setTexture(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data)
+{
+	return this->textureLib.setTexture(width, height, type, numChannels, data);
+}
+
 std::tuple<GLenum,GLenum,GLenum> TextureManager::getTextureType(GLenum type, int numChannels, bool sRGB /*= false*/)
 {
 	switch(type)

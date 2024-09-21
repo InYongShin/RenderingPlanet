@@ -79,6 +79,17 @@ void Texture::create(int width, int height, GLenum type /*= GL_UNSIGNED_BYTE*/, 
 	createGL();
 }
 
+void Texture::setTextureData(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data)
+{
+	this->_width = width;
+	this->_height = height;
+	this->_type = type;
+	this->_numChannels = numChannels;
+	this->_data = data;
+
+	createGL();
+}
+
 void Texture::bind(int slot)
 {
 	if (this->_texID < 1)

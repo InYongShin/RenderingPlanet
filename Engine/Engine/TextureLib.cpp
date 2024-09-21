@@ -18,11 +18,18 @@ int TextureLib::loadTexture(const std::string& fileName)
 	int ret = searchTexture(fileName);
 	if(ret < 0)
 	{
-		textures.emplace_back();
-		textures.back().load(fileName);
-		ret = (int)textures.size() - 1;
+		this->textures.emplace_back();
+		this->textures.back().load(fileName);
+		ret = (int)this->textures.size() - 1;
 	}
 	return ret;
+}
+
+int TextureLib::setTexture(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data)
+{
+	this->textures.emplace_back();
+	this->textures.back().setTextureData(width, height, type, numChannels, data);
+	return (int)this->textures.size() - 1;
 }
 
 void TextureLib::clear()

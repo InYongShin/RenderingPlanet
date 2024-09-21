@@ -21,7 +21,7 @@ void Framebuffer::create(int w, int h, GLenum type, int nChannels, bool withDept
 	this->numChannels = nChannels;
 	this->depthed = withDepthBuffer;
 	// auto [internal,format,_type] = TextureManager::getInstance()->getTextureType(type, numChannels, false );
-	clear();
+	clearTextures();
 	storeFramebufferState();
 
 	glErr("Before create fbo texture");
@@ -73,7 +73,27 @@ void Framebuffer::unuse()
 	restoreFramebufferState();
 }
 
-void Framebuffer::clear()
+unsigned char* Framebuffer::readPixels()
+{
+	if(this->colorTex.getTexID() < 1)
+	{
+		return nullptr;
+	}
+
+	// TODO: define the format and type. Texture or Framebuffer?
+
+	storeFramebufferState();
+	unsigned char* data = new unsigned char[this->width * this->height * this->numChannels];
+	
+	glBindFramebuffer(GL_FRAMEBUFFER, this->id);
+	glReadPixels(0, 0, this->width, this->height, this->colorTex.getFormat(), this->colorTex.getType(), data);
+
+	restoreFramebufferState();
+
+	return data;
+}
+
+void Framebuffer::clearTextures()
 {
 	if(this->id > 0)
 	{
@@ -81,14 +101,24 @@ void Framebuffer::clear()
 		this->colorTex.clear();
 		this->id = 0;
 	}
-	
+
 	if(this->depthed)
 	{
 		this->depthTex.clear();
 		this->depthed = false;
 	}
+}
+
+void Framebuffer::clear()
+{
+	clearTextures();
 
 	this->width = 0;
 	this->height = 0;
 	this->numChannels = 0;
+}
+
+Framebuffer::Framebuffer(int w, int h, GLenum type, int nChannels, bool withDepthBuffer /*= false*/)
+{
+	create(w, h, type, nChannels, withDepthBuffer);
 }

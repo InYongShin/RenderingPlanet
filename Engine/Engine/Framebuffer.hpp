@@ -64,10 +64,14 @@ public:
 	void use();
 	void unuse();
 
+	unsigned char* readPixels();
+
+	void clearTextures();
 	void clear();
 
 	Framebuffer() {}
-	virtual ~Framebuffer() {}
+	Framebuffer(int w, int h, GLenum type = GL_UNSIGNED_BYTE, int nChannels = 4, bool withDepthBuffer = false);
+	virtual ~Framebuffer() { clear(); }
 
 };
 

@@ -51,3 +51,11 @@ void Planet::addModel(const std::shared_ptr<Model>& model)
 
 	this->models.push_back(model);
 }
+
+void Planet::addTexture(int id, const std::string& shaderName)
+{
+	if (this->sphere)
+	{
+		this->sphere->addTexture(id, shaderName);
+	}
+}

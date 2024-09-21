@@ -188,6 +188,8 @@
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="earth.frag" />
+    <None Include="earth.vert" />
     <None Include="ground.frag" />
     <None Include="perlin.frag" />
     <None Include="render.frag" />
