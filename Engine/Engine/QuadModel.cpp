@@ -26,3 +26,20 @@ void QuadModel::createQuad(const glm::vec3& ltPtn, const glm::vec3& rbPtn)
 	this->mesh.createMeshGL();
 	this->isCreated = true;
 }
+
+void QuadModel::createScreenQuad()
+{
+	if(this->isCreated && this->mesh.nTris>0 && this->mesh.nVerts>0)
+	{
+		this->mesh.clear();
+	}
+
+	glm::vec3 ltPtn = glm::vec3(-1.f, 1.f, 0.f);
+	glm::vec3 lbPtn = glm::vec3(-1.f, -1.f, 0.f);
+	glm::vec3 rtPtn = glm::vec3(1.f, 1.f, 0.f);
+	glm::vec3 rbPtn = glm::vec3(1.f, -1.f, 0.f);
+
+	this->mesh.createQuad(ltPtn, rtPtn, lbPtn, rbPtn);
+	this->mesh.createMeshGL();
+	this->isCreated = true;
+}
