@@ -31,7 +31,7 @@ void main()
 
 	vec3 gradient = normalize(vec3(-heightDX, 1.0, -heightDZ));
 
-	normal = gradient;
+	normal = vec3(modelMat * vec4(gradient, 0.0));
 
 	float colorWeight = smoothstep(0.2, 0.7, height);
 	terrainColor = mix(vec3(0.65, 0.42, 0.3), vec3(0.0, 1.0, 0.0), colorWeight);
