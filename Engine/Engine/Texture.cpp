@@ -86,6 +86,7 @@ void Texture::setTextureData(const int width, const int height, const GLenum typ
 	this->_type = type;
 	this->_numChannels = numChannels;
 	this->_data = data;
+	this->_isNeedMaintainData = true;
 
 	createGL();
 }

@@ -191,6 +191,7 @@
     <None Include="earth.frag" />
     <None Include="earth.vert" />
     <None Include="ground.frag" />
+    <None Include="ground.vert" />
     <None Include="perlin.frag" />
     <None Include="render.frag" />
     <None Include="render.vert" />

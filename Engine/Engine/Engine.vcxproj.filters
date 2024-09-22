@@ -208,5 +208,8 @@
     <None Include="earth.vert">
       <Filter>Shader</Filter>
     </None>
+    <None Include="ground.vert">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -20,7 +20,7 @@ void main()
 	normal = vec3(modelMat * vec4(inNormal, 0.0));
 	texCoord = inTexCoord;
 
-	float height = texture(heightMap, texCoord).r * 2.5;
+	float height = texture(heightMap, texCoord).r * 25.0;
 	vec3 heightOffset = normal * height;
 	worldPos = worldPos + heightOffset;
 

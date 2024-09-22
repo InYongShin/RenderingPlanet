@@ -133,6 +133,34 @@ void Mesh::createQuad(const glm::vec3& ltPtn, const glm::vec3& rtPtn, const glm:
 	this->tris.push_back(glm::u32vec3(1, 2, 3));
 }
 
+void Mesh::createQuad(const glm::vec3& ltPtn, const glm::vec3& rtPtn, const glm::vec3& lbPtn, const glm::vec3& rbPtn, const int resolution)
+{
+	glm::vec3 normal = glm::normalize(glm::cross(rbPtn - ltPtn, rtPtn - ltPtn));
+	glm::vec3 horizontalStep = (rtPtn - ltPtn) / float(resolution);
+	glm::vec3 verticalStep = (lbPtn - ltPtn) / float(resolution);
+
+	for (int i = 0; i <= resolution; ++i)
+	{
+		for (int j = 0; j <= resolution; ++j)
+		{
+			glm::vec3 vertex = ltPtn + horizontalStep * float(j) + verticalStep * float(i);
+			this->vertices.push_back(vertex);
+			this->normals.push_back(normal);
+			this->texCoords.push_back(glm::vec2(float(j) / float(resolution), float(i) / float(resolution)));
+		}
+	}
+
+	for (int i = 0; i < resolution; ++i)
+	{
+		for (int j = 0; j < resolution; ++j)
+		{
+			int idx = i * (resolution + 1) + j;
+			this->tris.push_back(glm::u32vec3(idx, idx + resolution + 1, idx + 1));
+			this->tris.push_back(glm::u32vec3(idx + 1, idx + resolution + 1, idx + resolution + 2));
+		}
+	}
+}
+
 void Mesh::clearMeshData()
 {
 	this->vertices.clear();

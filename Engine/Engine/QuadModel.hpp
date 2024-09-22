@@ -12,7 +12,9 @@ private:
 public:
 
 	void createQuad(const glm::vec3& ltPtn, const glm::vec3& rtPtn, const glm::vec3& lbPtn, const glm::vec3& rbPtn);
+	void createQuad(const glm::vec3& ltPtn, const glm::vec3& rtPtn, const glm::vec3& lbPtn, const glm::vec3& rbPtn, const int resolution);
 	void createQuad(const glm::vec3& ltPtn, const glm::vec3& rbPtn);
+	void createQuad(const glm::vec3& ltPtn, const glm::vec3& rbPtn, const int resolution);
 	void createScreenQuad();
 
 	QuadModel() {}
