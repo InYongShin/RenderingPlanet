@@ -107,6 +107,7 @@ void Window::display() const
 		glViewport(0, 0, w, h);
 
 		SceneManager::getInstance()->getCamera().setViewport({ w, h });
+		SceneManager::getInstance()->updateScene();
 		SceneManager::getInstance()->drawScene();
 
 		glfwSwapBuffers(this->GLwindow);

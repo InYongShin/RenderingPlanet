@@ -17,8 +17,7 @@ protected:
 
 	glm::vec4 backgroundColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 
-	virtual void initialize();
-	virtual void update();
+	virtual void initialize() = 0;
 
 public:
 
@@ -27,6 +26,7 @@ public:
 	inline void setBackgroundColor(const glm::vec4& color) { this->backgroundColor = color; }
 	inline glm::vec4 getBackgroundColor() const { return this->backgroundColor; }
 
+	virtual void update() = 0;
 	virtual void drawContents() const = 0;
 
 	void clear();

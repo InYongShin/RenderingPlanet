@@ -22,6 +22,7 @@ public:
 
 	inline Camera& getCamera() { return this->camera; }
 
+	void updateScene();
 	void drawScene();
 
 	inline const std::shared_ptr<Scene> getScene(const std::string& title) const;

@@ -41,6 +41,22 @@ void Planet::draw() const
 	}
 }
 
+/*virtual*/ void Planet::update()
+{
+	glm::vec3 center = this->centerPosition;
+	glm::vec3 position = getPosition();
+
+	float orbitRadius = glm::length(position - center);
+
+	double time = glfwGetTime();
+
+	position.x = center.x + orbitRadius * cos(time) * 1.0f;
+	position.z = center.z + orbitRadius * sin(time) * 1.0f;
+	position.y = center.y;
+
+	setPosition(position);
+}
+
 void Planet::addModel(const std::shared_ptr<Model>& model)
 {
 	if (model == nullptr)

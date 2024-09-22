@@ -28,6 +28,9 @@
     <Filter Include="Tool">
       <UniqueIdentifier>{e3d65546-0dbb-4b0d-a577-7a8c833fe7b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Planet">
+      <UniqueIdentifier>{6cc3cbe3-2357-461e-9e0a-52609f0dc733}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -84,9 +87,6 @@
     <ClCompile Include="EarthScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Planet.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="EmissivePlanet.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
@@ -98,6 +98,12 @@
     </ClCompile>
     <ClCompile Include="Framebuffer.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Planet.cpp">
+      <Filter>Planet</Filter>
+    </ClCompile>
+    <ClCompile Include="Earth.cpp">
+      <Filter>Planet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,9 +167,6 @@
     <ClInclude Include="EmissivePlanet.hpp">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Planet.hpp">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="StringTool.hpp">
       <Filter>Tool</Filter>
     </ClInclude>
@@ -178,6 +181,12 @@
     </ClInclude>
     <ClInclude Include="Framebuffer.hpp">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Planet.hpp">
+      <Filter>Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="Earth.hpp">
+      <Filter>Planet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

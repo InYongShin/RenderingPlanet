@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Earth.cpp" />
     <ClCompile Include="EarthScene.cpp" />
     <ClCompile Include="EmissivePlanet.cpp" />
     <ClCompile Include="Framebuffer.cpp" />
@@ -162,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="Application.hpp" />
     <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="Earth.hpp" />
     <ClInclude Include="EarthScene.hpp" />
     <ClInclude Include="EmissivePlanet.hpp" />
     <ClInclude Include="Framebuffer.hpp" />
