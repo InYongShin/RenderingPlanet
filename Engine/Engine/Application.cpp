@@ -51,13 +51,11 @@ void Application::run()
 
 	SceneManager::getInstance()->getCamera().setPosition(glm::vec3(0.f, 0.f, 50.f));
 
-#if 0
+#if 1
 	std::shared_ptr<EarthScene> earthScene = std::make_shared<EarthScene>("Earth");
 	SceneManager::getInstance()->addScene(earthScene);
 	SceneManager::getInstance()->activateScene(earthScene);
-#endif
-
-#if 1
+#else
 	std::shared_ptr<SpaceScene> spaceScene = std::make_shared<SpaceScene>("Space");
 	SceneManager::getInstance()->activateScene(spaceScene);
 #endif
