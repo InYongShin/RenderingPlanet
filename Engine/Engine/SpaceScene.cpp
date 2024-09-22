@@ -66,15 +66,9 @@ void SpaceScene::initialize() /*override*/
 	earthProgram->setUniform("lightPower", sun->getEmissivePower());
 	addPlanet(earth);
 
-	std::shared_ptr<Program> earthTextProgram = std::make_shared<Program>("render.vert", "texture.frag");
-	int earthTextTexID = TextureManager::getInstance()->loadTexture("../Textures/Earth Text.png");
-	std::shared_ptr<QuadModel> earthTextQuad = std::make_shared<QuadModel>();
-	glm::vec3 lt = glm::vec3(earth->getPosition() + glm::vec3(-earth->getRadius(), earth->getRadius() * 2.2f, 0.f));
-	glm::vec3 rb = glm::vec3(earth->getPosition() + glm::vec3( earth->getRadius(), earth->getRadius() * 1.2f, 0.f));
-	earthTextQuad->createQuad(lt, rb);
-	earthTextQuad->setProgram(earthTextProgram);
-	earthTextQuad->addTexture(earthTextTexID, "tex");
-	earth->addModel(earthTextQuad);
+
+
+
 
 
 
