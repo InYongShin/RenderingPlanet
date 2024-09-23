@@ -19,8 +19,10 @@ private:
 
 	bool isCreated = false;
 
+
 protected:
 	glm::vec3 centerPosition = glm::vec3(0.f);
+	float orbitSpeed;
 
 public:
 
@@ -48,8 +50,9 @@ public:
 		   const std::shared_ptr<Program>& sphereProgram, 
 		   const int texID = -1, 
 		   const std::string& shaderTexName = "",
-		   const glm::vec3 centerPosition = glm::vec3(0.f)) 
-		: _name(name), _radius(radius), centerPosition(centerPosition)
+		   const glm::vec3 centerPosition = glm::vec3(0.f),
+		   const float orbitSpeed = 0.f)
+		: _name(name), _radius(radius), centerPosition(centerPosition), orbitSpeed(orbitSpeed)
 	{
 		createPlanet(radius, position, texID, shaderTexName);
 		setSphereProgram(sphereProgram);

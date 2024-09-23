@@ -39,7 +39,7 @@ void SpaceScene::initialize() /*override*/
 
 	std::shared_ptr<Program> mercuryProgram = std::make_shared<Program>("render.vert", "render.frag");
 	int mercuryTexID = TextureManager::getInstance()->loadTexture("../Textures/Mercury.jpg");
-	std::shared_ptr<Planet> mercury = std::make_shared<Planet>("Mercury", glm::vec3(-61.0f, 0.f, 0.f), 4.0f, mercuryProgram, mercuryTexID, "tex", sun->getPosition());
+	std::shared_ptr<Planet> mercury = std::make_shared<Planet>("Mercury", glm::vec3(-61.0f, 0.f, 0.f), 4.0f, mercuryProgram, mercuryTexID, "tex", sun->getPosition(), 3.0f);
 	mercuryProgram->setUniform("lightPosition", sun->getPosition());
 	mercuryProgram->setUniform("lightPower", sun->getEmissivePower());
 	addPlanet(mercury);
@@ -48,7 +48,7 @@ void SpaceScene::initialize() /*override*/
 
 	std::shared_ptr<Program> venusProgram = std::make_shared<Program>("render.vert", "render.frag");
 	int venusTexID = TextureManager::getInstance()->loadTexture("../Textures/Venus.jpg");
-	std::shared_ptr<Planet> venus = std::make_shared<Planet>("Venus", glm::vec3(-28.f, 0.f, 0.f), 9.f, venusProgram, venusTexID, "tex", sun->getPosition());
+	std::shared_ptr<Planet> venus = std::make_shared<Planet>("Venus", glm::vec3(-28.f, 0.f, 0.f), 9.f, venusProgram, venusTexID, "tex", sun->getPosition(), 2.0f);
 	venusProgram->setUniform("lightPosition", sun->getPosition());
 	venusProgram->setUniform("lightPower", sun->getEmissivePower());
 	addPlanet(venus);
@@ -61,7 +61,7 @@ void SpaceScene::initialize() /*override*/
 	std::shared_ptr<Program> earthProgram = std::make_shared<Program>("earth.vert", "earth.frag");
 	int earthTexID = TextureManager::getInstance()->loadTexture("../Textures/Earth.jpg");
 
-	std::shared_ptr<Earth> earth = std::make_shared<Earth>("Earth", glm::vec3(0.f, 0.f, 0.f), 10.f, earthProgram, earthTexID, "tex", sun->getPosition());
+	std::shared_ptr<Earth> earth = std::make_shared<Earth>("Earth", glm::vec3(0.f, 0.f, 0.f), 10.f, earthProgram, earthTexID, "tex", sun->getPosition(), 1.0f);
 	earth->addTexture(earthHeightTexID, "heightMap");
 	earthProgram->setUniform("lightPosition", sun->getPosition());
 	earthProgram->setUniform("lightPower", sun->getEmissivePower());
@@ -69,7 +69,7 @@ void SpaceScene::initialize() /*override*/
 
 	std::shared_ptr<Program> moonProgram = std::make_shared<Program>("render.vert", "render.frag");
 	int moonTexID = TextureManager::getInstance()->loadTexture("../Textures/Moon.jpg");
-	std::shared_ptr<Planet> moon = std::make_shared<Planet>("Moon", glm::vec3(15.f, 0.f, 0.f), 2.5f, moonProgram, moonTexID, "tex", sun->getPosition());
+	std::shared_ptr<Planet> moon = std::make_shared<Planet>("Moon", glm::vec3(15.f, 0.f, 0.f), 2.5f, moonProgram, moonTexID, "tex", sun->getPosition(), 1.0f);
 	moonProgram->setUniform("lightPosition", sun->getPosition());
 	moonProgram->setUniform("lightPower", sun->getEmissivePower());
 	addPlanet(moon);
@@ -78,7 +78,7 @@ void SpaceScene::initialize() /*override*/
 
 	std::shared_ptr<Program> marsProgram = std::make_shared<Program>("render.vert", "render.frag");
 	int marsTexID = TextureManager::getInstance()->loadTexture("../Textures/Mars.jpg");
-	std::shared_ptr<Planet> mars = std::make_shared<Planet>("Mars", glm::vec3(52.f, 0.f, 0.f), 5.f, marsProgram, marsTexID, "tex", sun->getPosition());
+	std::shared_ptr<Planet> mars = std::make_shared<Planet>("Mars", glm::vec3(52.f, 0.f, 0.f), 5.f, marsProgram, marsTexID, "tex", sun->getPosition(), 0.5f);
 	marsProgram->setUniform("lightPosition", sun->getPosition());
 	marsProgram->setUniform("lightPower", sun->getEmissivePower());
 	addPlanet(mars);
@@ -87,7 +87,7 @@ void SpaceScene::initialize() /*override*/
 
 	std::shared_ptr<Program> jupiterProgram = std::make_shared<Program>("render.vert", "render.frag");
 	int jupiterTexID = TextureManager::getInstance()->loadTexture("../Textures/Jupiter.jpg");
-	std::shared_ptr<Planet> jupiter = std::make_shared<Planet>("Jupiter", glm::vec3(420.f, 0.f, 0.f), 112.f, jupiterProgram, jupiterTexID, "tex", sun->getPosition());
+	std::shared_ptr<Planet> jupiter = std::make_shared<Planet>("Jupiter", glm::vec3(420.f, 0.f, 0.f), 112.f, jupiterProgram, jupiterTexID, "tex", sun->getPosition(), 0.1f);
 	jupiterProgram->setUniform("lightPosition", sun->getPosition());
 	jupiterProgram->setUniform("lightPower", sun->getEmissivePower());
 	addPlanet(jupiter);
@@ -96,7 +96,7 @@ void SpaceScene::initialize() /*override*/
 
 	std::shared_ptr<Program> saturnProgram = std::make_shared<Program>("render.vert", "render.frag");
 	int saturnTexID = TextureManager::getInstance()->loadTexture("../Textures/Saturn.jpg");
-	std::shared_ptr<Planet> saturn = std::make_shared<Planet>("Saturn", glm::vec3(852.f, 0.f, 0.f), 94.f, saturnProgram, saturnTexID, "tex", sun->getPosition());
+	std::shared_ptr<Planet> saturn = std::make_shared<Planet>("Saturn", glm::vec3(852.f, 0.f, 0.f), 94.f, saturnProgram, saturnTexID, "tex", sun->getPosition(), 0.05f);
 	saturnProgram->setUniform("lightPosition", sun->getPosition());
 	saturnProgram->setUniform("lightPower", sun->getEmissivePower());
 	addPlanet(saturn);
@@ -105,7 +105,7 @@ void SpaceScene::initialize() /*override*/
 
 	std::shared_ptr<Program> uranusProgram = std::make_shared<Program>("render.vert", "render.frag");
 	int uranusTexID = TextureManager::getInstance()->loadTexture("../Textures/Uranus.jpg");
-	std::shared_ptr<Planet> uranus = std::make_shared<Planet>("Uranus", glm::vec3(1821.f, 0.f, 0.f), 40.f, uranusProgram, uranusTexID, "tex", sun->getPosition());
+	std::shared_ptr<Planet> uranus = std::make_shared<Planet>("Uranus", glm::vec3(1821.f, 0.f, 0.f), 40.f, uranusProgram, uranusTexID, "tex", sun->getPosition(), 0.01f);
 	uranusProgram->setUniform("lightPosition", sun->getPosition());
 	uranusProgram->setUniform("lightPower", sun->getEmissivePower());
 	addPlanet(uranus);
@@ -114,7 +114,7 @@ void SpaceScene::initialize() /*override*/
 
 	std::shared_ptr<Program> neptuneProgram = std::make_shared<Program>("render.vert", "render.frag");
 	int neptuneTexID = TextureManager::getInstance()->loadTexture("../Textures/Neptune.jpg");
-	std::shared_ptr<Planet> neptune = std::make_shared<Planet>("Neptune", glm::vec3(2907.f, 0.f, 0.f), 39.f, neptuneProgram, neptuneTexID, "tex", sun->getPosition());
+	std::shared_ptr<Planet> neptune = std::make_shared<Planet>("Neptune", glm::vec3(2907.f, 0.f, 0.f), 39.f, neptuneProgram, neptuneTexID, "tex", sun->getPosition(), 0.005f);
 	neptuneProgram->setUniform("lightPosition", sun->getPosition());
 	neptuneProgram->setUniform("lightPower", sun->getEmissivePower());
 	addPlanet(neptune);

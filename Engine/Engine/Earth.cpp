@@ -12,8 +12,8 @@ void Earth::update() /*override*/
 
 	double time = glfwGetTime();
 
-	position.x = center.x + orbitRadius * cos(time) * 1.f;
-	position.z = center.z + orbitRadius * sin(time) * 1.f;
+	position.x = center.x + orbitRadius * cos(time) * this->orbitSpeed;
+	position.z = center.z + orbitRadius * sin(time) * this->orbitSpeed;
 	position.y = center.y;
 
 	setPosition(position);

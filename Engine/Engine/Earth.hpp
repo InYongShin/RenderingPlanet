@@ -20,8 +20,9 @@ public:
 		  const std::shared_ptr<Program>& sphereProgram, 
 		  const int texID = -1, 
 		  const std::string& shaderTexName = "", 
-		  const glm::vec3& centerPosition = glm::vec3(0.f))
-		: Planet(name, position, radius, sphereProgram, texID, shaderTexName, centerPosition) {}
+		  const glm::vec3& centerPosition = glm::vec3(0.f), 
+		  const float orbitSpeed = 0.f)
+		: Planet(name, position, radius, sphereProgram, texID, shaderTexName, centerPosition, orbitSpeed) {}
 
 	virtual ~Earth() {};
 };
