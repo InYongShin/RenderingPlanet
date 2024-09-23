@@ -10,7 +10,7 @@ private:
 
 public:
 
-	unsigned char* generatePerlinNoise2D(int width, int height, float frequency, float amplitude, int octaves, float persistence, float lacunarity, int seed);
+	unsigned char* generatePerlinNoise2D(int width, int height);
 	
 	Noiser() {}
 	virtual ~Noiser() {}

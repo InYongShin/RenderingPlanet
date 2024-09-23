@@ -32,10 +32,12 @@ void EarthScene::initialize()
 	addModel(sun);
 
 	
+	const int perlinWidth = 1024;
+	const int perlinHeight = 1024;
 
 	std::shared_ptr<Noiser> noiser = std::make_shared<Noiser>();
-	unsigned char* heightData = noiser->generatePerlinNoise2D(1024, 1024, 0.1f, 0.5f, 8, 0.5f, 2.0f, 0);
-	int heightTexID = TextureManager::getInstance()->setTexture(1024, 1024, GL_UNSIGNED_BYTE, 3, heightData);
+	unsigned char* heightData = noiser->generatePerlinNoise2D(perlinWidth, perlinHeight);
+	int heightTexID = TextureManager::getInstance()->setTexture(perlinWidth, perlinHeight, GL_UNSIGNED_BYTE, 3, heightData);
 
 	std::shared_ptr<Program> groundProgram = std::make_shared<Program>("ground.vert", "ground.frag");
 	groundProgram->setUniform("lightPosition", lightPos);
