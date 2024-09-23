@@ -85,7 +85,6 @@ public:
 	}
 	void keyCallback(int key, int scan, int action, int mods)
 	{
-		if (action == GLFW_PRESS) std::cout << key << std::endl;
 		Camera& camera = SceneManager::getInstance()->getCamera();
 		if (key == 87) // w
 		{
