@@ -55,7 +55,7 @@ void SpaceScene::initialize() /*override*/
 	
 
 	std::shared_ptr<Noiser> noiser = std::make_shared<Noiser>();
-	unsigned char* noiseTextureData = noiser->generatePerlinNoise2D(1024, 1024);
+	unsigned char* noiseTextureData = noiser->generatePerlinNoise2DGPU(1024, 1024);
 	int earthHeightTexID = TextureManager::getInstance()->setTexture(1024, 1024, GL_UNSIGNED_BYTE, 3, noiseTextureData);
 
 	std::shared_ptr<Program> earthProgram = std::make_shared<Program>("earth.vert", "earth.frag");

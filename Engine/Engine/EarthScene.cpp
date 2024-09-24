@@ -36,8 +36,7 @@ void EarthScene::initialize()
 	const int perlinHeight = 1024;
 
 	std::shared_ptr<Noiser> noiser = std::make_shared<Noiser>();
-	unsigned char* heightData = noiser->generatePerlinNoise2D(perlinWidth, perlinHeight);
-	int heightTexID = TextureManager::getInstance()->setTexture(perlinWidth, perlinHeight, GL_UNSIGNED_BYTE, 3, heightData);
+	float* noiseData = noiser->generatePerlinNoise2D(perlinWidth, perlinHeight);
 
 	std::shared_ptr<Program> groundProgram = std::make_shared<Program>("ground.vert", "ground.frag");
 	groundProgram->setUniform("lightPosition", lightPos);
@@ -46,7 +45,6 @@ void EarthScene::initialize()
 	glm::vec3 lt = glm::vec3(-100, -30, -100);
 	glm::vec3 rb = glm::vec3(100, -30, 100);
 	ground->createQuad(lt, rb, 100);
-	ground->addTexture(heightTexID, "heightMap");
 
 	ground->setProgram(groundProgram);
 
