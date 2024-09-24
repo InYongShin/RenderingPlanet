@@ -8,10 +8,10 @@ in vec2 texCoord;
 
 uniform vec3 lightPosition;
 
+uniform vec3 terrainColor;
+
 void main(void)
 {
-	vec3 terrainColor = vec3(0.0, 1.0, 0.0);
-
 	vec3 ambient = terrainColor * 0.4;
 	vec3 diffuse = terrainColor * 0.6;
 

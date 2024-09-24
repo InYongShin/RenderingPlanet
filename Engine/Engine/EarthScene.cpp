@@ -1,8 +1,7 @@
 
 #include "EarthScene.hpp"
 
-#include "QuadModel.hpp"
-#include "Noiser.hpp"
+#include "Ground.hpp"
 #include "TextureManager.hpp"
 
 EarthScene::EarthScene()
@@ -32,24 +31,16 @@ void EarthScene::initialize()
 	addModel(sun);
 
 	
-	const int perlinWidth = 1024;
-	const int perlinHeight = 1024;
-
-	std::shared_ptr<Noiser> noiser = std::make_shared<Noiser>();
-	float* noiseData = noiser->generatePerlinNoise2D(perlinWidth, perlinHeight);
-
 	std::shared_ptr<Program> groundProgram = std::make_shared<Program>("ground.vert", "ground.frag");
 	groundProgram->setUniform("lightPosition", lightPos);
 
-	std::shared_ptr<QuadModel> ground = std::make_shared<QuadModel>();
-	glm::vec3 lt = glm::vec3(-100, -30, -100);
-	glm::vec3 rb = glm::vec3(100, -30, 100);
-	ground->createQuad(lt, rb, 100);
+	std::shared_ptr<Ground> ground = std::make_shared<Ground>(glm::vec3(0.f, -10.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
+	ground->createGroundMesh(glm::vec2(200.f, 200.f));
+	groundProgram->setUniform("terrainColor", ground->getGroundColor());
 
 	ground->setProgram(groundProgram);
 
 	addModel(ground);
-
 }
 
 void EarthScene::update()

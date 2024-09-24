@@ -105,6 +105,9 @@
     <ClCompile Include="Earth.cpp">
       <Filter>Planet</Filter>
     </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Model.hpp">
@@ -187,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="Earth.hpp">
       <Filter>Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.hpp">
+      <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
