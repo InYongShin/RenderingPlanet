@@ -34,8 +34,9 @@ void EarthScene::initialize()
 	std::shared_ptr<Program> groundProgram = std::make_shared<Program>("ground.vert", "ground.frag");
 	groundProgram->setUniform("lightPosition", lightPos);
 
-	std::shared_ptr<Ground> ground = std::make_shared<Ground>(glm::vec3(0.f, -10.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
-	ground->createGroundMesh(glm::vec2(200.f, 200.f));
+	std::shared_ptr<Ground> ground = std::make_shared<Ground>(glm::vec3(0.f, -30.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
+	// ground->createGroundMesh(glm::vec2(200.f, 200.f));
+	ground->createPerlinGroundMesh(200, 200, 6.f);
 	groundProgram->setUniform("terrainColor", ground->getGroundColor());
 
 	ground->setProgram(groundProgram);

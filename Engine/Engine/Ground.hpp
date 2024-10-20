@@ -12,7 +12,7 @@ private:
 public:
 
 	void createGroundMesh(const glm::vec2& size);
-	void createGroundMesh(const glm::vec2& size, const int noiseWidth, const int noiseHeight);
+	void createPerlinGroundMesh(const int noiseWidth, const int noiseHeight, const float heightWeight);
 
 	inline glm::vec3 getGroundColor() const { return this->groundColor; }
 	inline void setGroundColor(const glm::vec3& color) { this->groundColor = color; }
