@@ -14,7 +14,7 @@ private:
 
 public:
 
-	float* generatePerlinNoise2D(int width, int height);
+	float* generatePerlinNoise2D(const int width, const int height, const float strength);
 
 	// TODO: Refactoring from unsigned char to float
 	unsigned char* generatePerlinNoise2DGPU(int width, int height);
