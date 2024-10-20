@@ -76,6 +76,14 @@ void Mesh::createMeshGL()
 	glBindBuffer( GL_ARRAY_BUFFER, 0 );
 }
 
+void Mesh::createMesh(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& texCoords, const std::vector<glm::u32vec3>& tris)
+{
+	this->vertices = vertices;
+	this->normals = normals;
+	this->texCoords = texCoords;
+	this->tris = tris;
+}
+
 void Mesh::createSphere(float radius, int slices, int stacks)
 {
 	// Create sphere
