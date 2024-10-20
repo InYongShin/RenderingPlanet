@@ -48,7 +48,7 @@ float Noiser::generatePerlinNoise(glm::vec2 p)
     return 0.5 + 0.5 * f;
 }
 
-float* Noiser::generatePerlinNoise2D(int width, int height)
+float* Noiser::generatePerlinNoise2D(const int width, const int height, const float strength)
 {
 	float* data = new float[width * height];
 
