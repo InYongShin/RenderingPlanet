@@ -5,8 +5,8 @@
 
 void Model::loadProgram(const char* vertexPath, const char* fragmentPath, const char* geometryPath /*= nullptr*/, const char* tessControlPath /*= nullptr*/, const char* tessEvaluatePath /*= nullptr*/)
 {
-	program->loadShaders(vertexPath, vertexPath, geometryPath, tessControlPath, tessEvaluatePath);
-	if (program->isUsable() == false)
+	this->program->loadShaders(vertexPath, vertexPath, geometryPath, tessControlPath, tessEvaluatePath);
+	if (this->program->isUsable() == false)
 	{
 		assert(false);
 		std::cerr << "Error loading program" << std::endl;
