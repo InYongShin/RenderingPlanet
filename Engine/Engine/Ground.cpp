@@ -21,9 +21,10 @@ void Ground::createPerlinGroundMesh(const int noiseWidth, const int noiseHeight,
 	std::vector<glm::vec2> texCoords;
 	std::vector<glm::u32vec3> tris;
 	std::vector<glm::vec3> normals;
+	std::vector<glm::vec3> colors;
 
 	std::shared_ptr<Noiser> noiser = std::make_shared<Noiser>();
-	float* noiseData = noiser->generatePerlinNoise2D(noiseWidth, noiseHeight, heightWeight);
+	float* noiseData = noiser->generatePerlinNoise2D(noiseWidth, noiseHeight);
 
 	int topLeftX = (noiseWidth - 1) * -0.5f;
 	int topLeftZ = (noiseHeight - 1) * 0.5f;
