@@ -30,14 +30,20 @@ void Ground::createPerlinGroundMesh(const int noiseWidth, const int noiseHeight,
 	int topLeftZ = (noiseHeight - 1) * 0.5f;
 	int vertexIndex = 0;
 
+	glm::vec3 grassColor = glm::vec3(0.f, 1.f, 0.f);
+	glm::vec3 dirtColor = glm::vec3(0.73f, 0.34f, 0.f);
+
 	vertices.reserve(noiseWidth * noiseHeight);
 	texCoords.reserve(noiseWidth * noiseHeight);
 	tris.reserve((noiseWidth - 1) * (noiseHeight - 1) * 2);
+	colors.reserve(noiseWidth * noiseHeight);
 	for (int y = 0; y < noiseHeight; ++y)
 	{
 		for (int x = 0; x < noiseWidth; ++x)
 		{
-			glm::vec3 vertex = glm::vec3(topLeftX + x, noiseData[y * noiseWidth + x] * heightWeight, topLeftZ - y);
+			float noiseValue = noiseData[y * noiseWidth + x];
+
+			glm::vec3 vertex = glm::vec3(topLeftX + x, noiseValue * heightWeight, topLeftZ - y);
 			vertices.push_back(vertex);
 			texCoords.push_back(glm::vec2(float(x) / float(noiseWidth), float(y) / float(noiseHeight)));
 
@@ -46,8 +52,11 @@ void Ground::createPerlinGroundMesh(const int noiseWidth, const int noiseHeight,
 				tris.push_back(glm::u32vec3(vertexIndex, vertexIndex + noiseWidth + 1, vertexIndex + noiseWidth));
 				tris.push_back(glm::u32vec3(vertexIndex + noiseWidth + 1, vertexIndex, vertexIndex + 1));
 			}
-
 			++vertexIndex;
+
+			float colorWeight = glm::smoothstep(0.1f, 0.8f, noiseValue);
+			glm::vec3 color = glm::mix(dirtColor, grassColor, colorWeight);
+			colors.push_back(color);
 		}
 	}
 
@@ -66,7 +75,7 @@ void Ground::createPerlinGroundMesh(const int noiseWidth, const int noiseHeight,
 		n = glm::normalize(n);
 	}
 
-	this->mesh.createMesh(vertices, normals, texCoords, tris);
+	this->mesh.createMesh(vertices, normals, texCoords, tris, colors);
 	this->mesh.createMeshGL();
 	this->isCreated = true;
 

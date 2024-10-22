@@ -20,27 +20,19 @@ void EarthScene::initialize()
 	setBackgroundColor(glm::vec4(0.31f, 0.73f, 0.87f, 1.0f));
 	glm::vec3 lightPos = glm::vec3(-100.f, 30.f, -100.f);
 
-
-
 	std::shared_ptr<SphereModel> sun = std::make_shared<SphereModel>();
 	sun->createSphere(10.f);
 	sun->setPosition(lightPos);
 	sun->addTexture(TextureManager::getInstance()->loadTexture("../Textures/Sun.jpg"), "tex");
 	sun->setProgram(std::make_shared<Program>("render.vert", "sun.frag"));
-
 	addModel(sun);
-
 	
 	std::shared_ptr<Program> groundProgram = std::make_shared<Program>("ground.vert", "ground.frag");
 	groundProgram->setUniform("lightPosition", lightPos);
 
 	std::shared_ptr<Ground> ground = std::make_shared<Ground>(glm::vec3(0.f, -30.f, 0.f), glm::vec3(0.f, 1.f, 0.f));
-	// ground->createGroundMesh(glm::vec2(200.f, 200.f));
-	ground->createPerlinGroundMesh(200, 200, 6.f);
-	groundProgram->setUniform("terrainColor", ground->getGroundColor());
-
+	ground->createPerlinGroundMesh(200, 200, 30.f);
 	ground->setProgram(groundProgram);
-
 	addModel(ground);
 }
 
