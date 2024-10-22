@@ -21,6 +21,11 @@ void Mesh::createMeshGL()
 			glBindBuffer(GL_ARRAY_BUFFER, this->tBuf);
 			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec2) * this->nVerts, this->texCoords.data());
 		}
+		if (this->colors.size() > 0)
+		{
+			glBindBuffer(GL_ARRAY_BUFFER, this->cBuf);
+			glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(glm::vec3) * this->nVerts, this->colors.data());
+		}
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->eBuf);
 		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(glm::u32vec3) * this->nTris, tris.data());
 	}
@@ -30,6 +35,7 @@ void Mesh::createMeshGL()
 		if (this->nBuf) glDeleteBuffers(1, &this->nBuf);
 		if (this->tBuf) glDeleteBuffers(1, &this->tBuf);
 		if (this->eBuf) glDeleteBuffers(1, &this->eBuf);
+		if (this->cBuf) glDeleteBuffers(1, &this->cBuf);
 		this->nTris  = GLsizei(tris.size());
 		this->nVerts = GLsizei(this->vertices.size());
 
@@ -64,6 +70,15 @@ void Mesh::createMeshGL()
 			glEnableVertexAttribArray(2);
 		}
 
+		if(this->colors.size() > 0)
+		{
+			glGenBuffers(1, &this->cBuf);
+			glBindBuffer(GL_ARRAY_BUFFER, this->cBuf);
+			glBufferData(GL_ARRAY_BUFFER, this->colors.size() * sizeof(glm::vec3), this->colors.data(), GL_STATIC_DRAW);
+			glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+			glEnableVertexAttribArray(3);
+		}
+
 		// Generate and bind the EBO
 		glGenBuffers(1, &this->eBuf);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->eBuf);
@@ -82,6 +97,15 @@ void Mesh::createMesh(const std::vector<glm::vec3>& vertices, const std::vector<
 	this->normals = normals;
 	this->texCoords = texCoords;
 	this->tris = tris;
+}
+
+void Mesh::createMesh(const std::vector<glm::vec3>& vertices, const std::vector<glm::vec3>& normals, const std::vector<glm::vec2>& texCoords, const std::vector<glm::u32vec3>& tris, const std::vector<glm::vec3>& colors)
+{
+	this->vertices = vertices;
+	this->normals = normals;
+	this->texCoords = texCoords;
+	this->tris = tris;
+	this->colors = colors;
 }
 
 void Mesh::createSphere(float radius, int slices, int stacks)
