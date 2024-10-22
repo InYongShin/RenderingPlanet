@@ -138,8 +138,8 @@ void Mesh::createSphere(float radius, int slices, int stacks)
 	// Calculate the indices
 	for (int i = 0; i < slices * stacks + slices; i++)
 	{
-		tris.push_back(glm::u32vec3(i, i + slices + 1, i + slices));
-		tris.push_back(glm::u32vec3(i + slices + 1, i, i + 1));
+		this->tris.push_back(glm::u32vec3(i, i + slices + 1, i + slices));
+		this->tris.push_back(glm::u32vec3(i + slices + 1, i, i + 1));
 	}
 }
 
