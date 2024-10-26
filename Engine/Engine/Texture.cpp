@@ -25,8 +25,6 @@ void Texture::load(const std::string& fileName, const bool isSrgb /*= false*/, c
 	this->_isSrgb = isSrgb;
 	this->_isNeedMaintainData = isNeedMaintainData;
 
-	stbi_set_flip_vertically_on_load(true);
-
 	this->_data = stbi_load(fileName.c_str(), &width, &height, &numChannels, 0);
 	if (this->_data == nullptr)
 	{
