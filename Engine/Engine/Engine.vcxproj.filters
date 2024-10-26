@@ -87,9 +87,6 @@
     <ClCompile Include="EarthScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
-    <ClCompile Include="EmissivePlanet.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Noiser.cpp">
       <Filter>Tool</Filter>
     </ClCompile>
@@ -107,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="Ground.cpp">
       <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="EmissivePlanet.cpp">
+      <Filter>Planet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -167,9 +167,6 @@
     <ClInclude Include="EarthScene.hpp">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="EmissivePlanet.hpp">
-      <Filter>Scene</Filter>
-    </ClInclude>
     <ClInclude Include="StringTool.hpp">
       <Filter>Tool</Filter>
     </ClInclude>
@@ -193,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="Ground.hpp">
       <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="EmissivePlanet.hpp">
+      <Filter>Planet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
