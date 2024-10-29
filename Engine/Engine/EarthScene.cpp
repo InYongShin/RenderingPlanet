@@ -26,7 +26,7 @@ void EarthScene::initialize()
 	sun->addTexture(TextureManager::getInstance()->loadTexture("../Textures/Sun.jpg"), "tex");
 	sun->setProgram(std::make_shared<Program>("render.vert", "sun.frag"));
 	addModel(sun);
-	
+
 	std::shared_ptr<Program> groundProgram = std::make_shared<Program>("ground.vert", "ground.frag");
 	groundProgram->setUniform("lightPosition", lightPos);
 

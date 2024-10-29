@@ -5,6 +5,8 @@
 
 void Earth::update() /*override*/
 {
+	return;
+
 	glm::vec3 center = this->centerPosition; // position of the sun
 	glm::vec3 position = getPosition();
 

@@ -4,10 +4,10 @@
 #include "Texture.hpp"
 #include "Light.hpp"
 
-#include "EmissivePlanet.hpp"
 #include "Planet.hpp"
 #include "SpaceScene.hpp"
 #include "EarthScene.hpp"
+#include "MySpaceScene.hpp"
 
 #include <iostream>
 
@@ -48,20 +48,13 @@ void Application::run()
 
 
 	// Start set the contents
+	SceneManager::getInstance()->getCamera().setPosition(glm::vec3(0.f, 510.f, 0.f));
 
-	SceneManager::getInstance()->getCamera().setPosition(glm::vec3(0.f, 0.f, 50.f));
-
-#if 1
-	std::shared_ptr<EarthScene> earthScene = std::make_shared<EarthScene>("Earth");
-	SceneManager::getInstance()->addScene(earthScene);
-	SceneManager::getInstance()->activateScene(earthScene);
-#else
-	std::shared_ptr<SpaceScene> spaceScene = std::make_shared<SpaceScene>("Space");
-	SceneManager::getInstance()->activateScene(spaceScene);
-#endif
-
+	// std::shared_ptr<EarthScene> earthScene = std::make_shared<EarthScene>("Earth");
+	// std::shared_ptr<SpaceScene> spaceScene = std::make_shared<SpaceScene>("Space");
+	std::shared_ptr<MySpaceScene> mySpaceScene = std::make_shared<MySpaceScene>("MySpace");
+	SceneManager::getInstance()->activateScene(mySpaceScene);
 	// End set the contents
-
 
 	this->window->display();
 }

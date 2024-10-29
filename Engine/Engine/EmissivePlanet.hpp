@@ -17,7 +17,7 @@ public:
 
 	EmissivePlanet() {}
 	EmissivePlanet(const std::string& name, const glm::vec3& position, const float radius, const float emissivePower, const std::shared_ptr<Program>& sphereProgram, const int texID = -1, const std::string& shaderTexName = "")
-		: Planet(name, position, radius, sphereProgram, texID, shaderTexName), _emissivePower(emissivePower) {}
+		: Planet(name, position, radius, sphereProgram, texID, shaderTexName, glm::vec3(0.f), 0.f), _emissivePower(emissivePower) {}
 
 	virtual ~EmissivePlanet() {}
 };
