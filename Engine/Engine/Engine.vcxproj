@@ -146,6 +146,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="MyEarth.cpp" />
+    <ClCompile Include="MySpaceScene.cpp" />
     <ClCompile Include="Noiser.cpp" />
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="Program.cpp" />
@@ -174,6 +176,8 @@
     <ClInclude Include="Material.hpp" />
     <ClInclude Include="Mesh.hpp" />
     <ClInclude Include="Model.hpp" />
+    <ClInclude Include="MyEarth.hpp" />
+    <ClInclude Include="MySpaceScene.hpp" />
     <ClInclude Include="Noiser.hpp" />
     <ClInclude Include="Planet.hpp" />
     <ClInclude Include="Program.hpp" />
@@ -196,6 +200,8 @@
     <None Include="earth.vert" />
     <None Include="ground.frag" />
     <None Include="ground.vert" />
+    <None Include="myearth.frag" />
+    <None Include="myearth.vert" />
     <None Include="perlin.frag" />
     <None Include="render.frag" />
     <None Include="render.vert" />

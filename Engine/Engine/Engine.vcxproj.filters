@@ -108,6 +108,12 @@
     <ClCompile Include="EmissivePlanet.cpp">
       <Filter>Planet</Filter>
     </ClCompile>
+    <ClCompile Include="MySpaceScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyEarth.cpp">
+      <Filter>Planet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Model.hpp">
@@ -194,6 +200,12 @@
     <ClInclude Include="EmissivePlanet.hpp">
       <Filter>Planet</Filter>
     </ClInclude>
+    <ClInclude Include="MySpaceScene.hpp">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="MyEarth.hpp">
+      <Filter>Planet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="render.vert">
@@ -224,6 +236,12 @@
       <Filter>Shader</Filter>
     </None>
     <None Include="ground.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="myearth.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="myearth.frag">
       <Filter>Shader</Filter>
     </None>
   </ItemGroup>
