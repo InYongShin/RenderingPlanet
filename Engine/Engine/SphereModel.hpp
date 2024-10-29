@@ -11,6 +11,7 @@ private:
 public:
 
 	void createSphere(float radius, int slices = 63, int stacks = 65);
+	void createSphere(float radius, int slices, int stacks, const int noiseWidth, const int noiseHeight, const float noiseWeight = 1.f);
 
 	SphereModel() {}
 	virtual ~SphereModel() { clear(); }
