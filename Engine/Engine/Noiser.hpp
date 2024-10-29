@@ -10,10 +10,9 @@ class Noiser
 private:
 	float hash(glm::vec2 p);
 	float noise(glm::vec2 p);
-	float generatePerlinNoise(glm::vec2 p);
 
 public:
-
+	float generatePerlinNoise(glm::vec2 p);
 	float* generatePerlinNoise2D(const int width, const int height);
 
 	// TODO: Refactoring from unsigned char to float
