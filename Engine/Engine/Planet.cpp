@@ -11,7 +11,19 @@ void Planet::createPlanet(const float radius /*= 1.f*/, const glm::vec3& positio
 	this->sphere->setPosition(position);
 	this->sphere->addTexture(texID, shaderTexName);
 
-	isCreated = true;
+	this->isCreated = true;
+}
+
+void Planet::createPlanet(const float radius, const glm::vec3& position, const int noiseWidth, const int noiseHeight, const float noiseWeight)
+{
+	if (this->sphere == nullptr)
+	{
+		this->sphere = std::make_shared<SphereModel>();
+	}
+	this->sphere->createSphere(radius, 63 * 3, 65 * 3, noiseWidth, noiseHeight, noiseWeight);
+	this->sphere->setPosition(position);
+
+	this->isCreated = true;
 }
 
 void Planet::setSphereProgram(const std::shared_ptr<Program>& program)
@@ -43,6 +55,8 @@ void Planet::draw() const
 
 /*virtual*/ void Planet::update()
 {
+	return;
+
 	glm::vec3 center = this->centerPosition;
 	glm::vec3 position = getPosition();
 
