@@ -21,7 +21,7 @@ void EarthScene::initialize()
 	glm::vec3 lightPos = glm::vec3(-100.f, 30.f, -100.f);
 
 	std::shared_ptr<SphereModel> sun = std::make_shared<SphereModel>();
-	sun->createSphere(10.f);
+	sun->createSphere(10.f, 63, 65);
 	sun->setPosition(lightPos);
 	sun->addTexture(TextureManager::getInstance()->loadTexture("../Textures/Sun.jpg"), "tex");
 	sun->setProgram(std::make_shared<Program>("render.vert", "sun.frag"));

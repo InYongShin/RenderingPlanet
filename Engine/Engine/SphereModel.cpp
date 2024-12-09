@@ -1,7 +1,7 @@
 
 #include "SphereModel.hpp"
 
-void SphereModel::createSphere(float radius, int slices /*= 63*/, int stacks /*= 65*/)
+void SphereModel::createSphere(float radius, int slices, int stacks)
 {
 	if(this->isCreated && this->mesh.nTris>0 && this->mesh.nVerts>0)
 	{
@@ -19,6 +19,17 @@ void SphereModel::createSphere(float radius, int slices, int stacks, const int n
 		this->mesh.clear();
 	}
 	this->mesh.createSphere(radius, slices, stacks, noiseWidth, noiseHeight, noiseWeight);
+	this->mesh.createMeshGL();
+	this->isCreated = true;
+}
+
+void SphereModel::createSphere(float radius, int resolution)
+{
+	if (this->isCreated && this->mesh.nTris > 0 && this->mesh.nVerts > 0)
+	{
+		this->mesh.clear();
+	}
+	this->mesh.createSphere(radius, resolution);
 	this->mesh.createMeshGL();
 	this->isCreated = true;
 }

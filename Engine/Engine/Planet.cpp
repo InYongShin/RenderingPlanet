@@ -1,13 +1,13 @@
 
 #include "Planet.hpp"
 
-void Planet::createPlanet(const float radius /*= 1.f*/, const glm::vec3& position /*= glm::vec3(0.f)*/, const int texID /*= -1*/, const std::string& shaderTexName /*= ""*/)
+void Planet::createPlanet(const float radius, const glm::vec3& position, const int texID, const std::string& shaderTexName)
 {
 	if (this->sphere == nullptr)
 	{
 		this->sphere = std::make_shared<SphereModel>();
 	}
-	this->sphere->createSphere(radius);
+	this->sphere->createSphere(radius, 63, 65);
 	this->sphere->setPosition(position);
 	this->sphere->addTexture(texID, shaderTexName);
 
@@ -21,6 +21,18 @@ void Planet::createPlanet(const float radius, const glm::vec3& position, const i
 		this->sphere = std::make_shared<SphereModel>();
 	}
 	this->sphere->createSphere(radius, 63 * 3, 65 * 3, noiseWidth, noiseHeight, noiseWeight);
+	this->sphere->setPosition(position);
+
+	this->isCreated = true;
+}
+
+void Planet::createPlanet(const float radius, const glm::vec3& position, const int resolution)
+{
+	if (this->sphere == nullptr)
+	{
+		this->sphere = std::make_shared<SphereModel>();
+	}
+	this->sphere->createSphere(radius, resolution);
 	this->sphere->setPosition(position);
 
 	this->isCreated = true;

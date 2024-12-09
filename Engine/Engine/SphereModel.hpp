@@ -10,8 +10,9 @@ private:
 
 public:
 
-	void createSphere(float radius, int slices = 63, int stacks = 65);
+	void createSphere(float radius, int slices, int stacks);
 	void createSphere(float radius, int slices, int stacks, const int noiseWidth, const int noiseHeight, const float noiseWeight = 1.f);
+	void createSphere(float radius, int resolution);
 
 	SphereModel() {}
 	virtual ~SphereModel() { clear(); }

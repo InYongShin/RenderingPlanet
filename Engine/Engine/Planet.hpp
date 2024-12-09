@@ -26,8 +26,9 @@ protected:
 public:
 
 	// TODO: Texture를 어떻게 넘겨줄지. shader name 고민 필요
-	void createPlanet(const float radius = 1.f, const glm::vec3& position = glm::vec3(0.f), const int texID = -1, const std::string& shaderTexName = "");
+	void createPlanet(const float radius, const glm::vec3& position, const int texID, const std::string& shaderTexName);
 	void createPlanet(const float radius, const glm::vec3& position, const int noiseWidth, const int noiseHeight, const float noiseWeight);
+	void createPlanet(const float radius, const glm::vec3& position, const int resolution);
 
 	void setSphereProgram(const std::shared_ptr<Program>& program);
 
@@ -45,6 +46,17 @@ public:
 
 	Planet()
 		: centerPosition(glm::vec3(0.0f)), orbitSpeed(0.0f) {}
+
+	Planet(const std::string& name,
+		   const glm::vec3& position,
+		   const float radius,
+		   const int resolution,
+		   const std::shared_ptr<Program>& sphereProgram)
+		: _name(name), _radius(radius), centerPosition(glm::vec3(0.f)), orbitSpeed(0.f)
+	{
+		createPlanet(radius, position, resolution);
+		setSphereProgram(sphereProgram);
+	}
 
 	Planet(const std::string& name, 
 		   const glm::vec3& position, 

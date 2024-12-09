@@ -4,6 +4,7 @@
 #include "Noiser.hpp"
 
 #include <iostream>
+#include <array>
 
 void Mesh::createMeshGL()
 {
@@ -152,7 +153,7 @@ void Mesh::createSphere(float radius, int slices, int stacks, const int noiseWid
 	std::vector<glm::vec3> newColors;
 
 	// Create initial icosahedron vertices
-	float t = (1.0 + sqrt(5.0)) / 2.0;
+	float t = (1.0f + sqrt(5.0f)) * 0.5f;
 
 	newVertices.reserve(12);
 
@@ -215,9 +216,9 @@ void Mesh::createSphere(float radius, int slices, int stacks, const int noiseWid
 			newVertices.push_back(v2);
 			newVertices.push_back(v3);
 
-			int i1 = newVertices.size() - 3;
-			int i2 = newVertices.size() - 2;
-			int i3 = newVertices.size() - 1;
+			size_t i1 = newVertices.size() - 3;
+			size_t i2 = newVertices.size() - 2;
+			size_t i3 = newVertices.size() - 1;
 
 			newTrisTemp.push_back(glm::u32vec3(tri.x, i1, i3));
 			newTrisTemp.push_back(glm::u32vec3(tri.y, i2, i1));
@@ -239,7 +240,8 @@ void Mesh::createSphere(float radius, int slices, int stacks, const int noiseWid
 		float v = 0.5f + atan2(vertex.y, glm::length(glm::vec2(vertex.x, vertex.z))) / glm::pi<float>();
 		newTexCoords.push_back(glm::vec2(u, v));
 
-		float noiseVal = noiser->generatePerlinNoise(glm::vec2(u, v));
+		// float noiseVal = noiser->generatePerlinNoise(glm::vec2(u, v));
+		float noiseVal = noiser->generatePerlinNoise3D(vertex);
 		glm::vec3 col = glm::mix(dirtColor, grassColor, glm::smoothstep(0.1f, 0.8f, noiseVal));
 		newColors.push_back(col);
 
@@ -252,6 +254,174 @@ void Mesh::createSphere(float radius, int slices, int stacks, const int noiseWid
 	this->texCoords = newTexCoords;
 	this->colors = newColors;
 	
+	// Calculate the normals
+	this->normals.resize(this->vertices.size(), {0,0,0});
+	for (const glm::u32vec3& tri : this->tris)
+	{
+		glm::vec3 v1 = this->vertices[tri.y] - this->vertices[tri.x];
+		glm::vec3 v2 = this->vertices[tri.z] - this->vertices[tri.x];
+		glm::vec3 n = cross(v1, v2);
+		this->normals[tri.x] += n;
+		this->normals[tri.y] += n;
+		this->normals[tri.z] += n;
+	}
+	for (glm::vec3& n : this->normals)
+	{
+		n = glm::normalize(n);
+	}
+}
+
+// https://github.com/SebLague/Solar-System/blob/0c60882be69b8e96d6660c28405b9d19caee76d5/Assets/Scripts/Celestial/SphereMesh.cs
+void Mesh::createSphere(float radius, int resolution)
+{
+	struct Edge {
+		std::vector<int> vertexIndices;
+
+		Edge() {}
+		Edge(const std::vector<int>& indices) : vertexIndices(indices) {}
+	};
+
+	auto _slerp = [](const glm::vec3& start, const glm::vec3& end, float t) -> glm::vec3 {
+		// Implement the Slerp function (Spherical Linear Interpolation)
+		float dot = start.x * end.x + start.y * end.y + start.z * end.z;
+		dot = glm::clamp(dot, -1.0f, 1.0f);  // Clamp to the range [ -1, 1 ]
+
+		float theta = acos(dot) * t;
+		glm::vec3 relativeVec = end - start * dot;
+		relativeVec = relativeVec * (1.0f / sqrt(relativeVec.x * relativeVec.x + relativeVec.y * relativeVec.y + relativeVec.z * relativeVec.z));  // Normalize
+
+		return (start * cos(theta)) + (relativeVec * sin(theta));
+	};
+
+	// Indices of the vertex pairs that make up each of the initial 12 edges
+	std::array<int, 24> vertexPairs = { 0, 1, 0, 2, 0, 3, 0, 4, 1, 2, 2, 3, 
+										3, 4, 4, 1, 5, 1, 5, 2, 5, 3, 5, 4 };
+	// Indices of the edge triplets that make up the initial 8 faces
+	std::array<int, 24> edgeTriplets = { 0, 1, 4, 1,  2, 5,  2,  3, 6,  3, 0, 7, 
+										 8, 9, 4, 9, 10, 5, 10, 11, 6, 11, 8, 7 };
+	// The six initial vertices
+	std::array<glm::vec3, 6> baseVertices = { glm::vec3( 0.0f,  1.0f,  0.0f),
+											  glm::vec3(-1.0f,  0.0f,  0.0f),
+											  glm::vec3( 0.0f,  0.0f, -1.0f),
+											  glm::vec3( 1.0f,  0.0f,  0.0f),
+											  glm::vec3( 0.0f,  0.0f,  1.0f),
+											  glm::vec3( 0.0f, -1.0f,  0.0f) };
+
+	int numDivisions = resolution;
+	int numVertsPerFace = ((numDivisions + 3) * (numDivisions + 3) - (numDivisions + 3)) / 2;
+	int numVerts = numVertsPerFace * 8 - (numDivisions + 2) * 12 + 6;
+	int numTrisPerFace = (numDivisions + 1) * (numDivisions + 1);
+
+	auto _createFace = [&](const Edge& sideA, const Edge& sideB, const Edge& bottom, bool reverse) -> void {
+		int numPointsInEdge = sideA.vertexIndices.size();
+		std::vector<int> vertexMap;
+		vertexMap.reserve(numVertsPerFace);
+		vertexMap.push_back(sideA.vertexIndices[0]);
+
+		for (int i = 1; i < numPointsInEdge - 1; i++) 
+		{
+			// Side A vertex
+			vertexMap.push_back(sideA.vertexIndices[i]);
+
+			// Add vertices between sideA and sideB
+			glm::vec3 sideAVertex = this->vertices[sideA.vertexIndices[i]];
+			glm::vec3 sideBVertex = this->vertices[sideB.vertexIndices[i]];
+			int numInnerPoints = i - 1;
+			for (int j = 0; j < numInnerPoints; j++) {
+				float t = (j + 1.0f) / (numInnerPoints + 1.0f);
+				vertexMap.push_back((int)this->vertices.size());
+				this->vertices.push_back(_slerp(sideAVertex, sideBVertex, t));
+			}
+
+			// Side B vertex
+			vertexMap.push_back(sideB.vertexIndices[i]);
+		}
+
+		// Add bottom edge vertices
+		for (int i = 0; i < numPointsInEdge; i++) 
+		{
+			vertexMap.push_back(bottom.vertexIndices[i]);
+		}
+
+		// Triangulate
+		int numRows = numDivisions + 1;
+		for (int row = 0; row < numRows; row++) 
+		{
+			// vertices down left edge follow quadratic sequence: 0, 1, 3, 6, 10, 15...
+			// the nth term can be calculated with: (n^2 - n)/2
+			int topVertex = ((row + 1) * (row + 1) - row - 1) / 2;
+			int bottomVertex = ((row + 2) * (row + 2) - row - 2) / 2;
+
+			int numTrianglesInRow = 1 + 2 * row;
+			for (int column = 0; column < numTrianglesInRow; column++) 
+			{
+				int v0, v1, v2;
+
+				if (column % 2 == 0) {
+					v0 = topVertex;
+					v1 = bottomVertex + 1;
+					v2 = bottomVertex;
+					topVertex++;
+					bottomVertex++;
+				} else {
+					v0 = topVertex;
+					v1 = bottomVertex;
+					v2 = topVertex - 1;
+				}
+
+				this->tris.push_back(glm::u32vec3(
+					vertexMap[v0],
+					vertexMap[reverse ? v2 : v1],
+					vertexMap[reverse ? v1 : v2]
+				));
+			}
+		}
+	};
+
+	this->vertices.reserve(numVerts);
+	this->tris.reserve(numTrisPerFace * 8);
+
+	this->vertices.insert(this->vertices.end(), std::begin(baseVertices), std::end(baseVertices));
+
+	// Create 12 edges, with n vertices added along them (n = numDivisions)
+	std::vector<Edge> edges(12);
+	for (size_t i = 0; i < vertexPairs.size(); i += 2)
+	{
+		glm::vec3 startVertex = this->vertices[vertexPairs[i]];
+		glm::vec3 endVertex = this->vertices[vertexPairs[i + 1]];
+
+		std::vector<int> edgeVertexIndices(numDivisions + 2);
+		edgeVertexIndices[0] = vertexPairs[i];
+
+		// Add vertices along edge
+		for (int divisionIndex = 0; divisionIndex < numDivisions; divisionIndex++)
+		{
+			float t = (divisionIndex + 1.0f) / (numDivisions + 1.0f);
+			edgeVertexIndices[divisionIndex + 1] = (int)this->vertices.size();
+			this->vertices.push_back(_slerp(startVertex, endVertex, t));
+		}
+		edgeVertexIndices[numDivisions + 1] = vertexPairs[i + 1];
+		int edgeIndex = (int)i / 2;
+		edges[edgeIndex] = Edge(edgeVertexIndices);
+	}
+
+	// Create faces
+	for (size_t i = 0; i < edgeTriplets.size(); i += 3)
+	{
+		int faceIndex = (int)i / 3;
+		bool reverse = faceIndex >= 4;
+		_createFace(edges[edgeTriplets[i]], edges[edgeTriplets[i + 1]], edges[edgeTriplets[i + 2]], reverse);
+	}
+
+	Noiser noiser;
+	for(glm::vec3& vertex : this->vertices)
+	{
+		vertex *= radius;
+
+		float value = noiser.getPerlinNoise(vertex, 2, 1.0f);
+		vertex += glm::normalize(vertex) * value * 1.0f;
+	}
+
 	// Calculate the normals
 	this->normals.resize(this->vertices.size(), {0,0,0});
 	for (const glm::u32vec3& tri : this->tris)
