@@ -12,7 +12,7 @@ private:
 	glm::vec3 hash(const glm::vec3& p);
 	float noise(glm::vec2 p);
 
-	float perlinFbm(glm::vec3 x, int numOctaves, float H);
+	float perlinFbm(const glm::vec3& x, int numOctaves, float H);
 
 public:
 	float generatePerlinNoise(glm::vec2 p);

@@ -44,7 +44,7 @@ float Noiser::noise(glm::vec2 p)
            u.y);
 }
 
-float Noiser::perlinFbm(glm::vec3 x, int numOctaves, float H)
+float Noiser::perlinFbm(const glm::vec3& x, int numOctaves, float H)
 {
     float G = exp2(-H);
     float f = 1.0;

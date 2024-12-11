@@ -24,7 +24,7 @@ void MySpaceScene::initialize() /*override*/
 
 	std::shared_ptr<Program> myEarthProgram = std::make_shared<Program>("myearth.vert", "myearth.frag");
 	
-	std::shared_ptr<MyEarth> myEarth = std::make_shared<MyEarth>("MyEarth", glm::vec3(0.0f), 10.0f, 50, myEarthProgram);
+	std::shared_ptr<MyEarth> myEarth = std::make_shared<MyEarth>("MyEarth", glm::vec3(0.0f), 10.0f, 100, myEarthProgram);
 	myEarthProgram->setUniform("lightPosition", glm::vec3(500.f, 500.f, 500.f));
 
 	addPlanet(myEarth);

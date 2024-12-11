@@ -413,13 +413,29 @@ void Mesh::createSphere(float radius, int resolution)
 		_createFace(edges[edgeTriplets[i]], edges[edgeTriplets[i + 1]], edges[edgeTriplets[i + 2]], reverse);
 	}
 
+	// Smooth maximum of two values, controlled by smoothing factor k
+	// When k = 0, this behaves identically to max(a, b)
+	auto smoothMax = [&](float a, float b, float k) -> float {
+		k = glm::min(0.0f, -k);
+		float h = glm::max(0.0f, glm::min(1.0f, (b - a + k) / (2.0f * k)));
+		return a * h + b * (1.0f - h) - k * h * (1.0f - h);
+	};
+
+	const float floorDepth = 10.0f;
+	const float floorSmoothing = 0.5f;
+	const float depthStrength = 30.0f;
+
 	Noiser noiser;
 	for(glm::vec3& vertex : this->vertices)
 	{
-		vertex *= radius;
+		float value = noiser.getPerlinNoise(vertex, 8, 1.0f);
+		float floorShape = -floorDepth + value * 0.15f;
+		float floorValue = smoothMax(value, floorShape, floorSmoothing);
+		floorValue *= (floorValue < 0.0f) ? 1.0f + depthStrength : 1.0f;
 
-		float value = noiser.getPerlinNoise(vertex, 2, 1.0f);
-		vertex += glm::normalize(vertex) * value * 1.0f;
+		float finalHeight = 1.0f + floorValue * 0.01f;
+
+		vertex += glm::normalize(vertex) * finalHeight * radius;
 	}
 
 	// Calculate the normals
