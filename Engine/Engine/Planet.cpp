@@ -14,6 +14,19 @@ void Planet::createPlanet(const float radius, const glm::vec3& position, const i
 	this->isCreated = true;
 }
 
+void Planet::createPlanet(const float radius, const glm::vec3& position)
+{
+	if (this->sphere == nullptr)
+	{
+		this->sphere = std::make_shared<SphereModel>();
+	}
+	this->sphere->createSphere(radius, 63, 65);
+	this->sphere->setPosition(position);
+
+	this->isCreated = true;
+
+}
+
 void Planet::createPlanet(const float radius, const glm::vec3& position, const int noiseWidth, const int noiseHeight, const float noiseWeight)
 {
 	if (this->sphere == nullptr)

@@ -422,8 +422,15 @@ void Mesh::createSphere(float radius, int resolution)
 	};
 
 	const float floorDepth = 10.0f;
-	const float floorSmoothing = 0.5f;
-	const float depthStrength = 30.0f;
+	const float floorSmoothing = 12.0f;
+	const float depthStrength = 50.0f;
+	const float mountainStrength = 10.0f;
+
+	this->colors.reserve(this->vertices.size());
+	const glm::vec3& sandColor = glm::vec3(0.9f, 0.85f, 0.7f);
+	const glm::vec3& grassColor = glm::vec3(0.f, 1.f, 0.f);
+	const glm::vec3& dirtColor = glm::vec3(0.73f, 0.34f, 0.f);
+	// const glm::vec3& dirtColor = glm::vec3(0.43f, 0.14f, 0.f);
 
 	Noiser noiser;
 	for(glm::vec3& vertex : this->vertices)
@@ -431,7 +438,12 @@ void Mesh::createSphere(float radius, int resolution)
 		float value = noiser.getPerlinNoise(vertex, 8, 1.0f);
 		float floorShape = -floorDepth + value * 0.15f;
 		float floorValue = smoothMax(value, floorShape, floorSmoothing);
-		floorValue *= (floorValue < 0.0f) ? 1.0f + depthStrength : 1.0f;
+
+		glm::vec3 color = glm::mix(sandColor, grassColor, glm::smoothstep(-0.1f, 0.08f, floorValue));
+		color = glm::mix(color, dirtColor, glm::smoothstep(0.3f, 0.6f, floorValue));
+		this->colors.push_back(color);
+
+		floorValue *= (floorValue < 0.0f) ? (1.0f + depthStrength) : (1.0f + mountainStrength);
 
 		float finalHeight = 1.0f + floorValue * 0.01f;
 
