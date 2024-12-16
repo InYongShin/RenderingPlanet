@@ -8,9 +8,6 @@ class MyEarth : public Planet
 private:
 
 public:
-
-
-
 	MyEarth() {}
 	MyEarth(const std::string& name,
 			const glm::vec3& position,

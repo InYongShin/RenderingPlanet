@@ -1,7 +1,7 @@
 
 #include "EmissivePlanet.hpp"
 
-void EmissivePlanet::update() /*override*/
+void EmissivePlanet::update() /* override */
 {
-	// ...
+
 }
