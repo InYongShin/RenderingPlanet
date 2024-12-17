@@ -145,7 +145,7 @@ void Mesh::createSphere(float radius, int slices, int stacks)
 	}
 }
 
-void Mesh::createSphere(float radius, int slices, int stacks, const int noiseWidth, const int noiseHeight, const float noiseWeight)
+void Mesh::createSphere(float radius, int slices, int stacks, const float noiseWeight)
 {
 	std::vector<glm::vec3> newVertices;
 	std::vector<glm::u32vec3> newTris;
@@ -313,12 +313,12 @@ void Mesh::createSphere(float radius, int resolution)
 	int numTrisPerFace = (numDivisions + 1) * (numDivisions + 1);
 
 	auto _createFace = [&](const Edge& sideA, const Edge& sideB, const Edge& bottom, bool reverse) -> void {
-		int numPointsInEdge = sideA.vertexIndices.size();
+		size_t numPointsInEdge = sideA.vertexIndices.size();
 		std::vector<int> vertexMap;
 		vertexMap.reserve(numVertsPerFace);
 		vertexMap.push_back(sideA.vertexIndices[0]);
 
-		for (int i = 1; i < numPointsInEdge - 1; i++) 
+		for (size_t i = 1; i < numPointsInEdge - 1; i++) 
 		{
 			// Side A vertex
 			vertexMap.push_back(sideA.vertexIndices[i]);
@@ -326,10 +326,10 @@ void Mesh::createSphere(float radius, int resolution)
 			// Add vertices between sideA and sideB
 			glm::vec3 sideAVertex = this->vertices[sideA.vertexIndices[i]];
 			glm::vec3 sideBVertex = this->vertices[sideB.vertexIndices[i]];
-			int numInnerPoints = i - 1;
-			for (int j = 0; j < numInnerPoints; j++) {
+			size_t numInnerPoints = i - 1;
+			for (size_t j = 0; j < numInnerPoints; j++) {
 				float t = (j + 1.0f) / (numInnerPoints + 1.0f);
-				vertexMap.push_back((int)this->vertices.size());
+				vertexMap.push_back(static_cast<int>(this->vertices.size()));
 				this->vertices.push_back(_slerp(sideAVertex, sideBVertex, t));
 			}
 

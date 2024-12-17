@@ -13,7 +13,7 @@ inline const std::shared_ptr<Scene> SceneManager::getScene(const std::string& ti
 	return nullptr;
 }
 
-const std::shared_ptr<Scene>& SceneManager::findScene(const std::shared_ptr<Scene>& targetScene) const
+const std::shared_ptr<Scene> SceneManager::findScene(const std::shared_ptr<Scene>& targetScene) const
 {
 	for (const auto& scene : this->scenes)
 	{

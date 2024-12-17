@@ -9,9 +9,9 @@
 // source: https://www.shadertoy.com/view/lsf3WH
 
 
-float Noiser::hash(glm::vec2 p)
+float Noiser::hash(const glm::vec2& p)
 {
-    int n = p.x * 3 + p.y * 113;
+    int n = static_cast<int>(p.x * 3 + p.y * 113);
 
     // 1D hash by Hugo Elias
     n = (n << 13) ^ n;
@@ -31,7 +31,7 @@ glm::vec3 Noiser::hash(const glm::vec3& p)
     return glm::vec3(-1.0f) + glm::vec3(2.0f) * glm::vec3( n & glm::ivec3(0x0fffffff))/float(0x0fffffff);
 }
 
-float Noiser::noise(glm::vec2 p)
+float Noiser::noise(const glm::vec2& p)
 {
     glm::vec2 i = glm::floor(p);
     glm::vec2 f = glm::fract(p);
@@ -67,12 +67,12 @@ float Noiser::generatePerlinNoise(glm::vec2 p)
     glm::mat2 m = glm::mat2( 1.6f, 1.2f, 
                             -1.2f, 1.6f);
 
-    f  = 0.5000 * noise(p); p = m * p;
-    f += 0.2500 * noise(p); p = m * p;
-    f += 0.1250 * noise(p); p = m * p;
-    f += 0.0625 * noise(p); p = m * p;
+    f  = 0.5000f * noise(p); p = m * p;
+    f += 0.2500f * noise(p); p = m * p;
+    f += 0.1250f * noise(p); p = m * p;
+    f += 0.0625f * noise(p); p = m * p;
 
-    return 0.5 + 0.5 * f;
+    return 0.5f + 0.5f * f;
 }
 
 float* Noiser::generatePerlinNoise2D(const int width, const int height)
@@ -92,7 +92,7 @@ float* Noiser::generatePerlinNoise2D(const int width, const int height)
 }
 
 // https://iquilezles.org/articles/gradientnoise/
-float Noiser::generatePerlinNoise3D(glm::vec3 x)
+float Noiser::generatePerlinNoise3D(const glm::vec3& x)
 {
     // grid
     glm::vec3 p = floor(x);

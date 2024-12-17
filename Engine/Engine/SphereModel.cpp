@@ -12,13 +12,13 @@ void SphereModel::createSphere(float radius, int slices, int stacks)
 	this->isCreated = true;
 }
 
-void SphereModel::createSphere(float radius, int slices, int stacks, const int noiseWidth, const int noiseHeight, const float noiseWeight /*= 1.f*/)
+void SphereModel::createSphere(float radius, int slices, int stacks, const float noiseWeight)
 {
 	if (this->isCreated && this->mesh.nTris > 0 && this->mesh.nVerts > 0)
 	{
 		this->mesh.clear();
 	}
-	this->mesh.createSphere(radius, slices, stacks, noiseWidth, noiseHeight, noiseWeight);
+	this->mesh.createSphere(radius, slices, stacks, noiseWeight);
 	this->mesh.createMeshGL();
 	this->isCreated = true;
 }

@@ -8,9 +8,9 @@
 class Noiser
 {
 private:
-	float hash(glm::vec2 p);
+	float hash(const glm::vec2& p);
 	glm::vec3 hash(const glm::vec3& p);
-	float noise(glm::vec2 p);
+	float noise(const glm::vec2& p);
 
 	float perlinFbm(const glm::vec3& x, int numOctaves, float H);
 
@@ -18,7 +18,7 @@ public:
 	float generatePerlinNoise(glm::vec2 p);
 	float* generatePerlinNoise2D(const int width, const int height);
 
-	float generatePerlinNoise3D(glm::vec3 x);
+	float generatePerlinNoise3D(const glm::vec3& x);
 
 	float getPerlinNoise(const glm::vec3& x, const int numOctaves, const float H);
 

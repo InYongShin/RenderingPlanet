@@ -26,8 +26,8 @@ void Ground::createPerlinGroundMesh(const int noiseWidth, const int noiseHeight,
 	std::shared_ptr<Noiser> noiser = std::make_shared<Noiser>();
 	float* noiseData = noiser->generatePerlinNoise2D(noiseWidth, noiseHeight);
 
-	int topLeftX = (noiseWidth - 1) * -0.5f;
-	int topLeftZ = (noiseHeight - 1) * 0.5f;
+	int topLeftX = static_cast<int>((noiseWidth - 1) * -0.5f);
+	int topLeftZ = static_cast<int>((noiseHeight - 1) * 0.5f);
 	int vertexIndex = 0;
 
 	glm::vec3 grassColor = glm::vec3(0.f, 1.f, 0.f);

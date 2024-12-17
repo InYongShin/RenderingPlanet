@@ -28,7 +28,7 @@ public:
 	inline const std::shared_ptr<Scene> getScene(const std::string& title) const;
 	inline const std::shared_ptr<Scene>& getActiveScene() const { return this->activeScene; }
 
-	const std::shared_ptr<Scene>& findScene(const std::shared_ptr<Scene>& scene) const;
+	const std::shared_ptr<Scene> findScene(const std::shared_ptr<Scene>& scene) const;
 
 	void addScene(const std::shared_ptr<Scene>& scene);
 

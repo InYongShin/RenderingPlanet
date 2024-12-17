@@ -33,7 +33,7 @@ void Planet::createPlanet(const float radius, const glm::vec3& position, const i
 	{
 		this->sphere = std::make_shared<SphereModel>();
 	}
-	this->sphere->createSphere(radius, 63 * 3, 65 * 3, noiseWidth, noiseHeight, noiseWeight);
+	this->sphere->createSphere(radius, 63 * 3, 65 * 3, noiseWeight);
 	this->sphere->setPosition(position);
 
 	this->isCreated = true;
