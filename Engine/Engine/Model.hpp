@@ -4,6 +4,9 @@
 #include "Mesh.hpp"
 #include "Program.hpp"
 #include "GLTools.hpp"
+#include "RenderPass.hpp"
+
+#include <memory>
 
 class Model
 {
@@ -13,9 +16,10 @@ private:
 	std::vector<int> texIDs;
 	std::vector<std::string> shaderNames;
 
+	std::shared_ptr<RenderPass> renderPass = nullptr;
+
 protected:
 	glm::vec3 position = glm::vec3(0.f);
-	std::shared_ptr<Program> program;
 	Mesh mesh;
 
 	bool isCreated = false;
@@ -25,10 +29,10 @@ public:
 	void loadProgram(const char* vertexPath, const char* fragmentPath, 
 					 const char* geometryPath = nullptr, const char* tessControlPath = nullptr, const char* tessEvaluatePath = nullptr);
 
-	inline void setProgram(const std::shared_ptr<Program>& program) { this->program = program; }
-
 	void setPosition(const glm::vec3& position);
 	inline glm::vec3 getPosition() const { return this->position; }
+
+	inline void setRenderPass(const std::shared_ptr<RenderPass>& renderPass) { this->renderPass = renderPass; }
 
 	void addTexture(int id, const std::string& shaderName);
 
@@ -40,8 +44,5 @@ public:
 	Model(const glm::vec3& position) { setPosition(position); }
 	virtual ~Model() { clear(); }
 };
-
-
-
 
 #endif /* MODEL_HPP */

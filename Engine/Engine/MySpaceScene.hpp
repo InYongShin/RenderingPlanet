@@ -8,7 +8,6 @@
 class MySpaceScene : public Scene
 {
 private:
-
 	std::vector<std::shared_ptr<Planet>> planets;
 
 	void addPlanet(const std::shared_ptr<Planet>& planet);

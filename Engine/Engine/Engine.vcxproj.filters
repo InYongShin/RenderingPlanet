@@ -31,6 +31,9 @@
     <Filter Include="Planet">
       <UniqueIdentifier>{6cc3cbe3-2357-461e-9e0a-52609f0dc733}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Renderer">
+      <UniqueIdentifier>{bce32d82-4578-4f53-9248-4c728389911c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -113,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="MyEarth.cpp">
       <Filter>Planet</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPass.cpp">
+      <Filter>Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="MyEarth.hpp">
       <Filter>Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPass.hpp">
+      <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

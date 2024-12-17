@@ -147,7 +147,7 @@ unsigned char* Noiser::generatePerlinNoise2DGPU(int width, int height)
 
 	std::shared_ptr<QuadModel> quad = std::make_shared<QuadModel>();
 	quad->createScreenQuad();
-	quad->setProgram(perlinProgram);
+	// quad->setProgram(perlinProgram);
 	quad->draw();
 
 	unsigned char* data = framebuffer.readPixels();

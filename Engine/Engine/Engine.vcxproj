@@ -152,6 +152,7 @@
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="Program.cpp" />
     <ClCompile Include="QuadModel.cpp" />
+    <ClCompile Include="RenderPass.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SpaceScene.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Planet.hpp" />
     <ClInclude Include="Program.hpp" />
     <ClInclude Include="QuadModel.hpp" />
+    <ClInclude Include="RenderPass.hpp" />
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="SceneManager.hpp" />
     <ClInclude Include="Singleton.hpp" />

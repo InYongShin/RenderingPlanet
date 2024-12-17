@@ -51,23 +51,26 @@ void Planet::createPlanet(const float radius, const glm::vec3& position, const i
 	this->isCreated = true;
 }
 
-void Planet::setSphereProgram(const std::shared_ptr<Program>& program)
+void Planet::setRenderPass(const std::shared_ptr<RenderPass>& renderPass)
 {
-	if(program->isUsable() == false)
+	if (renderPass == nullptr)
 	{
-		std::cerr << "Program is not usable" << std::endl;
+		std::cerr << "RenderPass is nullptr" << std::endl;
 		return;
 	}
 
-	if (this->sphere)
+	if (this->sphere == nullptr)
 	{
-		this->sphere->setProgram(program);
+		std::cerr << "Sphere is nullptr" << std::endl;
+		return;
 	}
+
+	this->sphere->setRenderPass(renderPass);
 }
 
 void Planet::draw() const
 {
-	if(this->sphere)
+	if (this->sphere)
 	{
 		this->sphere->draw();
 	}

@@ -28,14 +28,16 @@ public:
 	void createPlanet(const float radius, const glm::vec3& position, const int noiseWidth, const int noiseHeight, const float noiseWeight);
 	void createPlanet(const float radius, const glm::vec3& position, const int resolution);
 
-	void setSphereProgram(const std::shared_ptr<Program>& program);
-
 	inline std::string getName() const { return this->_name; }
 
 	inline void setPosition(const glm::vec3& position) { this->sphere->setPosition(position); }
 	inline glm::vec3 getPosition() const { return this->sphere->getPosition(); }
 
 	inline float getRadius() const { return this->_radius; }
+
+	inline std::shared_ptr<SphereModel> getSphere() const { return this->sphere; }
+
+	void setRenderPass(const std::shared_ptr<RenderPass>& renderPass);
 
 	void draw() const;
 	
@@ -47,6 +49,15 @@ public:
 	Planet() {};
 
 	Planet(const std::string& name,
+		const glm::vec3& position,
+		const float radius,
+		const int resolution)
+		: _name(name), _radius(radius)
+	{
+		createPlanet(radius, position, resolution);
+	}
+
+	Planet(const std::string& name,
 		   const glm::vec3& position,
 		   const float radius,
 		   const int resolution,
@@ -54,7 +65,14 @@ public:
 		: _name(name), _radius(radius)
 	{
 		createPlanet(radius, position, resolution);
-		setSphereProgram(sphereProgram);
+	}
+
+	Planet(const std::string& name, 
+		const glm::vec3& position, 
+		const float radius)
+		: _name(name), _radius(radius)
+	{
+		createPlanet(radius, position);
 	}
 
 	Planet(const std::string& name, 
@@ -64,7 +82,6 @@ public:
 		: _name(name), _radius(radius)
 	{
 		createPlanet(radius, position);
-		setSphereProgram(sphereProgram);
 	}
 
 	Planet(const std::string& name, 
@@ -77,7 +94,6 @@ public:
 		: _name(name), _radius(radius)
 	{
 		createPlanet(radius, position, noiseWidth, noiseHeight, noiseWeight);
-		setSphereProgram(sphereProgram);
 	}
 
 	Planet(const std::string& name, 
@@ -89,7 +105,6 @@ public:
 		: _name(name), _radius(radius)
 	{
 		createPlanet(radius, position, texID, shaderTexName);
-		setSphereProgram(sphereProgram);
 	}
 
 	virtual ~Planet() {}
