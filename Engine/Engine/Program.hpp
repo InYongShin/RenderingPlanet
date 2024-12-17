@@ -3,8 +3,6 @@
 
 #include "GLTools.hpp"
 
-#include <map>
-#include <variant>
 #include <iostream>
 
 class Program
@@ -19,9 +17,6 @@ private:
 
 	void printInfoProgramLog(GLuint obj);
 	void printInfoShaderLog(GLuint obj);
-
-	using UniformValue = std::variant<float, int, glm::vec2, glm::vec3, glm::vec4, glm::mat3, glm::mat4>;
-	std::map<std::string, UniformValue> uniformMap;
 
 public:
 	void use() const;
@@ -41,52 +36,48 @@ public:
 	}
 	virtual ~Program() { clear(); }
 
-    void setUniform(const std::string& name, float v) {
-        uniformMap[name] = v;
-    }
-    void setUniform(const std::string& name, int v) {
-        uniformMap[name] = v;
-    }
-    void setUniform(const std::string& name, const glm::vec2& v) {
-        uniformMap[name] = v;
-    }
-    void setUniform(const std::string& name, const glm::vec3& v) {
-        uniformMap[name] = v;
-    }
-    void setUniform(const std::string& name, const glm::vec4& v) {
-        uniformMap[name] = v;
-    }
-    void setUniform(const std::string& name, const glm::mat3& v) {
-        uniformMap[name] = v;
-    }
-    void setUniform(const std::string& name, const glm::mat4& v) {
-        uniformMap[name] = v;
-    }
-
-    // TODO: Uniform Array
-    // void setUniform(const std::string& name, const float* v, uint32_t count) {
-    //     uniformMap[name] = std::vector<float>(v, v + count);
-    // }
-    // void setUniform(const std::string& name, const int* v, uint32_t count) {
-    //     uniformMap[name] = std::vector<int>(v, v + count);
-    // }
-    // void setUniform(const std::string& name, const glm::vec2* v, uint32_t count) {
-    //     uniformMap[name] = std::vector<glm::vec2>(v, v + count);
-    // }
-    // void setUniform(const std::string& name, const glm::vec3* v, uint32_t count) {
-    //     uniformMap[name] = std::vector<glm::vec3>(v, v + count);
-    // }
-    // void setUniform(const std::string& name, const glm::vec4* v, uint32_t count) {
-    //     uniformMap[name] = std::vector<glm::vec4>(v, v + count);
-    // }
-    // void setUniform(const std::string& name, const glm::mat3* v, uint32_t count) {
-    //     uniformMap[name] = std::vector<glm::mat3>(v, v + count);
-    // }
-    // void setUniform(const std::string& name, const glm::mat4* v, uint32_t count) {
-    //     uniformMap[name] = std::vector<glm::mat4>(v, v + count);
-    // }
-
-    void applyUniforms() const;
+	void setUniform(const std::string& name, float v) const {
+		glUniform1f(glGetUniformLocation(programID, name.c_str()), v);
+	}
+	void setUniform(const std::string& name, int v) const {
+		glUniform1i(glGetUniformLocation(programID, name.c_str()), v);
+	}
+	void setUniform(const std::string& name, const glm::vec2& v) const {
+		glUniform2f(glGetUniformLocation(programID, name.c_str()), v.x, v.y);
+	}
+	void setUniform(const std::string& name, const glm::vec3& v) const {
+		glUniform3f(glGetUniformLocation(programID, name.c_str()), v.x, v.y, v.z);
+	}
+	void setUniform(const std::string& name, const glm::vec4& v) const {
+		glUniform4f(glGetUniformLocation(programID, name.c_str()), v.x, v.y, v.z, v.w);
+	}
+	void setUniform(const std::string& name, const glm::mat3& v) const {
+		glUniformMatrix3fv(glGetUniformLocation(programID, name.c_str()), 1, GL_FALSE, value_ptr(v));
+	}
+	void setUniform(const std::string& name, const glm::mat4& v) const {
+		glUniformMatrix4fv(glGetUniformLocation(programID, name.c_str()), 1, GL_FALSE, value_ptr(v));
+	}
+	void setUniform(const std::string& name, const float* v, uint32_t count) const {
+		glUniform1fv(glGetUniformLocation(programID, name.c_str()), count, v);
+	}
+	void setUniform(const std::string& name, const int* v, uint32_t count) const {
+		glUniform1iv(glGetUniformLocation(programID, name.c_str()), count, v);
+	}
+	void setUniform(const std::string& name, const glm::vec2* v, uint32_t count) const {
+		glUniform2fv(glGetUniformLocation(programID, name.c_str()), count, (float*)v);
+	}
+	void setUniform(const std::string& name, const glm::vec3* v, uint32_t count) const {
+		glUniform3fv(glGetUniformLocation(programID, name.c_str()), count, (float*)v);
+	}
+	void setUniform(const std::string& name, const glm::vec4* v, uint32_t count) const {
+		glUniform4fv(glGetUniformLocation(programID, name.c_str()), count, (float*)v);
+	}
+	void setUniform(const std::string& name, const glm::mat3* v, uint32_t count) const {
+		glUniformMatrix3fv(glGetUniformLocation(programID, name.c_str()), count, GL_FALSE, (float*)v);
+	}
+	void setUniform(const std::string& name, const glm::mat4* v, uint32_t count) const {
+		glUniformMatrix4fv(glGetUniformLocation(programID, name.c_str()), count, GL_FALSE, (float*)v);
+	}
 
 };
 
