@@ -72,6 +72,7 @@ void Model::draw()
 		tex.bind(tex.getTexID(), program, shaderNames[i].c_str());
 	}
 
+	this->renderPass->setState();
 	this->renderPass->setVertexData(this->mesh.vao, this->mesh.eBuf, this->mesh.nTris, GL_TRIANGLES);
 	this->renderPass->draw();
 }

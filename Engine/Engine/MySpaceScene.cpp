@@ -31,7 +31,7 @@ void MySpaceScene::initialize() /*override*/
 	// Earth grond
 	{
 		std::shared_ptr<RenderPass> myEarthRenderPass = std::make_shared<RenderPass>();
-
+		
 		std::shared_ptr<Program> myEarthProgram = std::make_shared<Program>("myearth.vert", "myearth.frag");
 		myEarthProgram->setUniform("lightPosition", lightPosition);
 		myEarthRenderPass->setProgram(myEarthProgram);
