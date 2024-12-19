@@ -3,6 +3,7 @@
 
 #include "GLTools.hpp"
 #include "SceneManager.hpp"
+#include "RenderManager.hpp"
 #include "Scene.hpp"
 #include "Camera.hpp"
 

@@ -120,6 +120,9 @@
     <ClCompile Include="RenderPass.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Model.hpp">
@@ -213,6 +216,9 @@
       <Filter>Planet</Filter>
     </ClInclude>
     <ClInclude Include="RenderPass.hpp">
+      <Filter>Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.hpp">
       <Filter>Renderer</Filter>
     </ClInclude>
   </ItemGroup>
