@@ -1,4 +1,3 @@
-
 #include "Planet.hpp"
 
 void Planet::createPlanet(const float radius, const glm::vec3& position, const int texID, const std::string& shaderTexName)
@@ -65,7 +64,7 @@ void Planet::setRenderPass(const std::shared_ptr<RenderPass>& renderPass)
 		return;
 	}
 
-	this->sphere->setRenderPass(renderPass);
+	// this->sphere->setRenderPass(renderPass);
 }
 
 void Planet::draw() const

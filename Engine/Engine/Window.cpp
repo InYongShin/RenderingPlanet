@@ -104,6 +104,9 @@ void Window::display() const
 		SceneManager::getInstance()->updateScene();
 		SceneManager::getInstance()->drawScene();
 
+		// TODO: Use RenderManager
+		// RenderManager::getInstance()->render();
+
 		glfwSwapBuffers(this->GLwindow);
 		glfwPollEvents();
 	}

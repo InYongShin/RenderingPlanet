@@ -17,6 +17,7 @@ private:
 public:
 	GLuint vao=0, vBuf=0, eBuf=0, tBuf=0, nBuf=0, cBuf=0;
 	GLsizei nTris=0, nVerts=0;
+	GLenum primitive=GL_TRIANGLES;
 
 	void createMeshGL();
 

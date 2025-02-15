@@ -4,6 +4,7 @@
 #include "SphereModel.hpp"
 #include "Program.hpp"
 #include "Texture.hpp"
+#include "RenderPass.hpp"
 
 #include <string>
 

@@ -4,7 +4,6 @@
 #include "Mesh.hpp"
 #include "Program.hpp"
 #include "GLTools.hpp"
-#include "RenderPass.hpp"
 
 #include <memory>
 
@@ -15,8 +14,6 @@ private:
 
 	std::vector<int> texIDs;
 	std::vector<std::string> shaderNames;
-
-	std::shared_ptr<RenderPass> renderPass = nullptr;
 
 protected:
 	glm::vec3 position = glm::vec3(0.f);
@@ -32,9 +29,9 @@ public:
 	void setPosition(const glm::vec3& position);
 	inline glm::vec3 getPosition() const { return this->position; }
 
-	inline void setRenderPass(const std::shared_ptr<RenderPass>& renderPass) { this->renderPass = renderPass; }
-
 	void addTexture(int id, const std::string& shaderName);
+
+	const Mesh& getMesh() const { return this->mesh; }
 
 	virtual void draw();
 
