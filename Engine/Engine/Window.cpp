@@ -89,7 +89,7 @@ void Window::display() const
 		return;
 	}
 
-	glm::vec4 bgColor = SceneManager::getInstance()->getActiveScene()->getBackgroundColor();
+	const glm::vec4& bgColor = SceneManager::getInstance()->getActiveScene()->getBackgroundColor();
 
 	while (!glfwWindowShouldClose(this->GLwindow))
 	{

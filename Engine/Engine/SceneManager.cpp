@@ -55,7 +55,7 @@ void SceneManager::activateScene(const std::shared_ptr<Scene>& scene)
 
 void SceneManager::updateScene()
 {
-	if (activeScene == nullptr)
+	if (this->activeScene == nullptr)
 	{
 		if (this->scenes.size() > 0)
 		{
@@ -73,7 +73,7 @@ void SceneManager::updateScene()
 
 void SceneManager::drawScene()
 {
-	if (activeScene == nullptr)
+	if (this->activeScene == nullptr)
 	{
 		if(this->scenes.size() > 0)
 		{
