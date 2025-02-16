@@ -3,6 +3,7 @@
 
 #include "Singleton.hpp"
 #include "RenderPass.hpp"
+#include "Scene.hpp"
 
 #include <vector>
 

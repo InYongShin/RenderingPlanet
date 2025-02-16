@@ -1,5 +1,8 @@
 #include "RenderPass.hpp"
 
+#include "TextureManager.hpp"
+#include "SceneManager.hpp"
+
 void RenderPass::loadProgram(const char* vertexPath, const char* fragmentPath, const char* geometryPath, const char* tessControlPath, const char* tessEvaluatePath)
 {
 	std::shared_ptr<Program> prog = std::make_shared<Program>(vertexPath, fragmentPath, geometryPath, tessControlPath, tessEvaluatePath);
@@ -64,12 +67,38 @@ void RenderPass::setVertexData(GLuint vao, GLuint eBuf, GLsizei nTris, GLenum dr
 
 void RenderPass::draw()
 {
+	if(this->program == nullptr || !this->program->isUsable())
+	{
+		// TODO: Load default program
+		// e.g., program.loadShaders("shaders/default.vert", "shaders/default.frag");
+		std::cerr << "program is nullptr" << std::endl;
+		return;
+	}
+
+	this->program->use();
+
+	this->program->setUniform("viewMat", SceneManager::getInstance()->getCamera().viewMat());
+	this->program->setUniform("projMat", SceneManager::getInstance()->getCamera().projMat());
+
+	setState();
+
 	for(const auto& model : this->models)
 	{
 		if (model == nullptr)
 		{
 			std::cerr << "Model is nullptr" << std::endl;
 			continue;
+		}
+
+		this->program->setUniform("modelMat", model->getModelMat());
+
+		std::vector<int> texIDs = model->getTexIDs();
+		std::vector<std::string> shaderNames = model->getShaderNames();
+		for (int i = 0; i < texIDs.size(); ++i)
+		{
+			int texID = texIDs[i];
+			Texture& tex = TextureManager::getInstance()->getTexture(texID);
+			tex.bind(tex.getTexID(), program, shaderNames[i].c_str());
 		}
 
 		// TODO: Primitive °ü¸®

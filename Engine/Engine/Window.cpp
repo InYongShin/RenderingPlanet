@@ -102,10 +102,9 @@ void Window::display() const
 
 		SceneManager::getInstance()->getCamera().setViewport({ w, h });
 		SceneManager::getInstance()->updateScene();
-		SceneManager::getInstance()->drawScene();
+		// SceneManager::getInstance()->drawScene();
 
-		// TODO: Use RenderManager
-		// RenderManager::getInstance()->render();
+		RenderManager::getInstance()->render();
 
 		glfwSwapBuffers(this->GLwindow);
 		glfwPollEvents();

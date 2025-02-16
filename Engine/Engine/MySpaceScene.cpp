@@ -2,6 +2,7 @@
 
 #include "MyEarth.hpp"
 
+#include "RenderManager.hpp"
 #include "RenderPass.hpp"
 
 MySpaceScene::MySpaceScene()
@@ -30,32 +31,35 @@ void MySpaceScene::initialize() /*override*/
 
 	// Earth grond
 	{
-		std::shared_ptr<RenderPass> myEarthRenderPass = std::make_shared<RenderPass>();
+		std::unique_ptr<RenderPass> myEarthRenderPass = std::make_unique<RenderPass>();
 		
 		std::shared_ptr<Program> myEarthProgram = std::make_shared<Program>("myearth.vert", "myearth.frag");
 		myEarthProgram->setUniform("lightPosition", lightPosition);
 		myEarthRenderPass->setProgram(myEarthProgram);
 
 		std::shared_ptr<MyEarth> myEarth = std::make_shared<MyEarth>("MyEarth", earthPosition, earthRadius, 100);
-		myEarth->setRenderPass(myEarthRenderPass);
+		myEarthRenderPass->addModel(myEarth->getSphere());
+
+		RenderManager::getInstance()->addRenderPass(myEarthRenderPass);
 
 		addPlanet(myEarth);
 	}
 
 	// Earth ocean
 	{
-		std::shared_ptr<RenderPass> oceanRenderPass = std::make_shared<RenderPass>();
+		std::unique_ptr<RenderPass> oceanRenderPass = std::make_unique<RenderPass>();
 	
 		std::shared_ptr<Program> oceanProgram = std::make_shared<Program>("ocean.vert", "ocean.frag");
 		oceanProgram->setUniform("lightPosition", lightPosition);
 		oceanRenderPass->setProgram(oceanProgram);
 
 		std::shared_ptr<Planet> ocean = std::make_shared<Planet>("Ocean", earthPosition, earthRadius + 0.35f);
-		ocean->setRenderPass(oceanRenderPass);
+		oceanRenderPass->addModel(ocean->getSphere());
+
+		RenderManager::getInstance()->addRenderPass(oceanRenderPass);
 
 		addPlanet(ocean);
 	}
-
 }
 
 void MySpaceScene::update() /*override*/

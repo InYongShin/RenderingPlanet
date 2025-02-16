@@ -23,11 +23,13 @@ protected:
 
 public:
 
-	void loadProgram(const char* vertexPath, const char* fragmentPath, 
-					 const char* geometryPath = nullptr, const char* tessControlPath = nullptr, const char* tessEvaluatePath = nullptr);
-
 	void setPosition(const glm::vec3& position);
 	inline glm::vec3 getPosition() const { return this->position; }
+
+	std::vector<int> getTexIDs() const { return this->texIDs; }
+	std::vector<std::string> getShaderNames() const { return this->shaderNames; }
+
+	const glm::mat4& getModelMat() const { return this->_modelMat; }
 
 	void addTexture(int id, const std::string& shaderName);
 

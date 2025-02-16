@@ -4,7 +4,6 @@
 #include "SphereModel.hpp"
 #include "Program.hpp"
 #include "Texture.hpp"
-#include "RenderPass.hpp"
 
 #include <string>
 
@@ -37,8 +36,6 @@ public:
 	inline float getRadius() const { return this->_radius; }
 
 	inline std::shared_ptr<SphereModel> getSphere() const { return this->sphere; }
-
-	void setRenderPass(const std::shared_ptr<RenderPass>& renderPass);
 
 	void draw() const;
 	

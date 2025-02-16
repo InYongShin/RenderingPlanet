@@ -50,23 +50,6 @@ void Planet::createPlanet(const float radius, const glm::vec3& position, const i
 	this->isCreated = true;
 }
 
-void Planet::setRenderPass(const std::shared_ptr<RenderPass>& renderPass)
-{
-	if (renderPass == nullptr)
-	{
-		std::cerr << "RenderPass is nullptr" << std::endl;
-		return;
-	}
-
-	if (this->sphere == nullptr)
-	{
-		std::cerr << "Sphere is nullptr" << std::endl;
-		return;
-	}
-
-	// this->sphere->setRenderPass(renderPass);
-}
-
 void Planet::draw() const
 {
 	if (this->sphere)
