@@ -12,6 +12,8 @@ private:
 
 	void addPlanet(const std::shared_ptr<Planet>& planet);
 
+	std::shared_ptr<Program> cloudProgram;
+
 public:
 
 	inline std::vector<std::shared_ptr<Planet>> getPlanets() const { return this->planets; }

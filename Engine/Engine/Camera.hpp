@@ -33,6 +33,7 @@ public:
 	inline void setRoll(float roll) { this->roll = roll; }
 	inline float getPitch() const { return this->pitch; }
 	inline void setPitch(float pitch) { this->pitch = pitch; }
+	inline glm::vec2 getViewport() const { return this->viewport; }
 	inline void setViewport(const glm::vec2& viewport) { this->viewport = viewport; }
 
 	glm::mat4 projMat() const {

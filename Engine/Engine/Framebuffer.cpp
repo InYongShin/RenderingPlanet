@@ -48,10 +48,12 @@ void Framebuffer::create(int w, int h, GLenum type, int nChannels, bool withDept
 	// TODO: multiple color attachments
 	glBindFramebuffer(GL_FRAMEBUFFER, this->id);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, this->colorTex.getTexID(), 0);
+	glErr("after glFramebufferTexture2D: colorTex");
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, this->depthTex.getTexID(), 0);
+	glErr("after glFramebufferTexture2D: depthTex");
 	std::vector<GLenum> drawBuffers = {GL_COLOR_ATTACHMENT0};
 	glDrawBuffers(1, drawBuffers.data());
-	glErr("glDrawBuffers");
+	glErr("after glDrawBuffers");
 	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if(status !=GL_FRAMEBUFFER_COMPLETE)
 	{

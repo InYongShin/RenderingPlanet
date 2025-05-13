@@ -5,6 +5,9 @@
 #include "RenderManager.hpp"
 #include "RenderPass.hpp"
 
+#include "SceneManager.hpp"
+#include "QuadModel.hpp"
+
 MySpaceScene::MySpaceScene()
 	: Scene()
 {
@@ -60,6 +63,70 @@ void MySpaceScene::initialize() /*override*/
 
 		addPlanet(ocean);
 	}
+
+	// Cloud
+	{
+		float volumeScaleX=5.f;
+		float volumeScaleY=5.f;
+		float volumeScaleZ=5.f;
+
+		float r1 = 1.0f;
+		float r2 = 2.0f;
+
+		int numOctaves = 8;
+		float rayStep = 0.1f;
+		int maxStep = 64;
+		float lightStep = 0.1f;
+		int maxLightStep = 6;
+		float frequency = 1.f;
+		float H = -0.85f;
+		float coverage = 0.2f;
+		float absorption = 1.f;
+		float lightAbsorptionToSun = 1.f;
+		float g = 0.2f;
+
+		std::unique_ptr<RenderPass> cloudRenderPass = std::make_unique<RenderPass>();
+
+		Camera cam = SceneManager::getInstance()->getCamera();
+		glm::vec3 camDir = glm::normalize(cam.getCenter() - cam.getPosition());
+
+		cloudProgram = std::make_shared<Program>("quad.vert", "cloud.frag");
+		
+		cloudProgram->setUniform("viewport", cam.getViewport());
+		cloudProgram->setUniform("camPos", cam.getPosition());
+		cloudProgram->setUniform("camDir", camDir);
+		cloudProgram->setUniform("lookAt", cam.viewMat());
+		cloudProgram->setUniform("lightPos", lightPosition);
+		cloudProgram->setUniform("lightCol", glm::vec3(1.0f, 1.0f, 1.0f));
+		cloudProgram->setUniform("boundsMin", -glm::vec3(volumeScaleX, volumeScaleY-5, volumeScaleZ));
+		cloudProgram->setUniform("boundsMax", glm::vec3(volumeScaleX, volumeScaleY+5, volumeScaleZ));
+
+		cloudProgram->setUniform("r1", r1);
+		cloudProgram->setUniform("r2", r2);
+
+		cloudProgram->setUniform("rayStep", rayStep);
+		cloudProgram->setUniform("maxStep", maxStep);
+
+		cloudProgram->setUniform("maxLightStep", maxLightStep);
+		cloudProgram->setUniform("frequency", frequency);
+		cloudProgram->setUniform("numOctaves", numOctaves);
+		cloudProgram->setUniform("coverage", coverage);
+		cloudProgram->setUniform("absorption", absorption);
+		cloudProgram->setUniform("lightAbsorptionToSun", lightAbsorptionToSun);
+		cloudProgram->setUniform("H", H);
+		cloudProgram->setUniform("g", g);
+		cloudProgram->setUniform("maxStep", maxStep);
+		cloudProgram->setUniform("backColor", glm::vec4(.31, .73, .87, 1));
+
+		cloudRenderPass->setProgram(cloudProgram);
+
+		std::shared_ptr<QuadModel> quad = std::make_shared<QuadModel>();
+		quad->createScreenQuad();
+
+		cloudRenderPass->addModel(quad);
+
+		RenderManager::getInstance()->addRenderPass(cloudRenderPass);
+	}
 }
 
 void MySpaceScene::update() /*override*/
@@ -67,6 +134,15 @@ void MySpaceScene::update() /*override*/
 	for (auto& planet : this->planets)
 	{
 		planet->update();
+	}
+
+	if (cloudProgram && cloudProgram->isUsable())
+	{
+		Camera cam = SceneManager::getInstance()->getCamera();
+		glm::vec3 camDir = glm::normalize(cam.getCenter() - cam.getPosition());
+		cloudProgram->setUniform("camPos", cam.getPosition());
+		cloudProgram->setUniform("camDir", camDir);
+		cloudProgram->setUniform("lookAt", cam.viewMat());
 	}
 }
 

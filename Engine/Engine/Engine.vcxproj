@@ -200,6 +200,7 @@
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cloud.frag" />
     <None Include="earth.frag" />
     <None Include="earth.vert" />
     <None Include="ground.frag" />
@@ -209,6 +210,7 @@
     <None Include="ocean.frag" />
     <None Include="ocean.vert" />
     <None Include="perlin.frag" />
+    <None Include="quad.vert" />
     <None Include="render.frag" />
     <None Include="render.vert" />
     <None Include="sun.frag" />

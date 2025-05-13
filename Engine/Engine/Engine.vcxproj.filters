@@ -265,5 +265,11 @@
     <None Include="ocean.frag">
       <Filter>Shader</Filter>
     </None>
+    <None Include="quad.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="cloud.frag">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>
