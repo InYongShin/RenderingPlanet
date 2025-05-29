@@ -16,6 +16,9 @@ uniform vec3 lightCol;
 uniform vec3 boundsMin;
 uniform vec3 boundsMax;
 
+uniform float volumeRadius;
+uniform vec3 volumeCenter;
+
 uniform float r1;
 uniform float r2;
 
@@ -191,7 +194,6 @@ float lightMarch(vec3 rd, vec3 p){
     return darknessThreshold + transmittance * (1-darknessThreshold); 
 }
 
-
 vec2 rayBoxDist(vec3 boundsMin_, vec3 boundsMax_, vec3 ro, vec3 rd){
     vec3 t0 = (boundsMin_ - ro) / rd;
     vec3 t1 = (boundsMax_ - ro) / rd;
@@ -207,6 +209,33 @@ vec2 rayBoxDist(vec3 boundsMin_, vec3 boundsMax_, vec3 ro, vec3 rd){
     return vec2(distToBox, distInsideBox);
 }
 
+vec2 raySphereDis(vec3 center, float radius, vec3 ro, vec3 rd) {
+    vec3 oc = ro - center;
+
+    float a = dot(rd, rd);
+    float b = 2.0 * dot(oc, rd);
+    float c = dot(oc, oc) - radius * radius;
+
+    float discriminant = b * b - 4.0 * a * c;
+
+    if (discriminant < 0.0) {
+        return vec2(0.0, 0.0);
+    }
+
+    float sqrtDiscriminant = sqrt(discriminant);
+    float t1 = (-b - sqrtDiscriminant) / (2.0 * a);
+    float t2 = (-b + sqrtDiscriminant) / (2.0 * a);
+
+    float distToSphere = max(0.0, t1);
+    float distInsideSphere = max(0.0, t2 - distToSphere);
+
+    return vec2(distToSphere, distInsideSphere);
+}
+
+bool isInsideSphere(vec3 c, float r, vec3 p) {
+    float d = dot(p-c, p-c);
+    return d < r * r;
+}
 
 void main() {
 
@@ -223,7 +252,8 @@ void main() {
 
     vec4 col = vec4(0.31, 0.73, 0.87, 0.0);
 
-    vec2 rayBoxInfo = rayBoxDist(boundsMin, boundsMax, ro, rd);
+    // vec2 rayBoxInfo = rayBoxDist(boundsMin, boundsMax, ro, rd);
+    vec2 rayBoxInfo = raySphereDis(volumeCenter, volumeRadius, ro, rd);
     float distToBox = rayBoxInfo.x;
     float distInsideBox = rayBoxInfo.y;
 
@@ -235,6 +265,10 @@ void main() {
         float totalStepLength = distToBox;
         for(int i=0; i<maxStep; ++i){
             vec3 p = ro + totalStepLength * rd;
+
+            if(isInsideSphere(volumeCenter, volumeRadius * 0.9f, p))
+                break;
+
             float density = sampleDensity(p);
 
             if(density>0.01){

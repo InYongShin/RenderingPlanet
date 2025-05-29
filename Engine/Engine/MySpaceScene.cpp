@@ -78,9 +78,9 @@ void MySpaceScene::initialize() /*override*/
 		int maxStep = 64;
 		float lightStep = 0.1f;
 		int maxLightStep = 6;
-		float frequency = 1.f;
-		float H = -0.85f;
-		float coverage = 0.2f;
+		float frequency = 0.15f;
+		float H = -0.6f;
+		float coverage = 0.15f;
 		float absorption = 1.f;
 		float lightAbsorptionToSun = 1.f;
 		float g = 0.2f;
@@ -100,6 +100,10 @@ void MySpaceScene::initialize() /*override*/
 		cloudProgram->setUniform("lightCol", glm::vec3(1.0f, 1.0f, 1.0f));
 		cloudProgram->setUniform("boundsMin", -glm::vec3(volumeScaleX, volumeScaleY-5, volumeScaleZ));
 		cloudProgram->setUniform("boundsMax", glm::vec3(volumeScaleX, volumeScaleY+5, volumeScaleZ));
+
+		cloudProgram->setUniform("volumeRadius", earthRadius * 2.5f);
+		cloudProgram->setUniform("volumeCenter", earthPosition);
+
 
 		cloudProgram->setUniform("r1", r1);
 		cloudProgram->setUniform("r2", r2);
