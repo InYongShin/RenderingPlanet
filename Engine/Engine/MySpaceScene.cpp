@@ -88,13 +88,12 @@ void MySpaceScene::initialize() /*override*/
 		std::unique_ptr<RenderPass> cloudRenderPass = std::make_unique<RenderPass>();
 
 		Camera cam = SceneManager::getInstance()->getCamera();
-		glm::vec3 camDir = glm::normalize(cam.getCenter() - cam.getPosition());
 
 		cloudProgram = std::make_shared<Program>("quad.vert", "cloud.frag");
 		
 		cloudProgram->setUniform("viewport", cam.getViewport());
 		cloudProgram->setUniform("camPos", cam.getPosition());
-		cloudProgram->setUniform("camDir", camDir);
+		cloudProgram->setUniform("camDir", cam.getDirection());
 		cloudProgram->setUniform("lookAt", cam.viewMat());
 		cloudProgram->setUniform("lightPos", lightPosition);
 		cloudProgram->setUniform("lightCol", glm::vec3(1.0f, 1.0f, 1.0f));
