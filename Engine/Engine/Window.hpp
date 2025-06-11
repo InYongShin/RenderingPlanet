@@ -89,7 +89,7 @@ public:
 		Camera& camera = SceneManager::getInstance()->getCamera();
 		if (key == 87) // w
 		{
-			glm::vec3 frontDir = glm::normalize(camera.getCenter() - camera.getPosition());
+			glm::vec3 frontDir = camera.getDirection();
 			
 			glm::vec3 position = camera.getPosition() + frontDir * glm::vec3(_moveSpeed);
 			camera.setPosition(position);
@@ -99,7 +99,7 @@ public:
 		}
 		else if (key == 83) // s
 		{
-			glm::vec3 frontDir = glm::normalize(camera.getCenter() - camera.getPosition());
+			glm::vec3 frontDir = camera.getDirection();
 
 			glm::vec3 position = camera.getPosition() - frontDir * glm::vec3(_moveSpeed);
 			camera.setPosition(position);
@@ -109,7 +109,7 @@ public:
 		}
 		else if (key == 65) // a
 		{
-			glm::vec3 frontDir = glm::normalize(camera.getCenter() - camera.getPosition());
+			glm::vec3 frontDir = camera.getDirection();
 			glm::vec3 up = camera.getUpVector();
 			glm::vec3 leftDir = glm::cross(up, frontDir);
 
@@ -121,7 +121,7 @@ public:
 		}
 		else if (key == 68) // d
 		{
-			glm::vec3 frontDir = glm::normalize(camera.getCenter() - camera.getPosition());
+			glm::vec3 frontDir = camera.getDirection();
 			glm::vec3 up = camera.getUpVector();
 			glm::vec3 rightDir = glm::cross(frontDir, up);
 			

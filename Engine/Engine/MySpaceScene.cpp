@@ -142,10 +142,10 @@ void MySpaceScene::update() /*override*/
 	if (cloudProgram && cloudProgram->isUsable())
 	{
 		Camera cam = SceneManager::getInstance()->getCamera();
-		glm::vec3 camDir = glm::normalize(cam.getCenter() - cam.getPosition());
 		cloudProgram->setUniform("camPos", cam.getPosition());
-		cloudProgram->setUniform("camDir", camDir);
+		cloudProgram->setUniform("camDir", cam.getDirection());
 		cloudProgram->setUniform("lookAt", cam.viewMat());
+		cloudProgram->setUniform("viewport", cam.getViewport());
 	}
 }
 
