@@ -36,10 +36,11 @@ public:
 	inline glm::vec2 getViewport() const { return this->viewport; }
 	inline void setViewport(const glm::vec2& viewport) { this->viewport = viewport; }
 
-	inline glm::vec3 getDirection() const { return glm::normalize(this->center - this->position); }
+	inline glm::vec3 getDirection() { return glm::normalize(this->center - this->position); }
 
 	glm::mat4 projMat() const {
 		return glm::perspective(fov, viewport.x / viewport.y, zNear, zFar);
+		// return glm::ortho(0.0f, 100.0f, 0.0f, 100.0f, 0.1f, 100.0f);
 	}
 	glm::mat4 viewMat() const {
 		return glm::lookAt(position, center, upVector);

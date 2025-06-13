@@ -4,6 +4,10 @@ const float pi = 3.141592f;
 
 out vec4 outColor;
 
+in vec3 worldPos;
+in vec3 normal;
+in vec2 texCoord;
+
 uniform vec2 viewport;
 
 uniform vec3 camPos;
@@ -238,39 +242,46 @@ bool isInsideSphere(vec3 c, float r, vec3 p) {
 }
 
 void main() {
-
     vec2 uv = (2*gl_FragCoord.xy - viewport) / viewport.y;
-    
-    vec3 front = camDir;
 
-    vec3 right = normalize(cross(front, vec3(0,1,0)));
-    vec3 up = normalize(cross(right, front));
-    mat3 lookAt_ = mat3(right, up, front);
+    // vec2 uv = (gl_FragCoord.xy / viewport);
+    // 
+    // vec3 testCol = vec3(0.0);
+    // 
+    // if (uv.x < 0.001 || uv.x > 0.999 ||
+    //     uv.y < 0.001 || uv.y > 0.999)
+    // {
+    //     testCol = vec3(1.0);
+    // }
+    // 
+    // outColor = vec4(testCol, 1.0);
+    // 
+    // return;
 
-    vec3 rd = lookAt_ * normalize(vec3(uv,1.));
+    // vec3 rd = (lookAt * vec4(normalize(vec3(uv.x, uv.y, -1.0)), 0.0)).xyz;
     vec3 ro = camPos;
+    vec3 rd = normalize(worldPos - ro);
 
     vec4 col = vec4(0.31, 0.73, 0.87, 0.0);
 
-    // vec2 rayBoxInfo = rayBoxDist(boundsMin, boundsMax, ro, rd);
-    vec2 rayBoxInfo = raySphereDis(volumeCenter, volumeRadius, ro, rd);
-    float distToBox = rayBoxInfo.x;
-    float distInsideBox = rayBoxInfo.y;
+    vec2 raySphereInfo = raySphereDis(volumeCenter, volumeRadius, ro, rd);
+    float distToSphere = raySphereInfo.x;
+    float distInsideSphere = raySphereInfo.y;
 
     float transmittance = 1;
     float lightEnergy = 0.0;
 
-    if(distInsideBox > 0){
-        float stepLength = distInsideBox / maxStep;
-        float totalStepLength = distToBox;
+    if(distInsideSphere > 0){
+        float stepLength = distInsideSphere / maxStep;
+        float totalStepLength = distToSphere;
         for(int i=0; i<maxStep; ++i){
             vec3 p = ro + totalStepLength * rd;
-
+    
             if(isInsideSphere(volumeCenter, volumeRadius * 0.9f, p))
-                break;
-
+                continue;
+    
             float density = sampleDensity(p);
-
+    
             if(density>0.01){
                 // float lightTransmittance = lightMarch(rd, p);
                 // vec3 toLight = normalize(lightPos - p);
@@ -282,13 +293,13 @@ void main() {
                 lightEnergy += density * stepLength * transmittance;
                 
                 // 3D texture
-
+    
                 if(transmittance < 0.01) break;
             }
             totalStepLength += stepLength;
         }
     }
-
+    
     vec3 cloudCol = lightEnergy * lightCol; // light color = vec3(1)
     col.rgb = col.rgb * transmittance + cloudCol;
     col.a = lightEnergy;
