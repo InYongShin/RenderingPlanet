@@ -219,9 +219,7 @@ vec2 raySphereDis(vec3 center, float radius, vec3 ro, vec3 rd) {
     float a = dot(rd, rd);
     float b = 2.0 * dot(oc, rd);
     float c = dot(oc, oc) - radius * radius;
-
     float discriminant = b * b - 4.0 * a * c;
-
     if (discriminant < 0.0) {
         return vec2(0.0, 0.0);
     }
@@ -244,31 +242,15 @@ bool isInsideSphere(vec3 c, float r, vec3 p) {
 void main() {
     vec2 uv = (2*gl_FragCoord.xy - viewport) / viewport.y;
 
-    // vec2 uv = (gl_FragCoord.xy / viewport);
-    // 
-    // vec3 testCol = vec3(0.0);
-    // 
-    // if (uv.x < 0.001 || uv.x > 0.999 ||
-    //     uv.y < 0.001 || uv.y > 0.999)
-    // {
-    //     testCol = vec3(1.0);
-    // }
-    // 
-    // outColor = vec4(testCol, 1.0);
-    // 
-    // return;
-
     // vec3 rd = (lookAt * vec4(normalize(vec3(uv.x, uv.y, -1.0)), 0.0)).xyz;
     vec3 ro = camPos;
     vec3 rd = normalize(worldPos - ro);
-
-    vec4 col = vec4(0.31, 0.73, 0.87, 0.0);
 
     vec2 raySphereInfo = raySphereDis(volumeCenter, volumeRadius, ro, rd);
     float distToSphere = raySphereInfo.x;
     float distInsideSphere = raySphereInfo.y;
 
-    float transmittance = 1;
+    float transmittance = 1.0;
     float lightEnergy = 0.0;
 
     if(distInsideSphere > 0){
@@ -276,13 +258,16 @@ void main() {
         float totalStepLength = distToSphere;
         for(int i=0; i<maxStep; ++i){
             vec3 p = ro + totalStepLength * rd;
-    
-            if(isInsideSphere(volumeCenter, volumeRadius * 0.9f, p))
+
+            if (isInsideSphere(volumeCenter, volumeRadius * 0.9f, p))
+            {
+                totalStepLength += stepLength;
                 continue;
-    
+            }
+
             float density = sampleDensity(p);
-    
-            if(density>0.01){
+
+            if (density>0.01){
                 // float lightTransmittance = lightMarch(rd, p);
                 // vec3 toLight = normalize(lightPos - p);
                 // float cosTheta = dot(rd, toLight);
@@ -291,19 +276,20 @@ void main() {
                 // transmittance *= 2*(1 - exp(-2*density * rayStep));
                 // lightEnergy += density * stepLength * transmittance * lightTransmittance;
                 lightEnergy += density * stepLength * transmittance;
-                
+
                 // 3D texture
-    
+
                 if(transmittance < 0.01) break;
             }
             totalStepLength += stepLength;
         }
     }
-    
+
+    vec4 col = vec4(0.0);
     vec3 cloudCol = lightEnergy * lightCol; // light color = vec3(1)
-    col.rgb = col.rgb * transmittance + cloudCol;
+    col.rgb = transmittance + cloudCol;
     col.a = lightEnergy;
 
     // outColor = vec4(vec3(transmittance), 1.);
-    outColor = vec4(tonemap(col.rgb,mat3(1),2.4), col.a);
+    outColor = vec4(tonemap(col.rgb,mat3(1.0),2.4), col.a);
 }

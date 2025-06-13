@@ -75,7 +75,7 @@ void MySpaceScene::initialize() /*override*/
 
 		int numOctaves = 8;
 		float rayStep = 0.1f;
-		int maxStep = 64;
+		int maxStep = 32;
 		float lightStep = 0.1f;
 		int maxLightStep = 6;
 		float frequency = 0.15f;
@@ -100,7 +100,7 @@ void MySpaceScene::initialize() /*override*/
 		cloudProgram->setUniform("boundsMin", -glm::vec3(volumeScaleX, volumeScaleY-5, volumeScaleZ));
 		cloudProgram->setUniform("boundsMax", glm::vec3(volumeScaleX, volumeScaleY+5, volumeScaleZ));
 
-		cloudProgram->setUniform("volumeRadius", earthRadius * 2.5f);
+		cloudProgram->setUniform("volumeRadius", earthRadius * 1.3f);
 		cloudProgram->setUniform("volumeCenter", earthPosition);
 
 
@@ -108,7 +108,6 @@ void MySpaceScene::initialize() /*override*/
 		cloudProgram->setUniform("r2", r2);
 
 		cloudProgram->setUniform("rayStep", rayStep);
-		cloudProgram->setUniform("maxStep", maxStep);
 
 		cloudProgram->setUniform("maxLightStep", maxLightStep);
 		cloudProgram->setUniform("frequency", frequency);
@@ -124,7 +123,7 @@ void MySpaceScene::initialize() /*override*/
 		cloudRenderPass->setProgram(cloudProgram);
 
 		std::shared_ptr<SphereModel> sphere = std::make_shared<SphereModel>();
-		sphere->createSphere(earthRadius * 1.2, 63, 65);
+		sphere->createSphere(earthRadius * 1.3f, 63, 65);
 		cloudRenderPass->addModel(sphere);
 
 		RenderManager::getInstance()->addRenderPass(cloudRenderPass);
