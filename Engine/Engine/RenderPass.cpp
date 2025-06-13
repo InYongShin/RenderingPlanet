@@ -25,8 +25,10 @@ void RenderPass::setState()
 	}
 
 	// TODO: State °ü¸®
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+	if (this->depthTest) glEnable(GL_DEPTH_TEST);
+	else				 glDisable(GL_DEPTH_TEST);
+	if (this->cullFace)  glEnable(GL_CULL_FACE);
+	else				 glDisable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
@@ -111,4 +113,24 @@ void RenderPass::draw()
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void RenderPass::onDepthTest()
+{
+	this->depthTest = GL_TRUE;
+}
+
+void RenderPass::offDepthTest()
+{
+	this->depthTest = GL_FALSE;
+}
+
+void RenderPass::onCullFace()
+{
+	this->cullFace = GL_TRUE;
+}
+
+void RenderPass::offCullFace()
+{
+	this->cullFace = GL_FALSE;
 }

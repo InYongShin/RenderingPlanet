@@ -19,6 +19,9 @@ private:
 
 	std::vector<std::shared_ptr<Model>> models;
 
+	GLboolean depthTest;
+	GLboolean cullFace;
+
 public:
 
 	inline std::shared_ptr<Program> getProgram() const { return this->program; }
@@ -38,7 +41,13 @@ public:
 
 	void draw();
 
-	RenderPass() : vao(0), eBuf(0), nTris(0), drawMode(GL_TRIANGLES) {}
+	void onDepthTest();
+	void offDepthTest();
+	void onCullFace();
+	void offCullFace();
+
+	RenderPass() : vao(0), eBuf(0), nTris(0), drawMode(GL_TRIANGLES), 
+				   depthTest(GL_TRUE), cullFace(GL_TRUE) {}
 	virtual ~RenderPass() {};
 };
 
