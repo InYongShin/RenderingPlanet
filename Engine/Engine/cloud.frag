@@ -4,10 +4,6 @@ const float pi = 3.141592f;
 
 out vec4 outColor;
 
-in vec3 worldPos;
-in vec3 normal;
-in vec2 texCoord;
-
 uniform vec2 viewport;
 
 uniform vec3 camPos;
@@ -234,6 +230,29 @@ vec2 raySphereDis(vec3 center, float radius, vec3 ro, vec3 rd) {
     return vec2(distToSphere, distInsideSphere);
 }
 
+vec2 raySphere(vec3 center, float radius, vec3 ro, vec3 rd)
+{
+    vec3 offset = ro - center;
+    float a = 1;
+    float b = 2 * dot(offset, rd);
+    float c = dot(offset, offset) - radius * radius;
+    float d = b * b - 4 * a * c;
+
+    if (d > 0)
+    {
+        float s = sqrt(d);
+        float dstToSphereNear = max(0, (-b - s) / (2 * a));
+        float dstToSphereFar = (-b + s) / (2 * a);
+
+        if (dstToSphereFar >= 0)
+        {
+            return vec2(dstToSphereNear, dstToSphereFar - dstToSphereNear);
+        }
+    }
+
+    return vec2(100000000.0, 0.0);
+}
+
 bool isInsideSphere(vec3 c, float r, vec3 p) {
     float d = dot(p-c, p-c);
     return d < r * r;
@@ -241,14 +260,33 @@ bool isInsideSphere(vec3 c, float r, vec3 p) {
 
 void main() {
     vec2 uv = (2*gl_FragCoord.xy - viewport) / viewport.y;
+    
+    vec3 front = camDir;
+
+    vec3 right = normalize(cross(front, vec3(0,1,0)));
+    vec3 up = normalize(cross(right, front));
+    mat3 lookAt_ = mat3(right, up, front);
+
+    vec3 rd = lookAt_ * normalize(vec3(uv,1.));
 
     // vec3 rd = (lookAt * vec4(normalize(vec3(uv.x, uv.y, -1.0)), 0.0)).xyz;
+    // vec3 rd = (vec4(normalize(vec3(uv.x, uv.y, -1.0)), 0.0)).xyz;
     vec3 ro = camPos;
-    vec3 rd = normalize(worldPos - ro);
+    // vec3 rd = normalize(worldPos - ro);
 
-    vec2 raySphereInfo = raySphereDis(volumeCenter, volumeRadius, ro, rd);
+    // vec2 raySphereInfo = raySphereDis(volumeCenter, volumeRadius, ro, rd);
+    // float distToSphere = raySphereInfo.x;
+    // float distInsideSphere = raySphereInfo.y;
+
+    vec2 raySphereInfo = raySphere(volumeCenter, volumeRadius, ro, rd);
     float distToSphere = raySphereInfo.x;
     float distInsideSphere = raySphereInfo.y;
+
+    float testCol = distInsideSphere / (volumeRadius * 2.0);
+
+    outColor = vec4(0,testCol,0,testCol);
+
+    return;
 
     float transmittance = 1.0;
     float lightEnergy = 0.0;

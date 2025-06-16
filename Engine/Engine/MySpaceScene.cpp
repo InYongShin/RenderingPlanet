@@ -89,8 +89,8 @@ void MySpaceScene::initialize() /*override*/
 
 		Camera cam = SceneManager::getInstance()->getCamera();
 
-		cloudProgram = std::make_shared<Program>("render.vert", "cloud.frag");
-		
+		cloudProgram = std::make_shared<Program>("quad.vert", "cloud.frag");
+
 		cloudProgram->setUniform("viewport", cam.getViewport());
 		cloudProgram->setUniform("camPos", cam.getPosition());
 		cloudProgram->setUniform("camDir", cam.getDirection());
@@ -122,9 +122,9 @@ void MySpaceScene::initialize() /*override*/
 
 		cloudRenderPass->setProgram(cloudProgram);
 
-		std::shared_ptr<SphereModel> sphere = std::make_shared<SphereModel>();
-		sphere->createSphere(earthRadius * 1.3f, 63, 65);
-		cloudRenderPass->addModel(sphere);
+		std::shared_ptr<QuadModel> quad = std::make_shared<QuadModel>();
+		quad->createScreenQuad();
+		cloudRenderPass->addModel(quad);
 
 		RenderManager::getInstance()->addRenderPass(cloudRenderPass);
 	}
