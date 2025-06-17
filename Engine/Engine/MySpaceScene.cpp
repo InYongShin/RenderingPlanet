@@ -95,6 +95,7 @@ void MySpaceScene::initialize() /*override*/
 		cloudProgram->setUniform("camPos", cam.getPosition());
 		cloudProgram->setUniform("camDir", cam.getDirection());
 		cloudProgram->setUniform("lookAt", cam.viewMat());
+		cloudProgram->setUniform("proj", cam.projMat());
 		cloudProgram->setUniform("lightPos", lightPosition);
 		cloudProgram->setUniform("lightCol", glm::vec3(1.0f, 1.0f, 1.0f));
 		cloudProgram->setUniform("boundsMin", -glm::vec3(volumeScaleX, volumeScaleY-5, volumeScaleZ));
@@ -144,6 +145,7 @@ void MySpaceScene::update() /*override*/
 		cloudProgram->setUniform("camDir", cam.getDirection());
 		cloudProgram->setUniform("lookAt", cam.viewMat());
 		cloudProgram->setUniform("viewport", cam.getViewport());
+		cloudProgram->setUniform("proj", cam.projMat());
 	}
 }
 
