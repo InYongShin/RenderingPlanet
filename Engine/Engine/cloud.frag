@@ -285,7 +285,7 @@ void main() {
         for(int i=0; i<maxStep; ++i){
             vec3 p = ro + totalStepLength * rd;
 
-            float density = sampleDensity(p)
+            float density = sampleDensity(p);
 
             if (density>0.01){
                 // float lightTransmittance = lightMarch(rd, p);
