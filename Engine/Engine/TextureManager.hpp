@@ -16,8 +16,8 @@ private:
 public:
 
 	int loadTexture(const std::string& fileName);
-	int setTexture2D(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data);
-	int setTexture3D(const int width, const int height, const int depth, const GLenum type, const int numChannels, unsigned char* data);
+	int setTexture2D(const int width, const int height, const GLenum type, const int numChannels, void* data);
+	int setTexture3D(const int width, const int height, const int depth, const GLenum type, const int numChannels, void* data);
 
 	Texture& getTexture(int id) { return textureLib[id]; }
 	const Texture& getTexture(int id) const { return textureLib[id]; }

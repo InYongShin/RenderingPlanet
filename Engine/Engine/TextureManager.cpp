@@ -5,12 +5,12 @@ int TextureManager::loadTexture(const std::string& fileName)
 	return this->textureLib.loadTexture(fileName);
 }
 
-int TextureManager::setTexture2D(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data)
+int TextureManager::setTexture2D(const int width, const int height, const GLenum type, const int numChannels, void* data)
 {
 	return this->textureLib.setTexture2D(width, height, type, numChannels, data);
 }
 
-int TextureManager::setTexture3D(const int width, const int height, const int depth, const GLenum type, const int numChannels, unsigned char* data)
+int TextureManager::setTexture3D(const int width, const int height, const int depth, const GLenum type, const int numChannels, void* data)
 {
 	return this->textureLib.setTexture3D(width, height, depth, type, numChannels, data);
 }

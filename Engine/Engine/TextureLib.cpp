@@ -19,20 +19,20 @@ int TextureLib::loadTexture(const std::string& fileName)
 	if(ret < 0)
 	{
 		this->textures.emplace_back();
-		this->textures.back().load(fileName);
+		this->textures.back().load2D(fileName);
 		ret = (int)this->textures.size() - 1;
 	}
 	return ret;
 }
 
-int TextureLib::setTexture2D(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data)
+int TextureLib::setTexture2D(const int width, const int height, const GLenum type, const int numChannels, void* data)
 {
 	this->textures.emplace_back();
 	this->textures.back().setTextureData2D(width, height, type, numChannels, data);
 	return (int)this->textures.size() - 1;
 }
 
-int TextureLib::setTexture3D(const int width, const int height, const int depth, const GLenum type, const int numChannels, unsigned char* data)
+int TextureLib::setTexture3D(const int width, const int height, const int depth, const GLenum type, const int numChannels, void* data)
 {
 	this->textures.emplace_back();
 	this->textures.back().setTextureData3D(width, height, depth, type, numChannels, data);

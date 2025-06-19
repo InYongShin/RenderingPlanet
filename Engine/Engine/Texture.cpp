@@ -21,10 +21,10 @@ void Texture::setTexParam(GLuint minFilter /*= GL_LINEAR*/, GLuint wrap_s /*= GL
 	}
 }
 
-void Texture::load(const std::string& fileName, const bool isSrgb /*= false*/, const bool isNeedMaintainData /*= false*/)
+void Texture::load2D(const std::string& fileName, const bool isSrgb /*= false*/, const bool isNeedMaintainData /*= false*/)
 {
 	std::cout << "Loading texture: " << fileName << "\n";
-	
+
 	int width=0, height=0, numChannels=0;
 	this->_isSrgb = isSrgb;
 	this->_isNeedMaintainData = isNeedMaintainData;
@@ -36,6 +36,8 @@ void Texture::load(const std::string& fileName, const bool isSrgb /*= false*/, c
 		return;
 	}
 
+	this->_target = GL_TEXTURE_2D;
+	this->_type = GL_UNSIGNED_BYTE;
 	this->_fileName = fileName;
 	this->_width = width;
 	this->_height = height;
@@ -51,7 +53,6 @@ void Texture::createGL()
 		clear();
 	}
 
-	// TODO: type
 	auto [internalFormat, format, type] = TextureManager::getInstance()->getTextureType(this->_type, this->_numChannels, this->_isSrgb);
 	if(this->_target == GL_TEXTURE_2D)
 	{
@@ -98,7 +99,7 @@ void Texture::create(int width, int height, GLenum type /*= GL_UNSIGNED_BYTE*/, 
 	createGL();
 }
 
-void Texture::setTextureData2D(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data)
+void Texture::setTextureData2D(const int width, const int height, const GLenum type, const int numChannels, void* data)
 {
 	this->_target = GL_TEXTURE_2D;
 	this->_width = width;
@@ -111,7 +112,7 @@ void Texture::setTextureData2D(const int width, const int height, const GLenum t
 	createGL();
 }
 
-void Texture::setTextureData3D(const int width, const int height, const int depth, const GLenum type, const int numChannels, unsigned char* data)
+void Texture::setTextureData3D(const int width, const int height, const int depth, const GLenum type, const int numChannels, void* data)
 {
 	this->_target = GL_TEXTURE_3D;
 	this->_width = width;

@@ -16,7 +16,7 @@ private:
 	int _height = 0;
 	int _depth = 0;
 	int _numChannels = 0;
-	unsigned char* _data = nullptr;
+	void* _data = nullptr;
 
 	GLuint _texID = 0;
 	GLint _internalFormat = GL_RGB32UI;
@@ -71,12 +71,12 @@ public:
 	inline GLenum getFormat() const { return this->_format; }
 	inline GLenum getType() const { return this->_type; }
 
-	void load(const std::string& filenName, const bool isSrgb = false, const bool isNeedMaintainData = false);
+	void load2D(const std::string& filenName, const bool isSrgb = false, const bool isNeedMaintainData = false);
 
 	void create(int width, int height, GLenum type = GL_UNSIGNED_BYTE, int numChannels = 4, bool isSrgb = false, bool isNeedMaintainData = false);
 
-	void setTextureData2D(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data);
-	void setTextureData3D(const int width, const int height, const int depth, const GLenum type, const int numChannels, unsigned char* data);
+	void setTextureData2D(const int width, const int height, const GLenum type, const int numChannels, void* data);
+	void setTextureData3D(const int width, const int height, const int depth, const GLenum type, const int numChannels, void* data);
 
 	void bind(int slot);
 	void bind(int slot, const std::shared_ptr<Program>& program, const std::string& name);
@@ -96,7 +96,7 @@ public:
 	}
 	Texture(const std::string& fileName) 
 	{
-		load(fileName);
+		load2D(fileName);
 	}
 	virtual ~Texture() { clear(); }
 };
