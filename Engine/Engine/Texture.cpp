@@ -88,7 +88,6 @@ void Texture::createGL()
 
 void Texture::create(int width, int height, GLenum type /*= GL_UNSIGNED_BYTE*/, int numChannels /*= 4*/, bool isSrgb /*= false*/, bool isNeedMaintainData /*= false*/)
 {
-	this->_target = GL_TEXTURE_2D;
 	this->_width = width;
 	this->_height = height;
 	this->_numChannels = numChannels;
@@ -101,7 +100,7 @@ void Texture::create(int width, int height, GLenum type /*= GL_UNSIGNED_BYTE*/, 
 
 void Texture::setTextureData2D(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data)
 {
-	this->_target = GL_TEXTURE_3D;
+	this->_target = GL_TEXTURE_2D;
 	this->_width = width;
 	this->_height = height;
 	this->_type = type;
@@ -114,6 +113,7 @@ void Texture::setTextureData2D(const int width, const int height, const GLenum t
 
 void Texture::setTextureData3D(const int width, const int height, const int depth, const GLenum type, const int numChannels, unsigned char* data)
 {
+	this->_target = GL_TEXTURE_3D;
 	this->_width = width;
 	this->_height = height;
 	this->_depth = depth;
