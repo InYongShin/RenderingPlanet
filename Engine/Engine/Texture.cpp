@@ -6,15 +6,19 @@
 #include <stb/stb_image.h>
 
 
-void Texture::setTexParam(GLuint minFilter /*= GL_LINEAR*/, GLuint wrap_s /*= GL_REPEAT*/, GLuint wrap_t /*= GL_REPEAT*/)
+void Texture::setTexParam(GLuint minFilter /*= GL_LINEAR*/, GLuint wrap_s /*= GL_REPEAT*/, GLuint wrap_t /*= GL_REPEAT*/, GLuint wrap_r /*= GL_REPEAT*/)
 {
 	float maxAniso;
 	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAniso);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, maxAniso);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap_s);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap_t);
+	glTexParameterf(this->_target, GL_TEXTURE_MAX_ANISOTROPY, maxAniso);
+	glTexParameteri(this->_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(this->_target, GL_TEXTURE_MIN_FILTER, minFilter);
+	glTexParameteri(this->_target, GL_TEXTURE_WRAP_S, wrap_s);
+	glTexParameteri(this->_target, GL_TEXTURE_WRAP_T, wrap_t);
+	if(this->_target == GL_TEXTURE_3D)
+	{
+		glTexParameteri(this->_target, GL_TEXTURE_WRAP_R, wrap_r);
+	}
 }
 
 void Texture::load(const std::string& fileName, const bool isSrgb /*= false*/, const bool isNeedMaintainData /*= false*/)
@@ -49,14 +53,31 @@ void Texture::createGL()
 
 	// TODO: type
 	auto [internalFormat, format, type] = TextureManager::getInstance()->getTextureType(this->_type, this->_numChannels, this->_isSrgb);
-	GLint oldTexID = Texture::getBinding();
-	
-	glGenTextures(1, &this->_texID);
-	glBindTexture(GL_TEXTURE_2D, this->_texID);
-	setTexParam(this->_minFilter, this->_wrap_s, this->_wrap_t);
-	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, this->_width, this->_height, 0, format, type, this->_data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	Texture::restoreBinding(oldTexID);
+	if(this->_target == GL_TEXTURE_2D)
+	{
+		GLint oldTexID = Texture::getBinding2D();
+		glGenTextures(1, &this->_texID);
+		glBindTexture(this->_target, this->_texID);
+		setTexParam(this->_minFilter, this->_wrap_s, this->_wrap_t);
+		glTexImage2D(this->_target, 0, internalFormat, this->_width, this->_height, 0, format, type, this->_data);
+		glGenerateMipmap(this->_target);
+		Texture::restoreBinding2D(oldTexID);
+	}
+	else if(this->_target == GL_TEXTURE_3D)
+	{
+		GLint oldTexID = Texture::getBinding3D();
+		glGenTextures(1, &this->_texID);
+		glBindTexture(this->_target, this->_texID);
+		setTexParam(this->_minFilter, this->_wrap_s, this->_wrap_t, this->_wrap_r);
+		glTexImage3D(this->_target, 0, internalFormat, this->_width, this->_height, this->_depth, 0, format, type, this->_data);
+		glGenerateMipmap(this->_target);
+		Texture::restoreBinding3D(oldTexID);
+	}
+	else
+	{
+		std::cerr << "Failed to create gl texture." << std::endl;
+		return;
+	}
 
 	if (this->_data != nullptr && this->_isNeedMaintainData == false)
 	{
@@ -67,6 +88,7 @@ void Texture::createGL()
 
 void Texture::create(int width, int height, GLenum type /*= GL_UNSIGNED_BYTE*/, int numChannels /*= 4*/, bool isSrgb /*= false*/, bool isNeedMaintainData /*= false*/)
 {
+	this->_target = GL_TEXTURE_2D;
 	this->_width = width;
 	this->_height = height;
 	this->_numChannels = numChannels;
@@ -77,10 +99,24 @@ void Texture::create(int width, int height, GLenum type /*= GL_UNSIGNED_BYTE*/, 
 	createGL();
 }
 
-void Texture::setTextureData(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data)
+void Texture::setTextureData2D(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data)
+{
+	this->_target = GL_TEXTURE_3D;
+	this->_width = width;
+	this->_height = height;
+	this->_type = type;
+	this->_numChannels = numChannels;
+	this->_data = data;
+	this->_isNeedMaintainData = true;
+
+	createGL();
+}
+
+void Texture::setTextureData3D(const int width, const int height, const int depth, const GLenum type, const int numChannels, unsigned char* data)
 {
 	this->_width = width;
 	this->_height = height;
+	this->_depth = depth;
 	this->_type = type;
 	this->_numChannels = numChannels;
 	this->_data = data;
@@ -97,7 +133,7 @@ void Texture::bind(int slot)
 		return;
 	}
 	glActiveTexture(GL_TEXTURE0 + slot);
-	glBindTexture(GL_TEXTURE_2D, this->_texID);
+	glBindTexture(this->_target, this->_texID);
 }
 
 void Texture::bind(int slot, const std::shared_ptr<Program>& program, const std::string& name)

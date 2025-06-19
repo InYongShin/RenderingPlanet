@@ -25,10 +25,17 @@ int TextureLib::loadTexture(const std::string& fileName)
 	return ret;
 }
 
-int TextureLib::setTexture(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data)
+int TextureLib::setTexture2D(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data)
 {
 	this->textures.emplace_back();
-	this->textures.back().setTextureData(width, height, type, numChannels, data);
+	this->textures.back().setTextureData2D(width, height, type, numChannels, data);
+	return (int)this->textures.size() - 1;
+}
+
+int TextureLib::setTexture3D(const int width, const int height, const int depth, const GLenum type, const int numChannels, unsigned char* data)
+{
+	this->textures.emplace_back();
+	this->textures.back().setTextureData3D(width, height, depth, type, numChannels, data);
 	return (int)this->textures.size() - 1;
 }
 

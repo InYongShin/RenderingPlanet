@@ -14,6 +14,7 @@ private:
 
 	int _width = 0;
 	int _height = 0;
+	int _depth = 0;
 	int _numChannels = 0;
 	unsigned char* _data = nullptr;
 
@@ -25,23 +26,37 @@ private:
 	GLuint _minFilter = GL_LINEAR;
 	GLuint _wrap_s = GL_REPEAT;
 	GLuint _wrap_t = GL_REPEAT;
+	GLuint _wrap_r = GL_REPEAT;
 
 	bool _isSrgb = false;
 
 	bool _isNeedMaintainData = false;
 
-	void setTexParam(GLuint minFilter = GL_LINEAR, GLuint wrap_s = GL_REPEAT, GLuint wrap_t = GL_REPEAT);
+	GLenum _target = GL_TEXTURE_2D;
+
+	void setTexParam(GLuint minFilter = GL_LINEAR, GLuint wrap_s = GL_REPEAT, GLuint wrap_t = GL_REPEAT, GLuint wrap_r = GL_REPEAT);
 	void createGL();
 
-	static GLint getBinding()
+	static GLint getBinding2D()
 	{
 		GLint oldTexID = 0;
 		glGetIntegerv(GL_TEXTURE_BINDING_2D, &oldTexID);
 		return oldTexID;
 	}
-	static void restoreBinding(GLint oldTexID)
+	static void restoreBinding2D(GLint oldTexID)
 	{
 		glBindTexture(GL_TEXTURE_2D, oldTexID);
+	}
+
+	static GLint getBinding3D()
+	{
+		GLint oldTexID = 0;
+		glGetIntegerv(GL_TEXTURE_BINDING_3D, &oldTexID);
+		return oldTexID;
+	}
+	static void restoreBinding3D(GLint oldTexID)
+	{
+		glBindTexture(GL_TEXTURE_3D, oldTexID);
 	}
 	
 public:
@@ -60,7 +75,8 @@ public:
 
 	void create(int width, int height, GLenum type = GL_UNSIGNED_BYTE, int numChannels = 4, bool isSrgb = false, bool isNeedMaintainData = false);
 
-	void setTextureData(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data);
+	void setTextureData2D(const int width, const int height, const GLenum type, const int numChannels, unsigned char* data);
+	void setTextureData3D(const int width, const int height, const int depth, const GLenum type, const int numChannels, unsigned char* data);
 
 	void bind(int slot);
 	void bind(int slot, const std::shared_ptr<Program>& program, const std::string& name);
