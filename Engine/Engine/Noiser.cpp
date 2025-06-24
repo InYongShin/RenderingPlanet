@@ -155,3 +155,88 @@ unsigned char* Noiser::generatePerlinNoise2DGPU(int width, int height)
 
 	return data;
 }
+
+float Noiser::remap(float x, float a, float b, float c, float d)
+{
+    return (((x - a) / (b - a)) * (d - c)) + c;
+}
+
+float Noiser::perlinFBM(const glm::vec3& p, const float numOctaves, float freq, const float H)
+{
+    float G = exp2(H);
+    float amp = 1.0;
+    float noise = 0.0;
+    for( int i=0; i<numOctaves; ++i )
+    {
+        noise += amp * generatePerlinNoise3D(freq*p);
+        freq *= 2.0;
+        amp *= G;
+    }
+    return noise;
+}
+
+float Noiser::worley(const glm::vec3& p)
+{
+    glm::vec3 id = floor(p);
+    glm::vec3 fp = fract(p);
+
+    float minDist = 10000.0f;
+    for(float x=-1.0f; x<=1.0f; ++x)
+    {
+        for(float y=-1.0f; y<=1.0f; ++y)
+        {
+            for(float z=-1.0f; z<=1.0f; ++z)
+            {
+                glm::vec3 offset = glm::vec3(x, y, z);
+                glm::vec3 h = hash(id + offset) * glm::vec3(0.5f) + glm::vec3(0.5f);
+                h += offset;
+                glm::vec3 d = fp - h;
+                minDist = glm::min(minDist, dot(d, d));
+            }
+        }
+    }
+
+    // inverted worley noise
+    return 1.0f - minDist;
+}
+
+float Noiser::worleyFBM(const glm::vec3& p, const float freq)
+{
+    return worley(p*freq) * 0.625f + worley(p*freq*2.0f) * 0.25f + worley(p*freq*4.0f) * 0.125f;
+}
+
+float Noiser::sampleDensity(const glm::vec3& p, const float numOctaves, const float frequency, const float H, const float coverage)
+{
+    float pfbm = perlinFBM(p, numOctaves, frequency, H);
+    float wfbm = worleyFBM(p, frequency);
+    float perlinWorley = remap(pfbm, 0.0f, 1.0f, wfbm, 1.0f);
+    float density = remap(perlinWorley, wfbm-1.0f, 1.0f, 0.0f, 1.0f);
+    density = remap(density, 1.0f-coverage, 1.0f, 0.0f, 1.0f);
+    return density;
+}
+
+float* Noiser::generateCloudNoise(const int width, const int height, const int depth)
+{
+    int numOctaves = 8;
+    float frequency = 0.55f;
+    float H = -0.6f;
+    float coverage = 0.15f;
+
+    float* data = new float[width * height * depth];
+#pragma omp parallel for collapse(3) schedule(static)
+    for(int w=0; w<width; ++w)
+    {
+        for(int h=0; h<height; ++h)
+        {
+            for(int d=0; d<depth; ++d)
+            {
+                const int index = w * height * depth + h * depth + d;
+                const glm::vec3 p = glm::vec3(static_cast<float>(w) / width, 
+                                              static_cast<float>(h) / height, 
+                                              static_cast<float>(d) / depth);
+                data[index] = sampleDensity(p, numOctaves, frequency, H, coverage);
+            }
+        }
+    }
+    return data;
+}

@@ -24,6 +24,13 @@ public:
 
 	// TODO: Refactoring from unsigned char to float
 	unsigned char* generatePerlinNoise2DGPU(int width, int height);
+
+	float remap(float x, float a, float b, float c, float d);
+	float perlinFBM(const glm::vec3& p, const float numOctaves, float freq, const float H);
+	float worley(const glm::vec3& p);
+	float worleyFBM(const glm::vec3& p, const float freq);
+	float sampleDensity(const glm::vec3& p, const float numOctaves, const float frequency, const float H, const float coverage);
+	float* generateCloudNoise(const int width, const int height, const int depth);
 	
 	Noiser() {}
 	virtual ~Noiser() {}

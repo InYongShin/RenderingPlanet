@@ -8,6 +8,9 @@
 #include "SceneManager.hpp"
 #include "QuadModel.hpp"
 
+#include "TextureManager.hpp"
+#include "Noiser.hpp"
+
 MySpaceScene::MySpaceScene()
 	: Scene()
 {
@@ -126,6 +129,13 @@ void MySpaceScene::initialize() /*override*/
 		std::shared_ptr<QuadModel> quad = std::make_shared<QuadModel>();
 		quad->createScreenQuad();
 		cloudRenderPass->addModel(quad);
+
+		int cloudWidth = 64, cloudHeight = 64, cloudDepth = 64;
+		Noiser noiser;
+		float* data = noiser.generateCloudNoise(cloudWidth, cloudHeight, cloudDepth);
+
+		int texID = TextureManager::getInstance()->setTexture3D(cloudWidth, cloudHeight, cloudDepth, GL_FLOAT, 1, data);
+		quad->addTexture(texID, "cloudTex");
 
 		RenderManager::getInstance()->addRenderPass(cloudRenderPass);
 	}

@@ -42,13 +42,16 @@ uniform float g;
 
 uniform vec4 backColor;
 
+uniform sampler3D cloudTex;
 
-float tonemap_sRGB(float u) {
+float tonemap_sRGB(float u)
+{
 	float u_ = abs(u);
 	return u_>0.0031308?( sign(u)*1.055*pow( u_,0.41667)-0.055):(12.92*u);
 }
 
-vec3 tonemap( vec3 rgb, mat3 csc, float gamma ) {
+vec3 tonemap( vec3 rgb, mat3 csc, float gamma )
+{
 	vec3 rgb_ = csc*rgb;
 	if( abs( gamma-2.4) <0.01 )
 		return vec3( tonemap_sRGB(rgb_.r), tonemap_sRGB(rgb_.g), tonemap_sRGB(rgb_.b) );
@@ -61,7 +64,8 @@ float remap(float x, float a, float b, float c, float d)
 }
 
 // from iq
-vec3 hash( vec3 p ) {
+vec3 hash( vec3 p )
+{
 	p = vec3( dot(p,vec3(127.1,311.7, 74.7)),
 			  dot(p,vec3(269.5,183.3,246.1)),
 			  dot(p,vec3(113.5,271.9,124.6)));
@@ -160,8 +164,14 @@ float worleyFBM(vec3 p, float freq)
     return worley(p*freq) * .625 + worley(p*freq*2.) * .25 + worley(p*freq*4.) * .125;
 }
 
+float sampleDensityTex(vec3 p)
+{
+    vec3 texCoord = (p + vec3(volumeRadius)) / (2.0 * volumeRadius);
+    return texture(cloudTex, texCoord).r;
+}
 
-float sampleDensity(vec3 p){
+float sampleDensity(vec3 p)
+{
     float pfbm = perlinFBM(p, frequency, H);
     float wfbm = worleyFBM(p, frequency);
     float perlinWorley = remap(pfbm, 0., 1., wfbm, 1.);
@@ -171,12 +181,14 @@ float sampleDensity(vec3 p){
 }
 
 
-float HGPhase(float g, float cosTheta){
+float HGPhase(float g, float cosTheta)
+{
     return (1-g*g) / (4*pi * pow(1 + g*g - 2*g*cosTheta ,3/2));
 }
 
 
-float lightMarch(vec3 rd, vec3 p){
+float lightMarch(vec3 rd, vec3 p)
+{
     vec3 toLight = normalize(lightPos - p);
     
     float totalDensity = 0;
@@ -195,7 +207,8 @@ float lightMarch(vec3 rd, vec3 p){
     return darknessThreshold + transmittance * (1-darknessThreshold); 
 }
 
-vec2 rayBoxDist(vec3 boundsMin_, vec3 boundsMax_, vec3 ro, vec3 rd){
+vec2 rayBoxDist(vec3 boundsMin_, vec3 boundsMax_, vec3 ro, vec3 rd)
+{
     vec3 t0 = (boundsMin_ - ro) / rd;
     vec3 t1 = (boundsMax_ - ro) / rd;
     vec3 tmin = min(t0, t1);
@@ -210,7 +223,8 @@ vec2 rayBoxDist(vec3 boundsMin_, vec3 boundsMax_, vec3 ro, vec3 rd){
     return vec2(distToBox, distInsideBox);
 }
 
-vec2 raySphereDis(vec3 center, float radius, vec3 ro, vec3 rd) {
+vec2 raySphereDis(vec3 center, float radius, vec3 ro, vec3 rd)
+{
     vec3 oc = ro - center;
 
     float a = dot(rd, rd);
@@ -254,12 +268,14 @@ vec2 raySphere(vec3 center, float radius, vec3 ro, vec3 rd)
     return vec2(100000000.0, 0.0);
 }
 
-bool isInsideSphere(vec3 c, float r, vec3 p) {
+bool isInsideSphere(vec3 c, float r, vec3 p)
+{
     float d = dot(p-c, p-c);
     return d < r * r;
 }
 
-void main() {
+void main()
+{
     float x = (2.0 * gl_FragCoord.x - viewport.x) / viewport.x;
     float y = (2.0 * gl_FragCoord.y - viewport.y) / viewport.y;
 
@@ -285,7 +301,7 @@ void main() {
         for(int i=0; i<maxStep; ++i){
             vec3 p = ro + totalStepLength * rd;
 
-            float density = sampleDensity(p);
+            float density = sampleDensityTex(p);
 
             if (density>0.01){
                 // float lightTransmittance = lightMarch(rd, p);
