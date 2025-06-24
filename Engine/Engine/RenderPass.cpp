@@ -44,29 +44,6 @@ void RenderPass::addModel(const std::shared_ptr<Model>& model)
 	this->models.push_back(model);
 }
 
-void RenderPass::setModelVertexData(const std::shared_ptr<Model>& model)
-{
-	if (model == nullptr)
-	{
-		std::cerr << "Model is nullptr" << std::endl;
-		return;
-	}
-
-	const Mesh& mesh = model->getMesh();
-	this->vao = mesh.vao;
-	this->eBuf = mesh.eBuf;
-	this->nTris = mesh.nTris;
-	this->drawMode = mesh.primitive;
-}
-
-void RenderPass::setVertexData(GLuint vao, GLuint eBuf, GLsizei nTris, GLenum drawMode /* = GL_TRIANGLES */)
-{
-	this->vao = vao;
-	this->eBuf = eBuf;
-	this->nTris = nTris;
-	this->drawMode = drawMode;
-}
-
 void RenderPass::draw()
 {
 	if(this->program == nullptr || !this->program->isUsable())

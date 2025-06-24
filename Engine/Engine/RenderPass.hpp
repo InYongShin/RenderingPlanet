@@ -13,9 +13,6 @@ class RenderPass
 private:
 	std::shared_ptr<Framebuffer> framebuffer;
 	std::shared_ptr<Program> program;
-	GLuint vao, eBuf;
-	GLsizei nTris;
-	GLenum drawMode;
 
 	std::vector<std::shared_ptr<Model>> models;
 
@@ -36,9 +33,6 @@ public:
 
 	void addModel(const std::shared_ptr<Model>& model);
 
-	void setModelVertexData(const std::shared_ptr<Model>& model);
-	void setVertexData(GLuint vao, GLuint eBuf, GLsizei nTris, GLenum drawMode = GL_TRIANGLES);
-
 	void draw();
 
 	void onDepthTest();
@@ -46,8 +40,7 @@ public:
 	void onCullFace();
 	void offCullFace();
 
-	RenderPass() : vao(0), eBuf(0), nTris(0), drawMode(GL_TRIANGLES), 
-				   depthTest(GL_TRUE), cullFace(GL_TRUE) {}
+	RenderPass() : depthTest(GL_TRUE), cullFace(GL_TRUE) {}
 	virtual ~RenderPass() {};
 };
 
