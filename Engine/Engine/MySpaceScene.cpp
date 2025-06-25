@@ -35,15 +35,15 @@ void MySpaceScene::initialize() /*override*/
 	const float earthRadius = 10.0f;
 	const glm::vec3& earthPosition = glm::vec3(0.0f);
 
-	// Earth grond
+	// Earth ground
 	{
 		std::unique_ptr<RenderPass> myEarthRenderPass = std::make_unique<RenderPass>();
 		
 		std::shared_ptr<Program> myEarthProgram = std::make_shared<Program>("myearth.vert", "myearth.frag");
 		myEarthProgram->setUniform("lightPosition", lightPosition);
-		myEarthRenderPass->setProgram(myEarthProgram);
 
 		std::shared_ptr<MyEarth> myEarth = std::make_shared<MyEarth>("MyEarth", earthPosition, earthRadius, 100);
+		myEarth->getSphere()->setProgram(myEarthProgram);
 		myEarthRenderPass->addModel(myEarth->getSphere());
 
 		RenderManager::getInstance()->addRenderPass(myEarthRenderPass);
@@ -57,9 +57,9 @@ void MySpaceScene::initialize() /*override*/
 	
 		std::shared_ptr<Program> oceanProgram = std::make_shared<Program>("ocean.vert", "ocean.frag");
 		oceanProgram->setUniform("lightPosition", lightPosition);
-		oceanRenderPass->setProgram(oceanProgram);
 
 		std::shared_ptr<Planet> ocean = std::make_shared<Planet>("Ocean", earthPosition, earthRadius + 0.35f);
+		ocean->getSphere()->setProgram(oceanProgram);
 		oceanRenderPass->addModel(ocean->getSphere());
 
 		RenderManager::getInstance()->addRenderPass(oceanRenderPass);
@@ -124,10 +124,9 @@ void MySpaceScene::initialize() /*override*/
 		cloudProgram->setUniform("maxStep", maxStep);
 		cloudProgram->setUniform("backColor", glm::vec4(.31, .73, .87, 1));
 
-		cloudRenderPass->setProgram(cloudProgram);
-
 		std::shared_ptr<QuadModel> quad = std::make_shared<QuadModel>();
 		quad->createScreenQuad();
+		quad->setProgram(cloudProgram);
 		cloudRenderPass->addModel(quad);
 
 		int cloudWidth = 64, cloudHeight = 64, cloudDepth = 64;

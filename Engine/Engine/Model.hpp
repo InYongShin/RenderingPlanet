@@ -12,6 +12,8 @@ class Model
 private:
 	glm::mat4 _modelMat = glm::mat4(1.f);
 
+	std::shared_ptr<Program> program;
+
 	std::vector<int> texIDs;
 	std::vector<std::string> shaderNames;
 
@@ -22,9 +24,11 @@ protected:
 	bool isCreated = false;
 
 public:
-
 	void setPosition(const glm::vec3& position);
 	inline glm::vec3 getPosition() const { return this->position; }
+
+	inline std::shared_ptr<Program> getProgram() const { return this->program; }
+	inline void setProgram(const std::shared_ptr<Program>& program) { this->program = program; }
 
 	std::vector<int> getTexIDs() const { return this->texIDs; }
 	std::vector<std::string> getShaderNames() const { return this->shaderNames; }

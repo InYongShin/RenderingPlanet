@@ -12,7 +12,6 @@ class RenderPass
 {
 private:
 	std::shared_ptr<Framebuffer> framebuffer;
-	std::shared_ptr<Program> program;
 
 	std::vector<std::shared_ptr<Model>> models;
 
@@ -21,13 +20,7 @@ private:
 
 public:
 
-	inline std::shared_ptr<Program> getProgram() const { return this->program; }
-	inline void setProgram(const std::shared_ptr<Program>& program) { this->program = program; }
-
 	inline std::vector<std::shared_ptr<Model>> getModels() const { return this->models; }
-
-	void loadProgram(const char* vertexPath, const char* fragmentPath,
-					 const char* geometryPath = nullptr, const char* tessControlPath = nullptr, const char* tessEvaluatePath = nullptr);
 
 	void setState();
 

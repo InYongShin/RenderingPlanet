@@ -3,27 +3,9 @@
 #include "TextureManager.hpp"
 #include "SceneManager.hpp"
 
-void RenderPass::loadProgram(const char* vertexPath, const char* fragmentPath, const char* geometryPath, const char* tessControlPath, const char* tessEvaluatePath)
-{
-	std::shared_ptr<Program> prog = std::make_shared<Program>(vertexPath, fragmentPath, geometryPath, tessControlPath, tessEvaluatePath);
-	if (prog->isUsable() == false)
-	{
-		assert(false);
-		std::cerr << "Error loading program" << std::endl;
-		return;
-	}
-	
-	setProgram(prog);
-}
 
 void RenderPass::setState()
 {
-	if (this->program == nullptr)
-	{
-		std::cerr << "Program is nullptr" << std::endl;
-		return;
-	}
-
 	// TODO: State 包府
 	if (this->depthTest) glEnable(GL_DEPTH_TEST);
 	else				 glDisable(GL_DEPTH_TEST);
@@ -46,19 +28,6 @@ void RenderPass::addModel(const std::shared_ptr<Model>& model)
 
 void RenderPass::draw()
 {
-	if(this->program == nullptr || !this->program->isUsable())
-	{
-		// TODO: Load default program
-		// e.g., program.loadShaders("shaders/default.vert", "shaders/default.frag");
-		std::cerr << "program is nullptr" << std::endl;
-		return;
-	}
-
-	this->program->use();
-
-	this->program->setUniform("viewMat", SceneManager::getInstance()->getCamera().viewMat());
-	this->program->setUniform("projMat", SceneManager::getInstance()->getCamera().projMat());
-
 	setState();
 
 	for(const auto& model : this->models)
@@ -69,7 +38,17 @@ void RenderPass::draw()
 			continue;
 		}
 
-		this->program->setUniform("modelMat", model->getModelMat());
+		std::shared_ptr<Program> prog = model->getProgram();
+		if (prog == nullptr || !prog->isUsable())
+		{
+			std::cerr << "Program is invalid" << std::endl;
+			continue;
+		}
+
+		prog->use();
+		prog->setUniform("modelMat", model->getModelMat());
+		prog->setUniform("viewMat", SceneManager::getInstance()->getCamera().viewMat());
+		prog->setUniform("projMat", SceneManager::getInstance()->getCamera().projMat());
 
 		std::vector<int> texIDs = model->getTexIDs();
 		std::vector<std::string> shaderNames = model->getShaderNames();
@@ -77,7 +56,7 @@ void RenderPass::draw()
 		{
 			int texID = texIDs[i];
 			Texture& tex = TextureManager::getInstance()->getTexture(texID);
-			tex.bind(tex.getTexID(), program, shaderNames[i].c_str());
+			tex.bind(tex.getTexID(), prog, shaderNames[i].c_str());
 		}
 
 		// TODO: Primitive 包府
