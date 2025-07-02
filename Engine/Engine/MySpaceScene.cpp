@@ -35,16 +35,21 @@ void MySpaceScene::initialize() /*override*/
 	const float earthRadius = 10.0f;
 	const glm::vec3& earthPosition = glm::vec3(0.0f);
 
+	glm::vec2 screenSize = SceneManager::getInstance()->getCamera().getViewport();
+	std::unique_ptr<DepthRenderPass> screenDepthPass = std::make_unique<DepthRenderPass>(screenSize.x, screenSize.y);
+
 	// Earth ground
 	{
 		std::unique_ptr<RenderPass> myEarthRenderPass = std::make_unique<RenderPass>();
 		
-		std::shared_ptr<Program> myEarthProgram = std::make_shared<Program>("myearth.vert", "myearth.frag");
+		std::shared_ptr<Program> myEarthProgram = std::make_shared<Program>("Shader/myearth.vert", "Shader/myearth.frag");
 		myEarthProgram->setUniform("lightPosition", lightPosition);
 
 		std::shared_ptr<MyEarth> myEarth = std::make_shared<MyEarth>("MyEarth", earthPosition, earthRadius, 100);
 		myEarth->getSphere()->setProgram(myEarthProgram);
 		myEarthRenderPass->addModel(myEarth->getSphere());
+
+		screenDepthPass->addModel(myEarth->getSphere());
 
 		RenderManager::getInstance()->addRenderPass(myEarthRenderPass);
 
@@ -55,7 +60,7 @@ void MySpaceScene::initialize() /*override*/
 	{
 		std::unique_ptr<RenderPass> oceanRenderPass = std::make_unique<RenderPass>();
 	
-		std::shared_ptr<Program> oceanProgram = std::make_shared<Program>("ocean.vert", "ocean.frag");
+		std::shared_ptr<Program> oceanProgram = std::make_shared<Program>("Shader/ocean.vert", "Shader/ocean.frag");
 		oceanProgram->setUniform("lightPosition", lightPosition);
 
 		std::shared_ptr<Planet> ocean = std::make_shared<Planet>("Ocean", earthPosition, earthRadius + 0.35f);
@@ -92,7 +97,7 @@ void MySpaceScene::initialize() /*override*/
 
 		Camera cam = SceneManager::getInstance()->getCamera();
 
-		cloudProgram = std::make_shared<Program>("quad.vert", "cloud.frag");
+		cloudProgram = std::make_shared<Program>("Shader/quad.vert", "Shader/cloud.frag");
 
 		cloudProgram->setUniform("viewport", cam.getViewport());
 		cloudProgram->setUniform("camPos", cam.getPosition());
@@ -124,6 +129,9 @@ void MySpaceScene::initialize() /*override*/
 		cloudProgram->setUniform("maxStep", maxStep);
 		cloudProgram->setUniform("backColor", glm::vec4(.31, .73, .87, 1));
 
+		cloudProgram->setUniform("zNear", SceneManager::getInstance()->getCamera().getZNear());
+		cloudProgram->setUniform("zFar", SceneManager::getInstance()->getCamera().getZFar());
+
 		std::shared_ptr<QuadModel> quad = std::make_shared<QuadModel>();
 		quad->createScreenQuad();
 		quad->setProgram(cloudProgram);
@@ -136,8 +144,12 @@ void MySpaceScene::initialize() /*override*/
 		int texID = TextureManager::getInstance()->setTexture3D(cloudWidth, cloudHeight, cloudDepth, GL_FLOAT, 1, data);
 		quad->addTexture(texID, "cloudTex");
 
+		quad->setUseDepthMap(true);
+
 		RenderManager::getInstance()->addRenderPass(cloudRenderPass);
 	}
+
+	RenderManager::getInstance()->addDepthRenderPass(screenDepthPass);
 }
 
 void MySpaceScene::update() /*override*/

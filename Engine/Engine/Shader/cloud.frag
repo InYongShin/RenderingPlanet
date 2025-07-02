@@ -4,6 +4,8 @@ const float pi = 3.141592f;
 
 out vec4 outColor;
 
+in vec2 texCoord;
+
 uniform vec2 viewport;
 
 uniform vec3 camPos;
@@ -44,6 +46,10 @@ uniform vec4 backColor;
 
 uniform sampler3D cloudTex;
 
+uniform float zNear;
+uniform float zFar;
+uniform sampler2D depthTex;
+
 float tonemap_sRGB(float u)
 {
 	float u_ = abs(u);
@@ -56,6 +62,12 @@ vec3 tonemap( vec3 rgb, mat3 csc, float gamma )
 	if( abs( gamma-2.4) <0.01 )
 		return vec3( tonemap_sRGB(rgb_.r), tonemap_sRGB(rgb_.g), tonemap_sRGB(rgb_.b) );
 	return sign(rgb_)*pow( abs(rgb_), vec3(1./gamma) );
+}
+
+float linearizeDepth(float depth)
+{
+    float z = depth * 2.0 - 1.0;
+    return (2.0 * zNear * zFar) / (zFar + zNear - z * (zFar - zNear));
 }
 
 float remap(float x, float a, float b, float c, float d)
@@ -166,8 +178,8 @@ float worleyFBM(vec3 p, float freq)
 
 float sampleDensityTex(vec3 p)
 {
-    vec3 texCoord = (p + vec3(volumeRadius)) / (2.0 * volumeRadius);
-    return texture(cloudTex, texCoord).r;
+    vec3 pTexCoord = (p + vec3(volumeRadius)) / (2.0 * volumeRadius);
+    return texture(cloudTex, pTexCoord).r;
 }
 
 float sampleDensity(vec3 p)
@@ -283,6 +295,7 @@ void main()
     vec4 rayView = inverse(proj) * rayClip;
     rayView = vec4(rayView.xy, -1.0, 0.0);
     vec3 rayWorld = (inverse(lookAt) * rayView).xyz;
+    float rayLength = length(rayWorld);
     rayWorld = normalize(rayWorld);
 
     vec3 rd = rayWorld;
@@ -291,6 +304,14 @@ void main()
     vec2 raySphereInfo = raySphere(volumeCenter, volumeRadius, ro, rd);
     float distToSphere = raySphereInfo.x;
     float distInsideSphere = raySphereInfo.y;
+    float depth = texture(depthTex, texCoord).r;
+    float linearDepth = linearizeDepth(depth) * rayLength;
+    // float linearDepth = linearizeDepth(depth);
+    distInsideSphere = min(distInsideSphere, linearDepth - distToSphere);
+    // distInsideSphere = min(distInsideSphere, depth - distToSphere);
+
+    // outColor = vec4(vec3(distInsideSphere / (volumeRadius * 2.0)), 1.0);
+    // return;
 
     float transmittance = 1.0;
     float lightEnergy = 0.0;
