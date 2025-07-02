@@ -2,8 +2,6 @@
 
 out vec4 fragColor;
 
-in vec3 worldPos;
-in vec3 normal;
 in vec2 texCoord;
 
 uniform sampler2D tex;
