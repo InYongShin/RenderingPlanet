@@ -17,6 +17,8 @@ private:
 	std::vector<int> texIDs;
 	std::vector<std::string> shaderNames;
 
+	bool isUseDepthMap = false;
+
 protected:
 	glm::vec3 position = glm::vec3(0.f);
 	Mesh mesh;
@@ -32,6 +34,9 @@ public:
 
 	std::vector<int> getTexIDs() const { return this->texIDs; }
 	std::vector<std::string> getShaderNames() const { return this->shaderNames; }
+
+	void setUseDepthMap(const bool useDepthMap) { this->isUseDepthMap = useDepthMap; }
+	bool getUseDepthMap() const { return this->isUseDepthMap; }
 
 	const glm::mat4& getModelMat() const { return this->_modelMat; }
 

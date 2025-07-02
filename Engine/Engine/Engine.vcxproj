@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(ProjectDir)Shader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
@@ -123,7 +123,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)include;$(ProjectDir)Shader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DepthRenderPass.cpp" />
     <ClCompile Include="Earth.cpp" />
     <ClCompile Include="EarthScene.cpp" />
     <ClCompile Include="EmissivePlanet.cpp" />
@@ -170,6 +171,7 @@
   <ItemGroup>
     <ClInclude Include="Application.hpp" />
     <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="DepthRenderPass.hpp" />
     <ClInclude Include="Earth.hpp" />
     <ClInclude Include="EarthScene.hpp" />
     <ClInclude Include="EmissivePlanet.hpp" />
@@ -202,22 +204,24 @@
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="cloud.frag" />
-    <None Include="earth.frag" />
-    <None Include="earth.vert" />
-    <None Include="ground.frag" />
-    <None Include="ground.vert" />
-    <None Include="myearth.frag" />
-    <None Include="myearth.vert" />
-    <None Include="ocean.frag" />
-    <None Include="ocean.vert" />
-    <None Include="perlin.frag" />
-    <None Include="quad.vert" />
-    <None Include="render.frag" />
-    <None Include="render.vert" />
-    <None Include="sun.frag" />
-    <None Include="texture.frag" />
-    <None Include="texture.vert" />
+    <None Include="Shader\cloud.frag" />
+    <None Include="Shader\depth.frag" />
+    <None Include="Shader\depth.vert" />
+    <None Include="Shader\earth.frag" />
+    <None Include="Shader\earth.vert" />
+    <None Include="Shader\ground.frag" />
+    <None Include="Shader\ground.vert" />
+    <None Include="Shader\myearth.frag" />
+    <None Include="Shader\myearth.vert" />
+    <None Include="Shader\ocean.frag" />
+    <None Include="Shader\ocean.vert" />
+    <None Include="Shader\perlin.frag" />
+    <None Include="Shader\quad.vert" />
+    <None Include="Shader\render.frag" />
+    <None Include="Shader\render.vert" />
+    <None Include="Shader\sun.frag" />
+    <None Include="Shader\texture.frag" />
+    <None Include="Shader\texture.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -123,6 +123,9 @@
     <ClCompile Include="RenderManager.cpp">
       <Filter>Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="DepthRenderPass.cpp">
+      <Filter>Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Model.hpp">
@@ -221,54 +224,63 @@
     <ClInclude Include="RenderManager.hpp">
       <Filter>Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="DepthRenderPass.hpp">
+      <Filter>Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="render.vert">
+    <None Include="Shader\cloud.frag">
       <Filter>Shader</Filter>
     </None>
-    <None Include="render.frag">
+    <None Include="Shader\earth.frag">
       <Filter>Shader</Filter>
     </None>
-    <None Include="sun.frag">
+    <None Include="Shader\earth.vert">
       <Filter>Shader</Filter>
     </None>
-    <None Include="texture.frag">
+    <None Include="Shader\ground.frag">
       <Filter>Shader</Filter>
     </None>
-    <None Include="ground.frag">
+    <None Include="Shader\ground.vert">
       <Filter>Shader</Filter>
     </None>
-    <None Include="perlin.frag">
+    <None Include="Shader\myearth.frag">
       <Filter>Shader</Filter>
     </None>
-    <None Include="texture.vert">
+    <None Include="Shader\myearth.vert">
       <Filter>Shader</Filter>
     </None>
-    <None Include="earth.frag">
+    <None Include="Shader\ocean.frag">
       <Filter>Shader</Filter>
     </None>
-    <None Include="earth.vert">
+    <None Include="Shader\ocean.vert">
       <Filter>Shader</Filter>
     </None>
-    <None Include="ground.vert">
+    <None Include="Shader\perlin.frag">
       <Filter>Shader</Filter>
     </None>
-    <None Include="myearth.vert">
+    <None Include="Shader\quad.vert">
       <Filter>Shader</Filter>
     </None>
-    <None Include="myearth.frag">
+    <None Include="Shader\render.frag">
       <Filter>Shader</Filter>
     </None>
-    <None Include="ocean.vert">
+    <None Include="Shader\render.vert">
       <Filter>Shader</Filter>
     </None>
-    <None Include="ocean.frag">
+    <None Include="Shader\sun.frag">
       <Filter>Shader</Filter>
     </None>
-    <None Include="quad.vert">
+    <None Include="Shader\texture.frag">
       <Filter>Shader</Filter>
     </None>
-    <None Include="cloud.frag">
+    <None Include="Shader\texture.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\depth.frag">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\depth.vert">
       <Filter>Shader</Filter>
     </None>
   </ItemGroup>

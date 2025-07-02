@@ -4,9 +4,8 @@
 #include "SceneManager.hpp"
 
 
-void RenderPass::setState()
+/*virtual*/ void RenderPass::setState()
 {
-	// TODO: State 包府
 	if (this->depthTest) glEnable(GL_DEPTH_TEST);
 	else				 glDisable(GL_DEPTH_TEST);
 	if (this->cullFace)  glEnable(GL_CULL_FACE);
@@ -26,11 +25,21 @@ void RenderPass::addModel(const std::shared_ptr<Model>& model)
 	this->models.push_back(model);
 }
 
-void RenderPass::draw()
+void RenderPass::setDepthTexID(const GLuint texID)
+{
+	this->depthTexID = texID;
+}
+
+/*virtual*/ const GLuint RenderPass::getDepthTexID() const
+{
+	return this->depthTexID;
+}
+
+/*virtual*/ void RenderPass::draw()
 {
 	setState();
 
-	for(const auto& model : this->models)
+	for (const auto& model : this->models)
 	{
 		if (model == nullptr)
 		{
@@ -57,6 +66,13 @@ void RenderPass::draw()
 			int texID = texIDs[i];
 			Texture& tex = TextureManager::getInstance()->getTexture(texID);
 			tex.bind(tex.getTexID(), prog, shaderNames[i].c_str());
+		}
+
+		if (model->getUseDepthMap() && this->depthTexID > 0)
+		{
+			glActiveTexture(GL_TEXTURE0 + (int)this->depthTexID);
+			glBindTexture(GL_TEXTURE_2D, (int)this->depthTexID);
+			prog->setUniform("depthTex", (int)this->depthTexID);
 		}
 
 		// TODO: Primitive 包府

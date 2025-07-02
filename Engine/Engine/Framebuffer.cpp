@@ -3,6 +3,16 @@
 
 #include <vector>
 
+GLuint Framebuffer::getDepthTexID() const
+{
+	if (!this->depthed)
+	{
+		return 0;
+	}
+
+	return this->depthTex.getTexID();
+}
+
 void Framebuffer::storeFramebufferState()
 {
 	prevState.capture();
@@ -16,19 +26,20 @@ void Framebuffer::restoreFramebufferState()
 
 void Framebuffer::create(int w, int h, GLenum type, int nChannels, bool withDepthBuffer)
 {
+	clearTextures();
+
 	this->width = w;
 	this->height = h;
 	this->numChannels = nChannels;
 	this->depthed = withDepthBuffer;
 	// auto [internal,format,_type] = TextureManager::getInstance()->getTextureType(type, numChannels, false );
-	clearTextures();
 	storeFramebufferState();
 
 	glErr("Before create fbo texture");
-	if(this->colorTex.getTexID() < 1) {
+	if (this->colorTex.getTexID() < 1) {
 		this->colorTex.create(this->width, this->height, type, this->numChannels, false, false);
 	}
-	if(this->depthed) {
+	if (this->depthed) {
 		this->depthTex.create(this->width, this->height, GL_FLOAT, 1, false, false);
 
 		// TODO : Depth Component
@@ -41,7 +52,7 @@ void Framebuffer::create(int w, int h, GLenum type, int nChannels, bool withDept
 		0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 		*/
 	}
-	if(this->id < 1) {
+	if (this->id < 1) {
 		glGenFramebuffers(1, &this->id);
 	}
 
@@ -56,6 +67,36 @@ void Framebuffer::create(int w, int h, GLenum type, int nChannels, bool withDept
 	glErr("after glDrawBuffers");
 	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if(status !=GL_FRAMEBUFFER_COMPLETE)
+	{
+		std::cerr << "FBO is not completed!!\n";
+	}
+
+	restoreFramebufferState();
+}
+
+void Framebuffer::createDepth(int w, int h, GLenum type /*= GL_UNSIGNED_BYTE*/)
+{
+	clearTextures();
+
+	this->width = w;
+	this->height = h;
+	this->numChannels = 1;
+	this->depthed = true;
+
+	storeFramebufferState();
+
+	glErr("Before create fbo texture");
+	this->depthTex.createDepth(this->width, this->height, type);
+	if (this->id < 1) {
+		glGenFramebuffers(1, &this->id);
+	}
+	glBindFramebuffer(GL_FRAMEBUFFER, this->id);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, this->depthTex.getTexID(), 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	glErr("after glFramebufferTexture2D: depthTex");
+	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+	if (status != GL_FRAMEBUFFER_COMPLETE)
 	{
 		std::cerr << "FBO is not completed!!\n";
 	}
@@ -97,14 +138,14 @@ unsigned char* Framebuffer::readPixels()
 
 void Framebuffer::clearTextures()
 {
-	if(this->id > 0)
+	if (this->id > 0)
 	{
 		glDeleteFramebuffers(1, &this->id);
 		this->colorTex.clear();
 		this->id = 0;
 	}
 
-	if(this->depthed)
+	if (this->depthed)
 	{
 		this->depthTex.clear();
 		this->depthed = false;

@@ -36,6 +36,7 @@ private:
 
 	void setTexParam(GLuint minFilter = GL_LINEAR, GLuint wrap_s = GL_REPEAT, GLuint wrap_t = GL_REPEAT, GLuint wrap_r = GL_REPEAT);
 	void createGL();
+	void createGLDepth();
 
 	static GLint getBinding2D()
 	{
@@ -74,6 +75,7 @@ public:
 	void load2D(const std::string& filenName, const bool isSrgb = false, const bool isNeedMaintainData = false);
 
 	void create(int width, int height, GLenum type = GL_UNSIGNED_BYTE, int numChannels = 4, bool isSrgb = false, bool isNeedMaintainData = false);
+	void createDepth(int width, int height, GLenum type = GL_UNSIGNED_BYTE);
 
 	void setTextureData2D(const int width, const int height, const GLenum type, const int numChannels, void* data);
 	void setTextureData3D(const int width, const int height, const int depth, const GLenum type, const int numChannels, void* data);

@@ -15,7 +15,7 @@ private:
 	float fov = 45.f * glm::pi<float>() / 180.f;
 	float yaw = -89.f, roll = 0, pitch = 0;
 	float zNear = 0.01f;
-	float zFar = 10000.f;
+	float zFar = 1000.f;
 	glm::vec2 viewport = glm::vec2(0.f);
 
 public:
@@ -35,6 +35,8 @@ public:
 	inline void setPitch(float pitch) { this->pitch = pitch; }
 	inline glm::vec2 getViewport() const { return this->viewport; }
 	inline void setViewport(const glm::vec2& viewport) { this->viewport = viewport; }
+	inline float getZNear() const { return this->zNear; }
+	inline float getZFar() const { return this->zFar; }
 
 	inline glm::vec3 getDirection() { return glm::normalize(this->center - this->position); }
 

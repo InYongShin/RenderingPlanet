@@ -56,10 +56,16 @@ private:
 
 public:
 
+	int getWidth() const { return this->width; };
+	int getHeight() const { return this->height; };
+
+	GLuint getDepthTexID() const;
+
 	void storeFramebufferState();
 	void restoreFramebufferState();
 
 	void create(int w, int h, GLenum type = GL_UNSIGNED_BYTE, int nChannels = 4, bool withDepthBuffer = false);
+	void createDepth(int w, int h, GLenum type = GL_UNSIGNED_BYTE);
 
 	void use();
 	void unuse();

@@ -94,7 +94,6 @@ void Window::display() const
 	while (!glfwWindowShouldClose(this->GLwindow))
 	{
 		glClearColor(bgColor.r, bgColor.g, bgColor.b, bgColor.a);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		int w=0, h=0;
 		glfwGetWindowSize(this->GLwindow, &w, &h);

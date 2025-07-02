@@ -54,7 +54,7 @@ void Texture::createGL()
 	}
 
 	auto [internalFormat, format, type] = TextureManager::getInstance()->getTextureType(this->_type, this->_numChannels, this->_isSrgb);
-	if(this->_target == GL_TEXTURE_2D)
+	if (this->_target == GL_TEXTURE_2D)
 	{
 		GLint oldTexID = Texture::getBinding2D();
 		glGenTextures(1, &this->_texID);
@@ -64,7 +64,7 @@ void Texture::createGL()
 		glGenerateMipmap(this->_target);
 		Texture::restoreBinding2D(oldTexID);
 	}
-	else if(this->_target == GL_TEXTURE_3D)
+	else if (this->_target == GL_TEXTURE_3D)
 	{
 		GLint oldTexID = Texture::getBinding3D();
 		glGenTextures(1, &this->_texID);
@@ -87,8 +87,48 @@ void Texture::createGL()
 	}
 }
 
+void Texture::createGLDepth()
+{
+	if (this->_texID > 0)
+	{
+		clear();
+	}
+
+	GLuint internalFormat;
+	if (this->_type == GL_UNSIGNED_BYTE)
+	{
+		internalFormat = GL_DEPTH_COMPONENT;
+	}
+	else if (this->_type == GL_FLOAT)
+	{
+		internalFormat = GL_DEPTH_COMPONENT32F;
+	}
+	else
+	{
+		std::cerr << "Failed to create gl texture." << std::endl;
+		return;
+	}
+
+	if (this->_target == GL_TEXTURE_2D)
+	{
+		GLint oldTexID = Texture::getBinding2D();
+		glGenTextures(1, &this->_texID);
+		glBindTexture(this->_target, this->_texID);
+		setTexParam(this->_minFilter, this->_wrap_s, this->_wrap_t);
+		glTexImage2D(this->_target, 0, internalFormat, this->_width, this->_height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+		// glGenerateMipmap(this->_target);
+		Texture::restoreBinding2D(oldTexID);
+	}
+	else
+	{
+		std::cerr << "Failed to create depth texture." << std::endl;
+		return;
+	}
+}
+
 void Texture::create(int width, int height, GLenum type /*= GL_UNSIGNED_BYTE*/, int numChannels /*= 4*/, bool isSrgb /*= false*/, bool isNeedMaintainData /*= false*/)
 {
+	this->_target = GL_TEXTURE_2D;
 	this->_width = width;
 	this->_height = height;
 	this->_numChannels = numChannels;
@@ -99,13 +139,26 @@ void Texture::create(int width, int height, GLenum type /*= GL_UNSIGNED_BYTE*/, 
 	createGL();
 }
 
+void Texture::createDepth(int width, int height, GLenum type /*= GL_UNSIGNED_BYTE*/)
+{
+	this->_target = GL_TEXTURE_2D;
+	this->_width = width;
+	this->_height = height;
+	this->_numChannels = 1;
+	this->_type = type;
+	this->_isSrgb = false;
+	this->_isNeedMaintainData = false;
+
+	createGLDepth();
+}
+
 void Texture::setTextureData2D(const int width, const int height, const GLenum type, const int numChannels, void* data)
 {
 	this->_target = GL_TEXTURE_2D;
 	this->_width = width;
 	this->_height = height;
-	this->_type = type;
 	this->_numChannels = numChannels;
+	this->_type = type;
 	this->_data = data;
 	this->_isNeedMaintainData = true;
 
@@ -118,8 +171,8 @@ void Texture::setTextureData3D(const int width, const int height, const int dept
 	this->_width = width;
 	this->_height = height;
 	this->_depth = depth;
-	this->_type = type;
 	this->_numChannels = numChannels;
+	this->_type = type;
 	this->_data = data;
 	this->_isNeedMaintainData = true;
 
