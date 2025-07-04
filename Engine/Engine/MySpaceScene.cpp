@@ -109,7 +109,7 @@ void MySpaceScene::initialize() /*override*/
 		cloudProgram->setUniform("boundsMin", -glm::vec3(volumeScaleX, volumeScaleY-5, volumeScaleZ));
 		cloudProgram->setUniform("boundsMax", glm::vec3(volumeScaleX, volumeScaleY+5, volumeScaleZ));
 
-		cloudProgram->setUniform("volumeRadius", earthRadius * 1.3f);
+		cloudProgram->setUniform("volumeRadius", earthRadius * 1.2f);
 		cloudProgram->setUniform("volumeCenter", earthPosition);
 
 

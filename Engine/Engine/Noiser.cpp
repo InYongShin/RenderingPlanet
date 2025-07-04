@@ -217,10 +217,10 @@ float Noiser::sampleDensity(const glm::vec3& p, const float numOctaves, const fl
 
 float* Noiser::generateCloudNoise(const int width, const int height, const int depth)
 {
-    int numOctaves = 8;
-    float frequency = 0.55f;
-    float H = -0.6f;
-    float coverage = 0.15f;
+    int numOctaves = 2;
+    float frequency = 2.5f;
+    float H = -0.3f;
+    float coverage = 0.21f;
 
     float* data = new float[width * height * depth];
 #pragma omp parallel for collapse(3) schedule(static)
