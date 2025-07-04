@@ -74,24 +74,12 @@ void MySpaceScene::initialize() /*override*/
 
 	// Cloud
 	{
-		float volumeScaleX=5.f;
-		float volumeScaleY=5.f;
-		float volumeScaleZ=5.f;
-
-		float r1 = 1.0f;
-		float r2 = 2.0f;
-
-		int numOctaves = 8;
 		float rayStep = 0.1f;
 		int maxStep = 32;
 		float lightStep = 0.1f;
 		int maxLightStep = 6;
-		float frequency = 0.15f;
-		float H = -0.6f;
-		float coverage = 0.15f;
 		float absorption = 1.f;
 		float lightAbsorptionToSun = 1.f;
-		float g = 0.2f;
 
 		std::unique_ptr<RenderPass> cloudRenderPass = std::make_unique<RenderPass>();
 
@@ -106,26 +94,15 @@ void MySpaceScene::initialize() /*override*/
 		cloudProgram->setUniform("proj", cam.projMat());
 		cloudProgram->setUniform("lightPos", lightPosition);
 		cloudProgram->setUniform("lightCol", glm::vec3(1.0f, 1.0f, 1.0f));
-		cloudProgram->setUniform("boundsMin", -glm::vec3(volumeScaleX, volumeScaleY-5, volumeScaleZ));
-		cloudProgram->setUniform("boundsMax", glm::vec3(volumeScaleX, volumeScaleY+5, volumeScaleZ));
 
 		cloudProgram->setUniform("volumeRadius", earthRadius * 1.2f);
 		cloudProgram->setUniform("volumeCenter", earthPosition);
 
-
-		cloudProgram->setUniform("r1", r1);
-		cloudProgram->setUniform("r2", r2);
-
 		cloudProgram->setUniform("rayStep", rayStep);
 
 		cloudProgram->setUniform("maxLightStep", maxLightStep);
-		cloudProgram->setUniform("frequency", frequency);
-		cloudProgram->setUniform("numOctaves", numOctaves);
-		cloudProgram->setUniform("coverage", coverage);
 		cloudProgram->setUniform("absorption", absorption);
 		cloudProgram->setUniform("lightAbsorptionToSun", lightAbsorptionToSun);
-		cloudProgram->setUniform("H", H);
-		cloudProgram->setUniform("g", g);
 		cloudProgram->setUniform("maxStep", maxStep);
 		cloudProgram->setUniform("backColor", glm::vec4(.31, .73, .87, 1));
 
