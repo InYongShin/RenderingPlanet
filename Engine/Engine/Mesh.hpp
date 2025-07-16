@@ -26,6 +26,7 @@ public:
 	void createSphere(float radius, int slices, int stacks);
 	void createSphere(float radius, int slices, int stacks, const float noiseWeight);
 	void createSphere(float radius, int resolution);
+	void createPlainSphere(float radius, int resolution);
 	void createQuad(const glm::vec3& ltPtn, const glm::vec3& rtPtn, const glm::vec3& lbPtn, const glm::vec3& rbPtn);
 	void createQuad(const glm::vec3& ltPtn, const glm::vec3& rtPtn, const glm::vec3& lbPtn, const glm::vec3& rbPtn, const int resolution);
 
