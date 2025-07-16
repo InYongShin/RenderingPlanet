@@ -4,7 +4,6 @@ out vec4 fragColor;
 
 in vec3 worldPos;
 in vec3 normal;
-// in vec2 texCoord;
 
 in vec3 terrainColor;
 
@@ -20,10 +19,7 @@ void main(void)
 
 	float cosTheta = max(0.0, dot(n, l));
 
-	// vec3 color = vec3(cosTheta);
-
 	vec3 color = ambient + diffuse * cosTheta;
 
 	fragColor = vec4(color, 1.0);
 }
-

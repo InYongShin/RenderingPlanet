@@ -217,7 +217,7 @@ float Noiser::sampleDensity(const glm::vec3& p, const float numOctaves, const fl
 
 float* Noiser::generateCloudNoise(const int width, const int height, const int depth)
 {
-    int numOctaves = 2;
+    int numOctaves = 8;
     float frequency = 2.5f;
     float H = -0.3f;
     float coverage = 0.21f;

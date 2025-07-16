@@ -45,7 +45,7 @@ void MySpaceScene::initialize() /*override*/
 		std::shared_ptr<Program> myEarthProgram = std::make_shared<Program>("Shader/myearth.vert", "Shader/myearth.frag");
 		myEarthProgram->setUniform("lightPosition", lightPosition);
 
-		std::shared_ptr<MyEarth> myEarth = std::make_shared<MyEarth>("MyEarth", earthPosition, earthRadius, 100);
+		std::shared_ptr<MyEarth> myEarth = std::make_shared<MyEarth>("MyEarth", earthPosition, earthRadius, 300);
 		myEarth->getSphere()->setProgram(myEarthProgram);
 		myEarthRenderPass->addModel(myEarth->getSphere());
 

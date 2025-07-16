@@ -424,7 +424,7 @@ void Mesh::createSphere(float radius, int resolution)
 	const float floorDepth = 10.0f;
 	const float floorSmoothing = 12.0f;
 	const float depthStrength = 50.0f;
-	const float mountainStrength = 10.0f;
+	const float mountainStrength = 15.0f;
 
 	this->colors.reserve(this->vertices.size());
 	const glm::vec3& sandColor = glm::vec3(0.9f, 0.85f, 0.7f);
