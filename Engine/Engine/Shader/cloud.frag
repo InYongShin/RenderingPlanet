@@ -9,7 +9,6 @@ in vec2 texCoord;
 uniform vec2 viewport;
 
 uniform vec3 camPos;
-uniform vec3 camDir;
 uniform mat4 lookAt;
 uniform mat4 proj;
 

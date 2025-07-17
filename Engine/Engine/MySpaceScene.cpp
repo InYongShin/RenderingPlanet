@@ -30,6 +30,8 @@ MySpaceScene::~MySpaceScene()
 void MySpaceScene::initialize() /*override*/
 {
 	setBackgroundColor(glm::vec4(0.f, 0.f, 0.f, 1.f));
+	
+	Camera cam = SceneManager::getInstance()->getCamera();
 
 	const glm::vec3& lightPosition = glm::vec3(500.f, 500.f, 500.f);
 	const float earthRadius = 10.0f;
@@ -56,20 +58,34 @@ void MySpaceScene::initialize() /*override*/
 		addPlanet(myEarth);
 	}
 
-	// Earth ocean
+	// Ocean
 	{
 		std::unique_ptr<RenderPass> oceanRenderPass = std::make_unique<RenderPass>();
-	
-		std::shared_ptr<Program> oceanProgram = std::make_shared<Program>("Shader/ocean.vert", "Shader/ocean.frag");
-		oceanProgram->setUniform("lightPosition", lightPosition);
 
-		std::shared_ptr<Planet> ocean = std::make_shared<Planet>("Ocean", earthPosition, earthRadius + 0.35f);
-		ocean->getSphere()->setProgram(oceanProgram);
-		oceanRenderPass->addModel(ocean->getSphere());
+		this->oceanProgram = std::make_shared<Program>("Shader/quad.vert", "Shader/ocean.frag");
+
+		this->oceanProgram->setUniform("viewport", cam.getViewport());
+		this->oceanProgram->setUniform("camPos", cam.getPosition());
+		this->oceanProgram->setUniform("lookAt", cam.viewMat());
+		this->oceanProgram->setUniform("proj", cam.projMat());
+
+		this->oceanProgram->setUniform("oceanRadius", earthRadius * 1.05f);
+		this->oceanProgram->setUniform("oceanCenter", earthPosition);
+		this->oceanProgram->setUniform("colA", glm::vec3(76, 144, 241) / glm::vec3(255.0f));
+		this->oceanProgram->setUniform("colB", glm::vec3(12, 75, 165) / glm::vec3(255.0f));
+		this->oceanProgram->setUniform("depthMultiplier", 3.0f);
+		this->oceanProgram->setUniform("alphaMultiplier", 30.0f);
+
+		this->oceanProgram->setUniform("zNear", SceneManager::getInstance()->getCamera().getZNear());
+		this->oceanProgram->setUniform("zFar", SceneManager::getInstance()->getCamera().getZFar());
+
+		std::shared_ptr<QuadModel> quad = std::make_shared<QuadModel>();
+		quad->createScreenQuad();
+		quad->setProgram(this->oceanProgram);
+		quad->setUseDepthMap(true);
+		oceanRenderPass->addModel(quad);
 
 		RenderManager::getInstance()->addRenderPass(oceanRenderPass);
-
-		addPlanet(ocean);
 	}
 
 	// Cloud
@@ -83,35 +99,32 @@ void MySpaceScene::initialize() /*override*/
 
 		std::unique_ptr<RenderPass> cloudRenderPass = std::make_unique<RenderPass>();
 
-		Camera cam = SceneManager::getInstance()->getCamera();
+		this->cloudProgram = std::make_shared<Program>("Shader/quad.vert", "Shader/cloud.frag");
 
-		cloudProgram = std::make_shared<Program>("Shader/quad.vert", "Shader/cloud.frag");
+		this->cloudProgram->setUniform("viewport", cam.getViewport());
+		this->cloudProgram->setUniform("camPos", cam.getPosition());
+		this->cloudProgram->setUniform("lookAt", cam.viewMat());
+		this->cloudProgram->setUniform("proj", cam.projMat());
+		this->cloudProgram->setUniform("lightPos", lightPosition);
+		this->cloudProgram->setUniform("lightCol", glm::vec3(1.0f, 1.0f, 1.0f));
 
-		cloudProgram->setUniform("viewport", cam.getViewport());
-		cloudProgram->setUniform("camPos", cam.getPosition());
-		cloudProgram->setUniform("camDir", cam.getDirection());
-		cloudProgram->setUniform("lookAt", cam.viewMat());
-		cloudProgram->setUniform("proj", cam.projMat());
-		cloudProgram->setUniform("lightPos", lightPosition);
-		cloudProgram->setUniform("lightCol", glm::vec3(1.0f, 1.0f, 1.0f));
+		this->cloudProgram->setUniform("volumeRadius", earthRadius * 1.2f);
+		this->cloudProgram->setUniform("volumeCenter", earthPosition);
 
-		cloudProgram->setUniform("volumeRadius", earthRadius * 1.2f);
-		cloudProgram->setUniform("volumeCenter", earthPosition);
+		this->cloudProgram->setUniform("rayStep", rayStep);
 
-		cloudProgram->setUniform("rayStep", rayStep);
+		this->cloudProgram->setUniform("maxLightStep", maxLightStep);
+		this->cloudProgram->setUniform("absorption", absorption);
+		this->cloudProgram->setUniform("lightAbsorptionToSun", lightAbsorptionToSun);
+		this->cloudProgram->setUniform("maxStep", maxStep);
+		this->cloudProgram->setUniform("backColor", glm::vec4(.31, .73, .87, 1));
 
-		cloudProgram->setUniform("maxLightStep", maxLightStep);
-		cloudProgram->setUniform("absorption", absorption);
-		cloudProgram->setUniform("lightAbsorptionToSun", lightAbsorptionToSun);
-		cloudProgram->setUniform("maxStep", maxStep);
-		cloudProgram->setUniform("backColor", glm::vec4(.31, .73, .87, 1));
-
-		cloudProgram->setUniform("zNear", SceneManager::getInstance()->getCamera().getZNear());
-		cloudProgram->setUniform("zFar", SceneManager::getInstance()->getCamera().getZFar());
+		this->cloudProgram->setUniform("zNear", SceneManager::getInstance()->getCamera().getZNear());
+		this->cloudProgram->setUniform("zFar", SceneManager::getInstance()->getCamera().getZFar());
 
 		std::shared_ptr<QuadModel> quad = std::make_shared<QuadModel>();
 		quad->createScreenQuad();
-		quad->setProgram(cloudProgram);
+		quad->setProgram(this->cloudProgram);
 		cloudRenderPass->addModel(quad);
 
 		int cloudWidth = 64, cloudHeight = 64, cloudDepth = 64;
@@ -136,14 +149,23 @@ void MySpaceScene::update() /*override*/
 		planet->update();
 	}
 
-	if (cloudProgram && cloudProgram->isUsable())
+	Camera cam = SceneManager::getInstance()->getCamera();
+	if (this->cloudProgram && this->cloudProgram->isUsable())
 	{
-		Camera cam = SceneManager::getInstance()->getCamera();
-		cloudProgram->setUniform("camPos", cam.getPosition());
-		cloudProgram->setUniform("camDir", cam.getDirection());
-		cloudProgram->setUniform("lookAt", cam.viewMat());
-		cloudProgram->setUniform("viewport", cam.getViewport());
-		cloudProgram->setUniform("proj", cam.projMat());
+		this->cloudProgram->use();
+		this->cloudProgram->setUniform("camPos", cam.getPosition());
+		this->cloudProgram->setUniform("lookAt", cam.viewMat());
+		this->cloudProgram->setUniform("viewport", cam.getViewport());
+		this->cloudProgram->setUniform("proj", cam.projMat());
+	}
+
+	if (this->oceanProgram && this->oceanProgram->isUsable())
+	{
+		this->oceanProgram->use();
+		this->oceanProgram->setUniform("viewport", cam.getViewport());
+		this->oceanProgram->setUniform("camPos", cam.getPosition());
+		this->oceanProgram->setUniform("lookAt", cam.viewMat());
+		this->oceanProgram->setUniform("proj", cam.projMat());
 	}
 }
 

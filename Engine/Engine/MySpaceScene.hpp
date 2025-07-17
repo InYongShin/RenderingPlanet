@@ -13,6 +13,7 @@ private:
 	void addPlanet(const std::shared_ptr<Planet>& planet);
 
 	std::shared_ptr<Program> cloudProgram;
+	std::shared_ptr<Program> oceanProgram;
 
 public:
 
