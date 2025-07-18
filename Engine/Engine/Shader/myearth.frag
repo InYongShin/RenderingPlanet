@@ -11,8 +11,8 @@ uniform vec3 lightPosition;
 
 void main(void)
 {
-	vec3 ambient = terrainColor * 0.2;
-	vec3 diffuse = terrainColor * 0.8;
+	vec3 ambient = terrainColor * 0.1;
+	vec3 diffuse = terrainColor * 0.9;
 
 	vec3 l = normalize(lightPosition - worldPos);
 	vec3 n = normalize(normal);

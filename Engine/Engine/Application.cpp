@@ -46,10 +46,6 @@ void Application::run()
 		return;
 	}
 
-
-	// Start set the contents
-	SceneManager::getInstance()->getCamera().setPosition(glm::vec3(0.f, 0.f, 20.f));
-
 	// std::shared_ptr<EarthScene> earthScene = std::make_shared<EarthScene>("Earth");
 	// std::shared_ptr<SpaceScene> spaceScene = std::make_shared<SpaceScene>("Space");
 	std::shared_ptr<MySpaceScene> mySpaceScene = std::make_shared<MySpaceScene>("MySpace");

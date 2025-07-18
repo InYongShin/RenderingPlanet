@@ -20,6 +20,8 @@ void EarthScene::initialize()
 	setBackgroundColor(glm::vec4(0.31f, 0.73f, 0.87f, 1.0f));
 	glm::vec3 lightPos = glm::vec3(-100.f, 30.f, -100.f);
 
+	// SceneManager::getInstance()->getCamera().setPosition(glm::vec3(0.0f, 0.0f, 100.0f));
+
 	// std::shared_ptr<SphereModel> sun = std::make_shared<SphereModel>();
 	// sun->createSphere(10.f, 63, 65);
 	// sun->setPosition(lightPos);

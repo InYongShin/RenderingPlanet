@@ -28,7 +28,7 @@ void SpaceScene::initialize() /*override*/
 {
 	setBackgroundColor(glm::vec4(0.f, 0.f, 0.f, 1.f));
 
-
+	// SceneManager::getInstance()->getCamera().setPosition(glm::vec3(0.0f, 0.0f, 100.0f));
 
 	// std::shared_ptr<Program> sunProgram = std::make_shared<Program>("render.vert", "texture.frag");
 	// int sunTexID = TextureManager::getInstance()->loadTexture("../Textures/Sun.jpg");

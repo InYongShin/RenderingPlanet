@@ -27,8 +27,6 @@ uniform int maxLightStep;
 uniform float absorption;
 uniform float lightAbsorptionToSun;
 
-uniform vec4 backColor;
-
 uniform sampler3D cloudTex;
 
 uniform float zNear;

@@ -30,14 +30,16 @@ MySpaceScene::~MySpaceScene()
 void MySpaceScene::initialize() /*override*/
 {
 	setBackgroundColor(glm::vec4(0.f, 0.f, 0.f, 1.f));
-	
+
+	SceneManager::getInstance()->getCamera().setPosition(glm::vec3(0.0f, 0.0f, 40.0f));
+
 	Camera cam = SceneManager::getInstance()->getCamera();
 
 	const glm::vec3& lightPosition = glm::vec3(500.f, 500.f, 500.f);
-	const float earthRadius = 10.0f;
+	const float earthRadius = 20.0f;
 	const glm::vec3& earthPosition = glm::vec3(0.0f);
 
-	glm::vec2 screenSize = SceneManager::getInstance()->getCamera().getViewport();
+	glm::vec2 screenSize = cam.getViewport();
 	std::unique_ptr<DepthRenderPass> screenDepthPass = std::make_unique<DepthRenderPass>(screenSize.x, screenSize.y);
 
 	// Earth ground
@@ -69,7 +71,15 @@ void MySpaceScene::initialize() /*override*/
 		this->oceanProgram->setUniform("lookAt", cam.viewMat());
 		this->oceanProgram->setUniform("proj", cam.projMat());
 
-		this->oceanProgram->setUniform("oceanRadius", earthRadius * 1.05f);
+		this->oceanProgram->setUniform("lightPosition", lightPosition);
+		this->oceanProgram->setUniform("smoothness", 0.97f);
+		this->oceanProgram->setUniform("waveScale", 1.0f);
+		this->oceanProgram->setUniform("waveStrength", 10.0f);
+
+		float time = static_cast<float>(glfwGetTime());
+		this->oceanProgram->setUniform("time", time);
+
+		this->oceanProgram->setUniform("oceanRadius", earthRadius);
 		this->oceanProgram->setUniform("oceanCenter", earthPosition);
 		this->oceanProgram->setUniform("colA", glm::vec3(76, 144, 241) / glm::vec3(255.0f));
 		this->oceanProgram->setUniform("colB", glm::vec3(12, 75, 165) / glm::vec3(255.0f));
@@ -84,6 +94,7 @@ void MySpaceScene::initialize() /*override*/
 		quad->setProgram(this->oceanProgram);
 		quad->setUseDepthMap(true);
 		oceanRenderPass->addModel(quad);
+		oceanRenderPass->offDepthTest();
 
 		RenderManager::getInstance()->addRenderPass(oceanRenderPass);
 	}
@@ -117,7 +128,6 @@ void MySpaceScene::initialize() /*override*/
 		this->cloudProgram->setUniform("absorption", absorption);
 		this->cloudProgram->setUniform("lightAbsorptionToSun", lightAbsorptionToSun);
 		this->cloudProgram->setUniform("maxStep", maxStep);
-		this->cloudProgram->setUniform("backColor", glm::vec4(.31, .73, .87, 1));
 
 		this->cloudProgram->setUniform("zNear", SceneManager::getInstance()->getCamera().getZNear());
 		this->cloudProgram->setUniform("zFar", SceneManager::getInstance()->getCamera().getZFar());
@@ -126,6 +136,7 @@ void MySpaceScene::initialize() /*override*/
 		quad->createScreenQuad();
 		quad->setProgram(this->cloudProgram);
 		cloudRenderPass->addModel(quad);
+		cloudRenderPass->offDepthTest();
 
 		int cloudWidth = 64, cloudHeight = 64, cloudDepth = 64;
 		Noiser noiser;
@@ -166,6 +177,9 @@ void MySpaceScene::update() /*override*/
 		this->oceanProgram->setUniform("camPos", cam.getPosition());
 		this->oceanProgram->setUniform("lookAt", cam.viewMat());
 		this->oceanProgram->setUniform("proj", cam.projMat());
+
+		float time = static_cast<float>(glfwGetTime());
+		this->oceanProgram->setUniform("time", time);
 	}
 }
 

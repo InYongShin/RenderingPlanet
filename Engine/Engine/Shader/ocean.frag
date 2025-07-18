@@ -10,6 +10,12 @@ uniform vec3 camPos;
 uniform mat4 lookAt;
 uniform mat4 proj;
 
+uniform vec3 lightPosition;
+uniform float smoothness;
+uniform float waveScale;
+uniform float waveStrength;
+uniform float time;
+
 uniform float oceanRadius;
 uniform vec3 oceanCenter;
 
@@ -78,8 +84,16 @@ void main()
     if (oceanViewDepth > 0)
     {
         float opticalDepth01 = 1.0 - exp(-oceanViewDepth * depthMultiplier);
+        vec3 oceanPos = ro + rd * distToSphere - oceanCenter;
+        vec3 oceanNormal = normalize(oceanPos);
+        vec3 dirToLight = normalize(lightPosition - oceanPos);
+
+        float specularAngle = acos(dot(normalize(dirToLight - rd), oceanNormal));
+        float specularExponent = specularAngle / (1-smoothness);
+        float specularHighlight = exp(-specularExponent * specularExponent);
+        float diffuseLighting = clamp(dot(oceanNormal, dirToLight), 0.1, 1.0);
         col.a = 1.0 - exp(-oceanViewDepth * alphaMultiplier);
-        col.rgb = mix(colA, colB, opticalDepth01);
+        col.rgb = mix(colA, colB, opticalDepth01) * diffuseLighting + specularHighlight;
     }
     else
     {
