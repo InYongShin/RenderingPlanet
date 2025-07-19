@@ -45,7 +45,7 @@ void MySpaceScene::initialize() /*override*/
 	// Earth ground
 	{
 		std::unique_ptr<RenderPass> myEarthRenderPass = std::make_unique<RenderPass>();
-		
+
 		std::shared_ptr<Program> myEarthProgram = std::make_shared<Program>("Shader/myearth.vert", "Shader/myearth.frag");
 		myEarthProgram->setUniform("lightPosition", lightPosition);
 
@@ -148,6 +148,21 @@ void MySpaceScene::initialize() /*override*/
 		quad->setUseDepthMap(true);
 
 		RenderManager::getInstance()->addRenderPass(cloudRenderPass);
+	}
+
+	{
+		std::unique_ptr<RenderPass> sunRenderPass = std::make_unique<RenderPass>();
+
+		std::shared_ptr<Program> sunProgram = std::make_shared<Program>("Shader/render.vert", "Shader/sun.frag");
+		int sunTexID = TextureManager::getInstance()->loadTexture("../Textures/Sun.jpg");
+		std::shared_ptr<Planet> sun = std::make_shared<Planet>("Sun", lightPosition, 500.0f, sunProgram, sunTexID, "tex");
+		sun->getSphere()->setProgram(sunProgram);
+
+		sunRenderPass->addModel(sun->getSphere());
+
+		RenderManager::getInstance()->addRenderPass(sunRenderPass);
+
+		addPlanet(sun);
 	}
 
 	RenderManager::getInstance()->addDepthRenderPass(screenDepthPass);
