@@ -14,6 +14,7 @@ private:
 
 	std::shared_ptr<Program> cloudProgram;
 	std::shared_ptr<Program> oceanProgram;
+	std::shared_ptr<Program> atmosphereProgram;
 
 public:
 

@@ -283,5 +283,8 @@
     <None Include="Shader\depth.vert">
       <Filter>Shader</Filter>
     </None>
+    <None Include="Shader\atmosphere.frag">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
 </Project>

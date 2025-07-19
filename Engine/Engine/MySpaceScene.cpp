@@ -39,6 +39,8 @@ void MySpaceScene::initialize() /*override*/
 	const float earthRadius = 20.0f;
 	const glm::vec3& earthPosition = glm::vec3(0.0f);
 
+	float oceanRadius = earthRadius;
+
 	glm::vec2 screenSize = cam.getViewport();
 	std::unique_ptr<DepthRenderPass> screenDepthPass = std::make_unique<DepthRenderPass>(screenSize.x, screenSize.y);
 
@@ -79,7 +81,7 @@ void MySpaceScene::initialize() /*override*/
 		float time = static_cast<float>(glfwGetTime());
 		this->oceanProgram->setUniform("time", time);
 
-		this->oceanProgram->setUniform("oceanRadius", earthRadius);
+		this->oceanProgram->setUniform("oceanRadius", oceanRadius);
 		this->oceanProgram->setUniform("oceanCenter", earthPosition);
 		this->oceanProgram->setUniform("colA", glm::vec3(76, 144, 241) / glm::vec3(255.0f));
 		this->oceanProgram->setUniform("colB", glm::vec3(12, 75, 165) / glm::vec3(255.0f));
@@ -150,12 +152,60 @@ void MySpaceScene::initialize() /*override*/
 		RenderManager::getInstance()->addRenderPass(cloudRenderPass);
 	}
 
+	// atmosphere
+	{
+		std::unique_ptr<RenderPass> atmosphereRenderPass = std::make_unique<RenderPass>();
+
+		int numInScatteringPoints = 5;
+		int numOpticalDepthPoints = 5;
+		float densityFalloff = 4.0f;
+		glm::vec3 wavelengths = glm::vec3(730.0f, 530.0f, 440.0f);
+		float scatteringStrength = 1.0f;
+		float scatterX = glm::pow(400.0f / wavelengths.x, 4) * scatteringStrength;
+		float scatterY = glm::pow(400.0f / wavelengths.y, 4) * scatteringStrength;
+		float scatterZ = glm::pow(400.0f / wavelengths.z, 4) * scatteringStrength;
+		glm::vec3 scatteringCoefficients = glm::vec3(scatterX, scatterY, scatterZ);
+
+		this->atmosphereProgram = std::make_shared<Program>("Shader/quad.vert", "Shader/atmosphere.frag");
+
+		this->atmosphereProgram->setUniform("viewport", cam.getViewport());
+		this->atmosphereProgram->setUniform("camPos", cam.getPosition());
+		this->atmosphereProgram->setUniform("lookAt", cam.viewMat());
+		this->atmosphereProgram->setUniform("proj", cam.projMat());
+		this->atmosphereProgram->setUniform("lightPos", lightPosition);
+		this->atmosphereProgram->setUniform("dirToSun", glm::normalize(lightPosition - earthPosition));
+
+		this->atmosphereProgram->setUniform("oceanRadius", oceanRadius);
+
+		this->atmosphereProgram->setUniform("atmosphereRadius", earthRadius * 1.3f);
+		this->atmosphereProgram->setUniform("atmosphereCenter", earthPosition);
+
+		this->atmosphereProgram->setUniform("densityFalloff", densityFalloff);
+		this->atmosphereProgram->setUniform("numInScatteringPoints", numInScatteringPoints);
+		this->atmosphereProgram->setUniform("numOpticalDepthPoints", numOpticalDepthPoints);
+		
+		this->atmosphereProgram->setUniform("scatteringCoefficients", scatteringCoefficients);
+
+		this->atmosphereProgram->setUniform("zNear", SceneManager::getInstance()->getCamera().getZNear());
+		this->atmosphereProgram->setUniform("zFar", SceneManager::getInstance()->getCamera().getZFar());
+
+		std::shared_ptr<QuadModel> quad = std::make_shared<QuadModel>();
+		quad->createScreenQuad();
+		quad->setProgram(this->atmosphereProgram);
+		atmosphereRenderPass->addModel(quad);
+		atmosphereRenderPass->offDepthTest();
+
+		quad->setUseDepthMap(true);
+
+		RenderManager::getInstance()->addRenderPass(atmosphereRenderPass);
+	}
+
 	{
 		std::unique_ptr<RenderPass> sunRenderPass = std::make_unique<RenderPass>();
 
 		std::shared_ptr<Program> sunProgram = std::make_shared<Program>("Shader/render.vert", "Shader/sun.frag");
 		int sunTexID = TextureManager::getInstance()->loadTexture("../Textures/Sun.jpg");
-		std::shared_ptr<Planet> sun = std::make_shared<Planet>("Sun", lightPosition, 500.0f, sunProgram, sunTexID, "tex");
+		std::shared_ptr<Planet> sun = std::make_shared<Planet>("Sun", lightPosition, 100.0f, sunProgram, sunTexID, "tex");
 		sun->getSphere()->setProgram(sunProgram);
 
 		sunRenderPass->addModel(sun->getSphere());
@@ -195,6 +245,15 @@ void MySpaceScene::update() /*override*/
 
 		float time = static_cast<float>(glfwGetTime());
 		this->oceanProgram->setUniform("time", time);
+	}
+
+	if (this->atmosphereProgram && this->atmosphereProgram->isUsable())
+	{
+		this->atmosphereProgram->use();
+		this->atmosphereProgram->setUniform("viewport", cam.getViewport());
+		this->atmosphereProgram->setUniform("camPos", cam.getPosition());
+		this->atmosphereProgram->setUniform("lookAt", cam.viewMat());
+		this->atmosphereProgram->setUniform("proj", cam.projMat());
 	}
 }
 

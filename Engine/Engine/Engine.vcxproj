@@ -204,6 +204,7 @@
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shader\atmosphere.frag" />
     <None Include="Shader\cloud.frag" />
     <None Include="Shader\depth.frag" />
     <None Include="Shader\depth.vert" />
