@@ -17,6 +17,7 @@ uniform vec3 lightCol;
 
 uniform float volumeRadius;
 uniform vec3 volumeCenter;
+uniform float oceanRadius;
 
 uniform float rayStep;
 uniform int maxStep;
@@ -122,7 +123,11 @@ void main()
     float distInsideSphere = raySphereInfo.y;
     float depth = texture(depthTex, texCoord).r;
     float linearDepth = linearizeDepth(depth) * rayLength;
-    distInsideSphere = min(distInsideSphere, linearDepth - distToSphere);
+
+    float distToOcean = raySphere(volumeCenter, oceanRadius, ro, rd).x;
+    float distToSurface = min(distToOcean, linearDepth);
+
+    distInsideSphere = min(distInsideSphere, distToSurface - distToSphere);
 
     float transmittance = 1.0;
     float lightEnergy = 0.0;

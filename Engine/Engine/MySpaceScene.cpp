@@ -121,8 +121,9 @@ void MySpaceScene::initialize() /*override*/
 		this->cloudProgram->setUniform("lightPos", lightPosition);
 		this->cloudProgram->setUniform("lightCol", glm::vec3(1.0f, 1.0f, 1.0f));
 
-		this->cloudProgram->setUniform("volumeRadius", earthRadius * 1.2f);
+		this->cloudProgram->setUniform("volumeRadius", earthRadius * 1.1f);
 		this->cloudProgram->setUniform("volumeCenter", earthPosition);
+		this->cloudProgram->setUniform("oceanRadius", oceanRadius);
 
 		this->cloudProgram->setUniform("rayStep", rayStep);
 
