@@ -34,20 +34,6 @@ uniform float zNear;
 uniform float zFar;
 uniform sampler2D depthTex;
 
-float tonemap_sRGB(float u)
-{
-	float u_ = abs(u);
-	return u_>0.0031308?( sign(u)*1.055*pow( u_,0.41667)-0.055):(12.92*u);
-}
-
-vec3 tonemap( vec3 rgb, mat3 csc, float gamma )
-{
-	vec3 rgb_ = csc*rgb;
-	if( abs( gamma-2.4) <0.01 )
-		return vec3( tonemap_sRGB(rgb_.r), tonemap_sRGB(rgb_.g), tonemap_sRGB(rgb_.b) );
-	return sign(rgb_)*pow( abs(rgb_), vec3(1./gamma) );
-}
-
 float linearizeDepth(float depth)
 {
     float z = depth * 2.0 - 1.0;
@@ -161,5 +147,5 @@ void main()
     col.rgb = transmittance + cloudCol;
     col.a = lightEnergy;
 
-    outColor = vec4(tonemap(col.rgb,mat3(1.0),2.4), col.a);
+    outColor = col;
 }
