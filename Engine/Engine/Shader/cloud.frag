@@ -34,6 +34,12 @@ uniform float zNear;
 uniform float zFar;
 uniform sampler2D depthTex;
 
+float densityAtPoint(vec3 densitySamplePoint) {
+	float heightAboveSurface = length(densitySamplePoint - oceanRadius) - oceanRadius;
+	float height01 = heightAboveSurface / (volumeRadius - oceanRadius);
+    return smoothstep(0.5, 0.8, height01);
+}
+
 float linearizeDepth(float depth)
 {
     float z = depth * 2.0 - 1.0;
